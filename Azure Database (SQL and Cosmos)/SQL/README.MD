@@ -38,5 +38,5 @@ After you complete this lab, you will be able to:
 - Every account have transactions. Every transactions must have positive or negative balance. 
 - Create database model
 - Create script for filling data 
-- Create script for selecting data. At the end every customer should have ability to see balance on specific account. Let say vasilije have 50.000 RDS on Current Account and 100.000 RDS on savings available.
-- 
+- Create script for selecting data. At the end every customer should have ability to see balance on specific account. Let say vasilije have 50.000 RDS on Current Account and 100.000     RDS on savings available.
+
