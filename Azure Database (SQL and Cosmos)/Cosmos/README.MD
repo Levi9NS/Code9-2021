@@ -30,6 +30,7 @@ After you complete this lab, you will be able to:
 - PartitionyKey = City.
 - Press OK.
 - Open code9[YourName] and go to items. Create new item on by one using:
+
 {
   "customerid": 1
   "customername": "John",
@@ -53,5 +54,6 @@ After you complete this lab, you will be able to:
   "customername": "David",
   "city": "New York"
 }
+
 - Go to new query. Execute it.
 - In json response there should be four items.
