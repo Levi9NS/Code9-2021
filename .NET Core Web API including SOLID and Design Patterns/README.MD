@@ -18,4 +18,12 @@ After you complete this lab, you will be able to:
 - Next. Deployment and preview not change anything.
 - Next. Enable monitoring put to disable.
 - Next to the end and create web app.
-
+- One SuerveyAPI solution from Visual Studio.
+- Right click on project and than publish.
+- Choose Azure and next.
+- Choose Azure App Service (Windows).
+- Sign In to your Azure Account.
+- From the list choose SuveryAPI[YourName] application service.
+- Choose Publish (generates pubxml file).
+- Again press publish.
+- Go to your application service and from overview tab copy url and check if application is deployed.
