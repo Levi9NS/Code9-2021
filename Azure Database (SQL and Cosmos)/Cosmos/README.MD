@@ -3,7 +3,7 @@
 
 After you complete this lab, you will be able to:
 -   Creating Cosmos database on Azure.
--   Create database model for survey application.
+-   Create simple database model.
 
 ## Instructions
 - Log in into Azure portal 
