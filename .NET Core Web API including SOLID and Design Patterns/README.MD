@@ -24,6 +24,7 @@ After you complete this lab, you will be able to:
 - Choose Azure App Service (Windows).
 - Sign In to your Azure Account.
 - From the list choose SuveryAPI[YourName] application service.
+- Open SQL server database in Azure. Copy connection string. Paste it into AppSettings.json. Don't forget to rewrite password.
 - Choose Publish (generates pubxml file).
 - Again press publish.
 - Go to your application service and from overview tab copy url and check if application is deployed.
