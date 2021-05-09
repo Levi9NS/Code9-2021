@@ -27,6 +27,6 @@ After you complete this lab, you will be able to:
 - Choose Publish (generates pubxml file).
 - Again press publish.
 - Go to your application service and from overview tab copy url and check if application is deployed.
-- 
-## Homework. 
+
+## Homework
 
