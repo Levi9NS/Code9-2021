@@ -32,25 +32,25 @@ After you complete this lab, you will be able to:
 - Open code9[YourName] and go to items. Create new item on by one using:
 
 {
-  "customerid": 1
+  "customerid": 1,
   "customername": "John",
   "city": "Miami"
 }
 
 {
-  "customerid": 2
+  "customerid": 2,
   "customername": "Jane",
   "city": "New York"
 }
 
 {
-  "customerid": 3
+  "customerid": 3,
   "customername": "Michael",
   "city": "Florda"
 }
 
 {
-  "customerid": 4
+  "customerid": 4,
   "customername": "David",
   "city": "New York"
 }
