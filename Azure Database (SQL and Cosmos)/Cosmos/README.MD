@@ -8,7 +8,7 @@ After you complete this lab, you will be able to:
 ## Instructions
 - Log in into Azure portal 
 - Choose create resource
-- Find Cosmos Database
+- Find Cosmos Database and add new Cosmos DB Account.
 - Create new resource group (if doesn't exists) code9group[YourName]
 - Specify Account Name as code9account[YourName]
 - Leave rest of parameters on default value
