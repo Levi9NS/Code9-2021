@@ -56,6 +56,7 @@ After you complete this lab, you will be able to:
 }
 
 -- Embedding data
+
 { 
     "customerid": 1, 
     "customername": "John", 
@@ -69,6 +70,7 @@ After you complete this lab, you will be able to:
 }
 
 --Referencing data
+
 {
   "customerid": 1,
   "customername": "John",
