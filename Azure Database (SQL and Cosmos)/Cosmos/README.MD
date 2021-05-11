@@ -59,6 +59,7 @@ After you complete this lab, you will be able to:
 - In json response there should be four items.
 
 Examples:
+
 -- Embedding data
 
 { 
