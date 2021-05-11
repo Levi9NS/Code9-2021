@@ -55,5 +55,38 @@ After you complete this lab, you will be able to:
   "city": "New York"
 }
 
+-- Embedding data
+{ 
+    "customerid": 1, 
+    "customername": "John", 
+    "city": "Miami",
+    "orders" : [
+    {
+        "orderId": 1000,
+        "productId": 100,
+        "quantity": 2
+    }]
+}
+
+--Referencing data
+{
+  "customerid": 1,
+  "customername": "John",
+  "city": "Miami",
+  "orders":[1000,1002]
+}
+
+{
+    "orderId": 1000,
+    "productId": 100,
+    "quantity": 2
+}
+
+{
+    "orderId": 1002,
+    "productId": 101,
+    "quantity": 4
+}
+
 - Go to new query. Execute it.
 - In json response there should be four items.
