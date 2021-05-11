@@ -2,13 +2,13 @@
 ## Objectives
 
 After you complete this lab, you will be able to:
--   Creating Cosmos database on Azure.
--   Create simple database model.
+-   Creating Cosmos database on Azure
+-   Create simple database model
 
 ## Instructions
 - Log in into Azure portal 
 - Choose create resource
-- Find Cosmos Database and add new Cosmos DB Account.
+- Find Cosmos Database and add new Cosmos DB Account
 - Create new resource group (if doesn't exists) code9group[YourName]
 - Specify Account Name as code9account[YourName]
 - Leave rest of parameters on default value
@@ -20,15 +20,15 @@ After you complete this lab, you will be able to:
 - Go to encryption. Leave default values.
 - Go to tags. Leave default values.
 - To to Review and Create. Press Create.
-- Wait for database creation.
-- Go to resource.
-- Data explorer.
-- Create new container.
-- Specify databseId as Customers[YourName].
-- Specify databasethroughut to be manual, because of cost.
-- Specify container to be code9[YourName].
-- PartitionyKey = City.
-- Press OK.
+- Wait for database creation
+- Go to resource
+- Data explorer
+- Create new container
+- Specify databseId as Customers[YourName]
+- Specify database throughput to be manual, because of cost
+- Specify container to be code9[YourName]
+- PartitionyKey = City
+- Press OK
 - Open code9[YourName] and go to items. Create new item on by one using:
 
 {
@@ -55,6 +55,10 @@ After you complete this lab, you will be able to:
   "city": "New York"
 }
 
+- Go to new query. Execute it.
+- In json response there should be four items.
+
+Examples:
 -- Embedding data
 
 { 
@@ -89,6 +93,3 @@ After you complete this lab, you will be able to:
     "productId": 101,
     "quantity": 4
 }
-
-- Go to new query. Execute it.
-- In json response there should be four items.
