@@ -18,3 +18,12 @@ C:\Users\v.gavric\source\repos\.NET Core Web API including SOLID and Design Patt
 C:\Users\v.gavric\source\repos\.NET Core Web API including SOLID and Design Patterns\SurveyAPI\obj\Debug\netcoreapp3.1\SurveyAPI.dll
 C:\Users\v.gavric\source\repos\.NET Core Web API including SOLID and Design Patterns\SurveyAPI\obj\Debug\netcoreapp3.1\SurveyAPI.pdb
 C:\Users\v.gavric\source\repos\.NET Core Web API including SOLID and Design Patterns\SurveyAPI\obj\Debug\netcoreapp3.1\SurveyAPI.genruntimeconfig.cache
+C:\Users\m.mitic\Source\Repos\Code9-2021\.NET Core Web API including SOLID and Design Patterns\SurveyAPI\obj\Debug\netcoreapp3.1\SurveyAPI.csprojAssemblyReference.cache
+C:\Users\m.mitic\Source\Repos\Code9-2021\.NET Core Web API including SOLID and Design Patterns\SurveyAPI\obj\Debug\netcoreapp3.1\SurveyAPI.AssemblyInfoInputs.cache
+C:\Users\m.mitic\Source\Repos\Code9-2021\.NET Core Web API including SOLID and Design Patterns\SurveyAPI\obj\Debug\netcoreapp3.1\SurveyAPI.AssemblyInfo.cs
+C:\Users\m.mitic\Source\Repos\Code9-2021\.NET Core Web API including SOLID and Design Patterns\SurveyAPI\obj\Debug\netcoreapp3.1\SurveyAPI.csproj.CoreCompileInputs.cache
+C:\Users\m.mitic\Source\Repos\Code9-2021\.NET Core Web API including SOLID and Design Patterns\SurveyAPI\obj\Debug\netcoreapp3.1\SurveyAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\m.mitic\Source\Repos\Code9-2021\.NET Core Web API including SOLID and Design Patterns\SurveyAPI\obj\Debug\netcoreapp3.1\SurveyAPI.RazorAssemblyInfo.cache
+C:\Users\m.mitic\Source\Repos\Code9-2021\.NET Core Web API including SOLID and Design Patterns\SurveyAPI\obj\Debug\netcoreapp3.1\SurveyAPI.RazorAssemblyInfo.cs
+C:\Users\m.mitic\Source\Repos\Code9-2021\.NET Core Web API including SOLID and Design Patterns\SurveyAPI\obj\Debug\netcoreapp3.1\SurveyAPI.dll
+C:\Users\m.mitic\Source\Repos\Code9-2021\.NET Core Web API including SOLID and Design Patterns\SurveyAPI\obj\Debug\netcoreapp3.1\SurveyAPI.pdb
