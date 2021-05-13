@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SurveyAPI.Interfaces;
 using SurveyAPI.Models;
+using SurveyAPI.Repositories;
 using SurveyAPI.Services;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,8 @@ namespace SurveyAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddTransient<SurveyService>();
+            services.AddTransient<ISurveyService, SurveyService>();
+            services.AddScoped<ISurveyRepository, SurveyRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

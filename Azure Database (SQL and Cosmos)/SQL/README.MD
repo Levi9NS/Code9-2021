@@ -34,7 +34,7 @@ After you complete this lab, you will be able to:
 
 ## Homework. Create small bank data model.
 - Every customer have mandatory parameters: FirstName, LastName, JMBG. Place of living including: City, PostalCode, Address and House Number.
-- Every customer could have open multiply accounts including Current Acount (Ziro Racun), Saving Account (Depozut), Overdraft (Pozajmicu) or Mortgage (kredit).
+- Every customer could have open multiply accounts including Current Acount (Ziro Racun), Saving Account (Depozit), Overdraft (Pozajmicu) or Mortgage (kredit).
 - Every account have transactions. Every transactions must have positive or negative value. 
 - Create database model.
 - Create script for filling in data .

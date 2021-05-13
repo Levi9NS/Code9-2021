@@ -1,4 +1,5 @@
-﻿using SurveyAPI.Models;
+﻿using SurveyAPI.Interfaces;
+using SurveyAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -7,60 +8,38 @@ using System.Threading.Tasks;
 
 namespace SurveyAPI.Services
 {
-    public class SurveyService
+    public class SurveyService : ISurveyService
     {
-        private SqlConnection GetConnection(string _connection_string)
+        private readonly ISurveyRepository _repository;
+        public SurveyService(ISurveyRepository repository)
         {
-            return new SqlConnection(_connection_string);
+            _repository = repository;
+        }        
+
+        public SurveyResult GetSurveyResults(int surveyId)
+        {
+            return _repository.GetSurveyResult(surveyId);
+                        
         }
 
-        public SurveyResult GetSurveyResults(string _connection_string, string surveyName)
+        public void DeleteSurvey(int surveyId)
         {
-            SurveyResult sr = new SurveyResult();
-            List<Questions> _lquestions = new List<Questions>();
-            string _statement = string.Format("SELECT ge.Description,q.QuestionText, oa.text, COUNT(*) AS count " +
-                                "FROM" +
-                                "   Survey.GeneralInformations ge" +
-                                "   INNER JOIN Survey.SurveyQuestionRelations sqr" +
-                                "       ON ge.id = sqr.SurveyId" +
-                                "   INNER JOIN Survey.Questions q" +
-                                "       ON sqr.QuestionId = q.id" +
-                                "   INNER JOIN Survey.QuestionOfferedAnswerRelations qoar" +
-                                "       ON q.id = qoar.QuestionId" +
-                                "   INNER JOIN Survey.OfferedAnswers oa" +
-                                "       ON qoar.OfferedAnswerId = oa.id" +
-                                "   INNER JOIN Survey.Participants pa" +
-                                "       ON pa.SurveyId = pa.SurveyId" +
-                                "   INNER JOIN Survey.Answers a" +
-                                "       ON pa.id = a.ParticipantId AND qoar.QuestionId = a.QuestionId AND qoar.OfferedAnswerId = a.QuestionAnswersId" +
-                                "   WHERE ge.Description = '{0}'" +
-                                "GROUP BY ge.Description,q.QuestionText,oa.Text", surveyName);
+            _repository.GetSurveyResult(surveyId);
+        }
 
-            SqlConnection _connection = GetConnection(_connection_string);
+        public Survey GetSurveyQuestions(int surveyId)
+        {
+            return _repository.GetSurvey(surveyId);
+        }
 
-            _connection.Open();
-            SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
+        public Survey AddSurvey(Survey survey)
+        {
+            return _repository.AddSurvey(survey);
+        }
 
-            using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
-            {
-                while (_reader.Read())
-                {
-                    Questions _question = new Questions()
-                    {
-                        text = _reader.GetString(1),
-                        response = _reader.GetString(2),
-                        count = _reader.GetInt32(3)
-                    };
-
-                    _lquestions.Add(_question);
-                }
-            }
-            _connection.Close();
-
-            sr.name = surveyName;
-            sr.questions = _lquestions;
-
-            return sr;
+        public SurveyResult AddSurveyAnswer(SurveyResult survey)
+        {
+            return _repository.AddSurveyResult(survey);
         }
     }
 }

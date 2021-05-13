@@ -1,21 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using SurveyAPI.Interfaces;
 using SurveyAPI.Models;
-using SurveyAPI.Services;
 using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace SurveyAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class SurveyController : Controller
     {
-        private readonly SurveyService _survey_service;
+        private readonly ISurveyService _surveyService;
         private readonly IConfiguration _configuration;
 
-        public SurveyController(SurveyService _svc, IConfiguration configuration)
+        public SurveyController(ISurveyService _svc, IConfiguration configuration)
         {
-            _survey_service = _svc;
+            _surveyService = _svc;
             _configuration = configuration;
         }
 
@@ -24,10 +24,35 @@ namespace SurveyAPI.Controllers
             return View();
         }
 
-        public JsonResult Details(string surveyName)
+        [HttpGet()]
+        [Route("{surveyId}/Answers")]
+        public JsonResult GetSurveyResult(int surveyId)
         {
-            SurveyResult sr = _survey_service.GetSurveyResults(_configuration.GetConnectionString("SQLConnection"), surveyName);
+            SurveyResult sr = _surveyService.GetSurveyResults(surveyId);
             return Json(sr);
+        }
+
+        [HttpGet()]
+        [Route("{surveyId}")]
+        public JsonResult GetSurvey(int surveyId)
+        {
+            Survey sr = _surveyService.GetSurveyQuestions(surveyId);
+            return Json(sr);
+        }
+
+        [HttpPost]
+        public JsonResult AddSurvey([FromBody] Survey survey)
+        {
+            Survey sr = _surveyService.AddSurvey(survey);
+            return Json(sr);
+        }
+
+        [HttpDelete]
+        [Route("{surveyId}")]
+        public JsonResult DeleteSurvey(int surveyId)
+        {
+            _surveyService.DeleteSurvey(surveyId);
+            return Json(Ok());
         }
     }
 }
