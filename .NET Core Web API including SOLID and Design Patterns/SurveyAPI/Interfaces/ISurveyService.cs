@@ -12,7 +12,7 @@ namespace SurveyAPI.Interfaces
 
         Survey GetSurveyQuestions(int surveyId);
 
-        SurveyResult AddSurveyAnswer(SurveyResult survey)
+        SurveyResult AddSurveyAnswer(SurveyResult survey);
 
     }
 }
