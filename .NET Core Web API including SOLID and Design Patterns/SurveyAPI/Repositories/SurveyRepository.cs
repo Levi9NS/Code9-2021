@@ -109,7 +109,7 @@ namespace SurveyAPI.Repositories
                                 "   INNER JOIN Survey.Answers a" +
                                 "       ON pa.id = a.ParticipantId AND qoar.QuestionId = a.QuestionId AND qoar.OfferedAnswerId = a.QuestionAnswersId" +
                                 "   WHERE ge.Id = '{0}'" +
-                                "GROUP BY ge.id ge.Description,q.QuestionText,oa.Text", surveyId);
+                                " GROUP BY ge.id,ge.Description,q.QuestionText,oa.Text", surveyId);
 
             SqlConnection _connection = GetConnection(_connectionString);
 
@@ -120,12 +120,12 @@ namespace SurveyAPI.Repositories
             {
                 while (_reader.Read())
                 {
-                    sr.Name = _reader.GetString(0);
+                    sr.Name = _reader.GetString(1);
                     AnsweredQuestion _question = new AnsweredQuestion()
                     {
-                        text = _reader.GetString(1),
-                        response = _reader.GetString(2),
-                        count = _reader.GetInt32(3)
+                        text = _reader.GetString(2),
+                        response = _reader.GetString(3),
+                        count = _reader.GetInt32(4)
                     };
 
                     _lquestions.Add(_question);
