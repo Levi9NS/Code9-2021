@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { SurveyService } from 'src/app/services/survey-service/survey-service.service';
 import { Model, SurveyNG } from 'survey-angular';
 @Component({
@@ -80,12 +81,19 @@ export class SurveyComponent implements OnInit {
    ]
   };
 
-  constructor(private readonly surveyService: SurveyService) { }
+  private queryParamSurveyId = 'id';
+
+  constructor(private readonly surveyService: SurveyService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.surveyService.getSurvey('Angular Web App')
+    const surveyId = this.route.snapshot.params[this.queryParamSurveyId];
+
+    this.surveyService.getSurvey(surveyId)
     .subscribe(survey => {
-      debugger;
+      this.surveyService.getSurveyAnswers(surveyId)
+      .subscribe(answers => {
+        debugger;
+      });
     });
 
     const survey = new Model(this.surveyJSON);

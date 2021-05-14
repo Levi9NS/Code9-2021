@@ -5,7 +5,7 @@ import { SurveyComponent } from './components/survey/survey.component';
 const routes: Routes = [
   {
     component: SurveyComponent,
-    path: ''
+    path: ':id'
   }
 ];
 
