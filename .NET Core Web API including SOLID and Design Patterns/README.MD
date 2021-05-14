@@ -10,7 +10,7 @@ After you complete this lab, you will be able to:
 - Choose create resource.
 - Find App Services.
 - Create App Service.
-- Use existing or create new group Gode9 Group [Your Name]..
+- Use existing or create new group Gode9 Group [Your Name].
 - Specify name SurveyAPI[YourName].
 - Runtime stack: .NET Core 3.1 (LTS).
 - New App Service plan: ManagedPlan.
@@ -18,6 +18,7 @@ After you complete this lab, you will be able to:
 - Next. Deployment and preview not change anything.
 - Next. Enable monitoring put to disable.
 - Next to the end and create web app.
+- Take GitHub branch of Levi9NS/Code9-2021 repo. This will be created by presenter.
 - One SuerveyAPI solution from Visual Studio.
 - Right click on project and than publish.
 - Choose Azure and next.
@@ -30,4 +31,6 @@ After you complete this lab, you will be able to:
 - Go to your application service and from overview tab copy url and check if application is deployed.
 
 ## Homework
-
+- Create API for storing and getting Survery General information, Questions and OfferedAnswers
+- Send to us Web API URL (We will use this for testing)
+- Send to us SQL server name and credentials (We will use this for testing)

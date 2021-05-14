@@ -30,4 +30,6 @@ After you complete this lab, you will be able to:
 - Go to your application service and from overview tab copy url and check if application is deployed.
 
 ## Homework
-
+- Create page for showing results of survey
+- Endpoint for that is available on Web API
+- Send to us link to the Web app (we will use for testing purpose)
