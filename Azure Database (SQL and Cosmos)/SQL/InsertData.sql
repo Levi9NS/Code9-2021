@@ -17,6 +17,10 @@ DECLARE @surveyId INT,
 		@OfferedAnswers1Text VARCHAR(100) = 'Yes',
 		@OfferedAnswersId2 INT,
 		@OfferedAnswers2Text VARCHAR(100) = 'No',
+		@OfferedAnswersId3 INT,
+		@OfferedAnswers3Text VARCHAR(100) = 'Maybe',
+		@OfferedAnswersId4 INT,
+		@OfferedAnswers4Text VARCHAR(100) = 'Other',
 		@OfferedAnswersIdRandom INT,
 		@createdBy VARCHAR(50) = 'Vasilije',
 		@numberOfParticipients INT = 100,
@@ -152,6 +156,42 @@ BEGIN
 
 	SET @OfferedAnswersId2 = SCOPE_IDENTITY()
 
+	INSERT INTO Survey.OfferedAnswers
+	(
+	    Text,
+	    ChangedBy,
+	    ChangedDate,
+	    CreatedBy,
+	    CreateDate
+	)
+	VALUES
+	(   @OfferedAnswers3Text,        -- Text - varchar(200)
+	    @createdBy,        -- ChangedBy - varchar(50)
+	    GETDATE(), -- ChangedDate - datetime
+	    @createdBy,        -- CreatedBy - varchar(50)
+	    GETDATE()  -- CreateDate - datetime
+	    )
+
+	SET @OfferedAnswersId3 = SCOPE_IDENTITY()
+
+	INSERT INTO Survey.OfferedAnswers
+	(
+	    Text,
+	    ChangedBy,
+	    ChangedDate,
+	    CreatedBy,
+	    CreateDate
+	)
+	VALUES
+	(   @OfferedAnswers4Text,        -- Text - varchar(200)
+	    @createdBy,        -- ChangedBy - varchar(50)
+	    GETDATE(), -- ChangedDate - datetime
+	    @createdBy,        -- CreatedBy - varchar(50)
+	    GETDATE()  -- CreateDate - datetime
+	    )
+
+	SET @OfferedAnswersId4 = SCOPE_IDENTITY()
+
 	INSERT INTO Survey.QuestionOfferedAnswerRelations
 	(
 		QuestionId,
@@ -188,6 +228,41 @@ BEGIN
 		GETDATE()  -- CreateDate - datetime
 		)
 
+	INSERT INTO Survey.QuestionOfferedAnswerRelations
+	(
+		QuestionId,
+		OfferedAnswerId,
+		ChangedBy,
+		ChangedDate,
+		CreatedBy,
+		CreateDate
+	)
+	VALUES
+	(   @question1Id,         -- QuestionId - int
+		@OfferedAnswersId3,         -- OfferedAnswerId - int
+		@createdBy,        -- ChangedBy - varchar(50)
+		GETDATE(), -- ChangedDate - datetime
+		@createdBy,        -- CreatedBy - varchar(50)
+		GETDATE()  -- CreateDate - datetime
+		)
+
+	INSERT INTO Survey.QuestionOfferedAnswerRelations
+	(
+		QuestionId,
+		OfferedAnswerId,
+		ChangedBy,
+		ChangedDate,
+		CreatedBy,
+		CreateDate
+	)
+	VALUES
+	(   @question1Id,         -- QuestionId - int
+		@OfferedAnswersId4,         -- OfferedAnswerId - int
+		@createdBy,        -- ChangedBy - varchar(50)
+		GETDATE(), -- ChangedDate - datetime
+		@createdBy,        -- CreatedBy - varchar(50)
+		GETDATE()  -- CreateDate - datetime
+		)
 
 	INSERT INTO Survey.QuestionOfferedAnswerRelations
 	(
@@ -376,9 +451,8 @@ FROM
 		ON pa.SurveyId = pa.SurveyId
 	INNER JOIN Survey.Answers a
 		ON pa.id = a.ParticipantId AND qoar.QuestionId = a.QuestionId AND qoar.OfferedAnswerId = a.QuestionAnswersId
-GROUP BY ge.Description,q.id,q.QuestionText,oa.Text
-ORDER BY q.id
-
+GROUP BY ge.id,ge.Description,oa.id,q.id,q.QuestionText,oa.Text
+ORDER BY ge.id,q.id,oa.id
 
 
 
