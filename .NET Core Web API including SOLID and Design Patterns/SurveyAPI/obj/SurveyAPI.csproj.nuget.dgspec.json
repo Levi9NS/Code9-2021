@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\m.mitic\\Source\\Repos\\Code9-2021\\.NET Core Web API including SOLID and Design Patterns\\SurveyAPI\\SurveyAPI.csproj": {}
+    "C:\\Users\\katar\\Desktop\\levi9\\Code9\\Project\\.NET Core Web API including SOLID and Design Patterns\\SurveyAPI\\SurveyAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\m.mitic\\Source\\Repos\\Code9-2021\\.NET Core Web API including SOLID and Design Patterns\\SurveyAPI\\SurveyAPI.csproj": {
+    "C:\\Users\\katar\\Desktop\\levi9\\Code9\\Project\\.NET Core Web API including SOLID and Design Patterns\\SurveyAPI\\SurveyAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\m.mitic\\Source\\Repos\\Code9-2021\\.NET Core Web API including SOLID and Design Patterns\\SurveyAPI\\SurveyAPI.csproj",
+        "projectUniqueName": "C:\\Users\\katar\\Desktop\\levi9\\Code9\\Project\\.NET Core Web API including SOLID and Design Patterns\\SurveyAPI\\SurveyAPI.csproj",
         "projectName": "SurveyAPI",
-        "projectPath": "C:\\Users\\m.mitic\\Source\\Repos\\Code9-2021\\.NET Core Web API including SOLID and Design Patterns\\SurveyAPI\\SurveyAPI.csproj",
-        "packagesPath": "C:\\Users\\m.mitic\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\m.mitic\\Source\\Repos\\Code9-2021\\.NET Core Web API including SOLID and Design Patterns\\SurveyAPI\\obj\\",
+        "projectPath": "C:\\Users\\katar\\Desktop\\levi9\\Code9\\Project\\.NET Core Web API including SOLID and Design Patterns\\SurveyAPI\\SurveyAPI.csproj",
+        "packagesPath": "C:\\Users\\katar\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\katar\\Desktop\\levi9\\Code9\\Project\\.NET Core Web API including SOLID and Design Patterns\\SurveyAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\m.mitic\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\katar\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -66,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
