@@ -11,7 +11,7 @@ After you complete this lab, you will be able to:
 - Log in into Azure portal 
 - Choose create resource
 - Find SQL Database
-- On basic settings create new resource gorup with name Gode9Group [YourName] by using create new (example Code9Ruzica).
+- On basic settings create new resource gorup with name Code9Group [YourName] by using create new (example Code9Ruzica).
 - Specify database name Gode9Database [YourName]. This value should be unique.
 - Specify server name code9server[YourName] by using CreateNew. Specify server adming login and password.
 - Want to use elastic pool: leave to default no.
@@ -39,5 +39,5 @@ After you complete this lab, you will be able to:
 - Every account contains transactions. Every transactions must have positive or negative value. 
 - Create database model.
 - Create script for filling in data.
-- Create script for selecting data. At the end every customer should have ability to see balance on specific account. Let say vasilije have 50.000 RDS on Current Account and 100.000     RDS on savings available.
+- Create script for selecting data. At the end every customer should have ability to see balance on specific account. Let say vasilije have 50.000 RDS on Current Account and 100.000 RDS on savings available.
 

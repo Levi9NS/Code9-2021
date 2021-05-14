@@ -10,7 +10,7 @@ After you complete this lab, you will be able to:
 - Choose create resource.
 - Find App Services.
 - Create App Service.
-- Use existing or create new group Gode9 Group [Your Name].
+- Use existing or create new group Code9 Group [Your Name].
 - Specify name SurveyAPI[YourName].
 - Runtime stack: .NET Core 3.1 (LTS).
 - New App Service plan: ManagedPlan.

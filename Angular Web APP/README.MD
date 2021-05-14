@@ -6,28 +6,20 @@ After you complete this lab, you will be able to:
 
 ## Instructions
 - Log in into Azure portal. 
-- For creation SQL server database model, please use exercise from Azure Database (SQL and Cosmos)\SQL folder.
-- Fore creation .NET core web API, please use exercise from .NET Core Web API including SOLID and Design Patterns
-- Choose create resource.
-- Find App Services.
-- Create App Service.
-- Use existing or create new group Gode9 Group [Your Name]..
-- Specify name SurveyWEB[YourName].
-- Runtime stack: .NET Core 3.1 (LTS).
-- New App Service plan: ManagedPlan.
-- Sku and size. Go to change size. Use DevTest/F1/Free.
-- Next. Deployment and preview not change anything.
-- Next. Enable monitoring put to disable.
-- Next to the end and create web app.
-- Open SuerveyWEB solution from Visual Studio.
-- Right click on project and than publish.
-- Choose Azure and next.
-- Choose Azure App Service (Windows).
-- Sign In to your Azure Account.
-- From the list choose SuveryWEB[YourName] application service.
-- Choose Publish (generates pubxml file).
-- Again press publish.
-- Go to your application service and from overview tab copy url and check if application is deployed.
+- Go to Storage accounts at home page and press add new storage account
+- Basics: Name your storage account, select resource group for Code9, select region as it is selected when API and Database were created, for redundancy select Locally-redundant
+- Data Protection: deselect everything
+- Everything else leave as it is and create storage account.
+- After storage account is created succesfully go to storage account
+- Go to static website, enable it and for 'index document name' and 'error document path' put 'index.html' and press save
+- After pressing save primary endpoint for your static website will be visible, copy that url
+- Go back to your survey-webapp project and run command 'ng build --prod'
+- After build is passed you will have dist folder now in your survey-webapp 
+- Go back to storage account and open containers->$web
+- Click on upload button and upload everything from dist folder
+- Now your website is on storage account and can be accessed by your primary endpoint but you need to whitelist your primary endpoint on API
+- Go to your API service resource on Azure and select CORS tab
+- In allowed origins add your primary endpoint and also add your 'http://localhost:4200' endpoint if you want to make requests from your local instance of webapp to the API on Azure
 
 ## Homework
 - Create page for showing results of survey
