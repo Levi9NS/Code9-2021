@@ -13,13 +13,18 @@ After you complete this lab, you will be able to:
 - After storage account is created succesfully go to storage account
 - Go to static website, enable it and for 'index document name' and 'error document path' put 'index.html' and press save
 - After pressing save primary endpoint for your static website will be visible, copy that url
-- Go back to your survey-webapp project and run command 'ng build --prod'
+- Clone repository from your branch on github to your local machine
+and open Angular Web App->survey-webapp in Visual studio code
+- In Visual Studio Code open command line and run 'npm install'
+- After that in Enviroment.ts and Enviroment.prod.ts file for 
+ apiUrl variable put url of your API on Azure
+- After that run command 'ng build --prod'
 - After build is passed you will have dist folder now in your survey-webapp 
 - Go back to storage account and open containers->$web
-- Click on upload button and upload everything from dist folder
+- Click on upload button, open dist folder and upload everything from it
 - Now your website is on storage account and can be accessed by your primary endpoint but you need to whitelist your primary endpoint on API
 - Go to your API service resource on Azure and select CORS tab
-- In allowed origins add your primary endpoint and also add your 'http://localhost:4200' endpoint if you want to make requests from your local instance of webapp to the API on Azure
+- In allowed origins add your primary endpoint of your storage account and also add your 'http://localhost:4200' endpoint if you want to make requests from your local instance of webapp to the API on Azure
 
 ## Homework
 - Create page for showing results of survey
