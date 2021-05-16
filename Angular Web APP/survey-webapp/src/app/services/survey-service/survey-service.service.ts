@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SurveyResponse } from 'src/app/models/survey-response';
+import { AnswersResponse } from '../../models/answers-response';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class SurveyService {
   getSurvey(surveyId): Observable<SurveyResponse> {
     return this.httpClient.get<SurveyResponse>(`${environment.apiUrl}/api/Survey/${surveyId}`);
   }
-  
-  getSurveyAnswers(surveyId): Observable<any> {
-    return this.httpClient.get(`${environment.apiUrl}/api/Survey/${surveyId}/Answers`);
+
+  getSurveyAnswers(surveyId): Observable<AnswersResponse> {
+    return this.httpClient.get<AnswersResponse>(`${environment.apiUrl}/api/Survey/${surveyId}/Answers`);
   }
 }

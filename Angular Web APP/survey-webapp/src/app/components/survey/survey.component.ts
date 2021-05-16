@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SurveyService } from 'src/app/services/survey-service/survey-service.service';
 import { Model, SurveyNG } from 'survey-angular';
+import { AnswersResponse } from '../../models/answers-response';
+import { QuestionModel, SurveyModel } from '../../models/survey-model';
+import { SurveyResponse } from '../../models/survey-response';
+import { SurveyService } from '../../services/survey-service/survey-service.service';
 @Component({
   selector: 'app-survey',
   templateUrl: './survey.component.html',
@@ -9,79 +12,9 @@ import { Model, SurveyNG } from 'survey-angular';
 })
 
 export class SurveyComponent implements OnInit {
-
-  surveyJSON = { title: 'Tell us, what technologies do you use?', pages: [
-    { name: 'page1', questions: [
-        {
-          type: 'radiogroup',
-          choices: [ 'Yes', 'No' ],
-          isRequired: true,
-          name: 'frameworkUsing',
-          title: 'Do you use any front-end framework like Bootstrap?' },
-        {
-          type: 'checkbox',
-          choices: ['Bootstrap', 'Foundation'],
-          hasOther: true,
-          isRequired: true,
-          name: 'framework',
-          title: 'What front-end framework do you use?',
-          visibleIf: '{frameworkUsing} = \'Yes\''
-        },
-        {
-          type: 'radiogroup',
-          choices: ['Yes', 'No'],
-          isRequired: true,
-          name: 'mvvmUsing',
-          title: 'Do you use any MVVM framework?'
-        },
-        {
-          type: 'checkbox',
-          choices: [ 'AngularJS', 'KnockoutJS', 'React' ],
-          hasOther: true,
-          isRequired: true,
-          name: 'mvvm',
-          title: 'What MVVM framework do you use?',
-          visibleIf: '{mvvmUsing} = \'Yes\''
-        },
-        {
-          type: 'comment',
-          name: 'about',
-          title: 'Please tell us about your main requirements for Survey library'
-        }
-     ]},
-    // {
-    //   name: 'page2', questions: [
-    //     {
-    //       type: 'radiogroup',
-    //       choices: ['Yes', 'No'],
-    //       isRequired: true,
-    //       name: 'mvvmUsing',
-    //       title: 'Do you use any MVVM framework?'
-    //     },
-    //     {
-    //       type: 'checkbox',
-    //       choices: [ 'AngularJS', 'KnockoutJS', 'React' ],
-    //       hasOther: true,
-    //       isRequired: true,
-    //       name: 'mvvm',
-    //       title: 'What MVVM framework do you use?',
-    //       visibleIf: '{mvvmUsing} = \'Yes\''
-    //     }
-    //   ]
-    // },
-    // {
-    //   name: 'page3', questions: [
-    //     {
-    //       type: 'comment',
-    //       name: 'about',
-    //       title: 'Please tell us about your main requirements for Survey library'
-    //     }
-    //   ]
-    // }
-   ]
-  };
-
   private queryParamSurveyId = 'id';
+  private surveyRootElementId = 'survey-element';
+  survey: SurveyResponse;
 
   constructor(private readonly surveyService: SurveyService, private route: ActivatedRoute) { }
 
@@ -89,21 +22,44 @@ export class SurveyComponent implements OnInit {
     const surveyId = this.route.snapshot.params[this.queryParamSurveyId];
 
     this.surveyService.getSurvey(surveyId)
-    .subscribe(survey => {
+    .subscribe(surveyResponse => {
+      this.survey = surveyResponse;
       this.surveyService.getSurveyAnswers(surveyId)
       .subscribe(answers => {
-        debugger;
+        const surveyModel = this.convertAPIDataToSurveyModel(this.survey, answers);
+        const survey = new Model(surveyModel);
+        survey.onComplete.add(this.sendDataToServer);
+        SurveyNG.render(this.surveyRootElementId, {model: survey});
       });
     });
+  }
 
-    const survey = new Model(this.surveyJSON);
-    survey.onComplete.add(this.sendDataToServer);
-    SurveyNG.render('survey-element', {model: survey});
+  convertAPIDataToSurveyModel(survey: SurveyResponse, answers: AnswersResponse): SurveyModel {
+    const surveyModel = {
+      title: survey.name,
+      pages: [{
+        name: 'page1',
+        questions: []
+      }]
+    } as SurveyModel;
+
+    surveyModel.pages[0].questions = survey.questions.map<QuestionModel>(question => {
+      const result = answers.questions.filter(answer => answer.text === question.questionText);
+      const responses = result.map(res => res.response);
+      return {
+        name: question.questionText,
+        title: question.questionText,
+        choices: responses.filter(res => res.toLocaleLowerCase() !== 'other').map(r => r),
+        isRequired: true,
+        type: 'checkbox',
+        hasOther: responses.findIndex(res => res.toLocaleLowerCase() === 'other') !== -1
+      };
+    });
+
+    return surveyModel;
   }
 
   sendDataToServer = (surveyResult) => {
     console.log(surveyResult.data);
-    debugger;
   }
-
 }
