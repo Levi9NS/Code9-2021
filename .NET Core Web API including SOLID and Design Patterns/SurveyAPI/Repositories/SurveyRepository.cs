@@ -74,7 +74,7 @@ namespace SurveyAPI.Repositories
                     Question _question = new Question()
                     {
                         QuestionText = _reader.GetString(4),
-                        Id = _reader.GetString(5),
+                        Id = _reader.GetInt32(5),
                     };
                     _lquestions.Add(_question);
 
@@ -126,8 +126,8 @@ namespace SurveyAPI.Repositories
                     {
                         text = _reader.GetString(2),
                         response = _reader.GetString(3),
-                        count = _reader.GetInt32(4),
-                        Id = _reader.GetString(5),
+                        Id = _reader.GetInt32(4),
+                        count = _reader.GetInt32(5),                      
                     };
 
                     _lquestions.Add(_question);
