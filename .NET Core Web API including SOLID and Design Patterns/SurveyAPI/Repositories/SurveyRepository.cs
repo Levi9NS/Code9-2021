@@ -94,7 +94,7 @@ namespace SurveyAPI.Repositories
             SurveyResult sr = new SurveyResult();
 
             List<AnsweredQuestion> _lquestions = new List<AnsweredQuestion>();
-            string _statement = string.Format("SELECT ge.id, ge.Description,q.QuestionText, oa.text, COUNT(*) AS count " +
+            string _statement = string.Format("SELECT ge.id, ge.Description,q.QuestionText, oa.text, q.id, a.id, COUNT(*) AS count " +
                                 "FROM" +
                                 "   Survey.GeneralInformations ge" +
                                 "   INNER JOIN Survey.SurveyQuestionRelations sqr" +
@@ -110,7 +110,7 @@ namespace SurveyAPI.Repositories
                                 "   INNER JOIN Survey.Answers a" +
                                 "       ON pa.id = a.ParticipantId AND qoar.QuestionId = a.QuestionId AND qoar.OfferedAnswerId = a.QuestionAnswersId" +
                                 "   WHERE ge.Id = '{0}'" +
-                                " GROUP BY ge.id,ge.Description,q.QuestionText,oa.Text", surveyId);
+                                " GROUP BY ge.id,ge.Description,oa.id,q.id,a.id,q.QuestionText,oa.Text ORDER BY ge.id,q.id,oa.id", surveyId);
 
             SqlConnection _connection = GetConnection(_connectionString);
 
