@@ -3,5 +3,6 @@
     public class Question
     {
         public string QuestionText { get; set; }
+        public int Id { get; internal set; }
     }
 }
