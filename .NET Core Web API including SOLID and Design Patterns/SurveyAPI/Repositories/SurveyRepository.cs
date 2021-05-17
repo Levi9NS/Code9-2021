@@ -44,7 +44,7 @@ namespace SurveyAPI.Repositories
 
         public Survey GetSurvey(int surveyId)
         {
-            string _statement = string.Format("SELECT ge.id,  ge.Description as Name, ge.StartDate, ge.EndDate,q.QuestionText " +
+            string _statement = string.Format("SELECT ge.id,  ge.Description as Name, ge.StartDate, ge.EndDate,q.QuestionText, q.id " +
                                 "FROM" +
                                 "   Survey.GeneralInformations ge" +
                                 "   INNER JOIN Survey.SurveyQuestionRelations sqr" +
