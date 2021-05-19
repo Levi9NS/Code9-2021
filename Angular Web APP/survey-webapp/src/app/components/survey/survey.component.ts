@@ -15,6 +15,7 @@ export class SurveyComponent implements OnInit {
   private queryParamSurveyId = 'id';
   private surveyRootElementId = 'survey-element';
   survey: SurveyResponse;
+  dataLoaded: boolean = false;
 
   constructor(private readonly surveyService: SurveyService, private route: ActivatedRoute) { }
 
@@ -30,6 +31,7 @@ export class SurveyComponent implements OnInit {
         const survey = new Model(surveyModel);
         survey.onComplete.add(this.sendDataToServer);
         SurveyNG.render(this.surveyRootElementId, {model: survey});
+        this.dataLoaded = true;
       });
     });
   }
