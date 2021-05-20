@@ -14,5 +14,9 @@ namespace SurveyAPI.Interfaces
 
         SurveyResult AddSurveyAnswer(SurveyResult survey);
 
+        OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId);
+
+        OfferedAnswerResult GetAllOfferedAnswers();
+
     }
 }

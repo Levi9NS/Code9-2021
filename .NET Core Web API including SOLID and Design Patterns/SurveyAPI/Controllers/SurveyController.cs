@@ -40,6 +40,22 @@ namespace SurveyAPI.Controllers
             return Json(sr);
         }
 
+        [HttpGet()]
+        [Route("{surveyId}/OfferedAnswers")]
+        public JsonResult GetOfferedAnswersForSurvey(int surveyId)
+        {
+            OfferedAnswerResult sr = _surveyService.GetOfferedAnswersForSurvey(surveyId);
+            return Json(sr);
+        }
+
+        [HttpGet()]
+        [Route("OfferedAnswers")]
+        public JsonResult GetAllOfferedAnswers()
+        {
+            OfferedAnswerResult sr = _surveyService.GetAllOfferedAnswers();
+            return Json(sr);
+        }
+
         [HttpPost]
         public JsonResult AddSurvey([FromBody] Survey survey)
         {

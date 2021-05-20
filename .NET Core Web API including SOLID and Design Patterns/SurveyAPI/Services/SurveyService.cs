@@ -41,5 +41,15 @@ namespace SurveyAPI.Services
         {
             return _repository.AddSurveyResult(survey);
         }
+
+        public OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId)
+        {
+            return _repository.GetOfferedAnswersForSurvey(surveyId);
+        }
+
+        public OfferedAnswerResult GetAllOfferedAnswerd()
+        {
+            return _repository.GetAllOfferedAnswers();
+        }
     }
 }

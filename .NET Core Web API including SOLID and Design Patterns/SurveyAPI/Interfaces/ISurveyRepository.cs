@@ -8,6 +8,8 @@ namespace SurveyAPI.Interfaces
         Survey AddSurvey(Survey survey); 
         SurveyResult GetSurveyResult(int surveyId);
         SurveyResult AddSurveyResult(SurveyResult survey);
+        OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId);
+        OfferedAnswerResult GetAllOfferedAnswers();
 
         void DeleteSurvey(int surveyId);
     }

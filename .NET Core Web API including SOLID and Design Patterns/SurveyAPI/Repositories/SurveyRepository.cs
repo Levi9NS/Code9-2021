@@ -204,5 +204,81 @@ namespace SurveyAPI.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId)
+        {
+            string _statement = string.Format("SELECT ge.id,  ge.Description as Name, ge.StartDate, ge.EndDate,q.QuestionText, q.id " +
+                                "FROM" +
+                                "   Survey.QuestionOfferedAnswerRelations qoar" +
+                                "   INNER JOIN Survey.Questions sqr" +
+                                "       ON ge.id = sqr.SurveyId" +
+                                "   INNER JOIN Survey.OfferedAnswers q" +
+                                "       ON sqr.QuestionId = q.id" +
+                                "   WHERE ge.Id = '{0}'"
+                                , surveyId);
+            
+            OfferedAnswerResult result = new OfferedAnswerResult();
+            List<OfferedAnswer> _offeredAnswers = new List<OfferedAnswer>();
+
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
+
+            using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    result.Id = _reader.GetInt32(0);
+                    
+                    OfferedAnswer _answer = new OfferedAnswer()
+                    {
+                        Id = _reader.GetInt32(0),
+                        Text = _reader.GetString(1),
+                    };
+                    _offeredAnswers.Add(_answer);
+                }
+            }
+
+            result.OfferedAnswers = _offeredAnswers;
+            _connection.Close();
+
+            return result;
+        }
+
+        public OfferedAnswerResult GetAllOfferedAnswerd()
+        {
+            string _statement = string.Format("SELECT oa.id,  oa.Text " +
+                                "FROM" +
+                                "   Survey.OfferedAnswers oa");
+
+            OfferedAnswerResult result = new OfferedAnswerResult();
+            List<OfferedAnswer> _offeredAnswers = new List<OfferedAnswer>();
+
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
+
+            using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    result.Id = _reader.GetInt32(0);
+                    
+                    OfferedAnswer _answer = new OfferedAnswer()
+                    {
+                        Id = _reader.GetInt32(0),
+                        Text = _reader.GetString(1),
+                    };
+                    _offeredAnswers.Add(_answer);
+                }
+            }
+
+            result.OfferedAnswers = _offeredAnswers;
+            _connection.Close();
+
+            return result;
+        }
     }
 }
