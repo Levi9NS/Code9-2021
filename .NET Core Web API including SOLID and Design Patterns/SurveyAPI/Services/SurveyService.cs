@@ -1,10 +1,6 @@
 ﻿using SurveyAPI.Interfaces;
 using SurveyAPI.Models;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SurveyAPI.Services
 {
@@ -45,11 +41,6 @@ namespace SurveyAPI.Services
         public OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId)
         {
             return _repository.GetOfferedAnswersForSurvey(surveyId);
-        }
-
-        public OfferedAnswerResult GetAllOfferedAnswerd()
-        {
-            return _repository.GetAllOfferedAnswers();
         }
     }
 }

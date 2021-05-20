@@ -8,4 +8,6 @@ export class SurveyResponse {
 
 export class Questions {
   public questionText: string;
+  public id: string;
 }
+

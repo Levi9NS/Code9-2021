@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Model, SurveyNG } from 'survey-angular';
-import { AnswersResponse } from '../../models/answers-response';
+import { Model, StylesManager, SurveyNG } from 'survey-angular';
+import { OfferedAnswers } from '../../models/answers-response';
 import { QuestionModel, SurveyModel } from '../../models/survey-model';
 import { SurveyResponse } from '../../models/survey-response';
 import { SurveyService } from '../../services/survey-service/survey-service.service';
@@ -15,7 +15,7 @@ export class SurveyComponent implements OnInit {
   private queryParamSurveyId = 'id';
   private surveyRootElementId = 'survey-element';
   survey: SurveyResponse;
-  dataLoaded: boolean = false;
+  dataLoaded = false;
 
   constructor(private readonly surveyService: SurveyService, private route: ActivatedRoute) { }
 
@@ -36,7 +36,7 @@ export class SurveyComponent implements OnInit {
     });
   }
 
-  convertAPIDataToSurveyModel(survey: SurveyResponse, answers: AnswersResponse): SurveyModel {
+  convertAPIDataToSurveyModel(survey: SurveyResponse, answers: OfferedAnswers): SurveyModel {
     const surveyModel = {
       title: survey.name,
       pages: [{
@@ -46,15 +46,15 @@ export class SurveyComponent implements OnInit {
     } as SurveyModel;
 
     surveyModel.pages[0].questions = survey.questions.map<QuestionModel>(question => {
-      const result = answers.questions.filter(answer => answer.text === question.questionText);
-      const responses = result.map(res => res.response);
+      const result = answers.offeredAnswers.filter(answer => answer.questionId === question.id);
+      const offeredAnswers = result.map(res => res.questionAnswer);
       return {
         name: question.questionText,
         title: question.questionText,
-        choices: responses.filter(res => res.toLocaleLowerCase() !== 'other').map(r => r),
+        choices: offeredAnswers.filter(res => res.toLocaleLowerCase() !== 'other').map(r => r).sort(),
         isRequired: true,
         type: 'checkbox',
-        hasOther: responses.findIndex(res => res.toLocaleLowerCase() === 'other') !== -1
+        hasOther: offeredAnswers.findIndex(res => res.toLocaleLowerCase() === 'other') !== -1
       };
     });
 

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using SurveyAPI.Interfaces;
 using SurveyAPI.Models;
-using System;
 
 namespace SurveyAPI.Controllers
 {
@@ -11,12 +9,10 @@ namespace SurveyAPI.Controllers
     public class SurveyController : Controller
     {
         private readonly ISurveyService _surveyService;
-        private readonly IConfiguration _configuration;
 
-        public SurveyController(ISurveyService _svc, IConfiguration configuration)
+        public SurveyController(ISurveyService _svc)
         {
             _surveyService = _svc;
-            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -28,32 +24,21 @@ namespace SurveyAPI.Controllers
         [Route("{surveyId}/Answers")]
         public JsonResult GetSurveyResult(int surveyId)
         {
-            SurveyResult sr = _surveyService.GetSurveyResults(surveyId);
-            return Json(sr);
+            return Json(_surveyService.GetSurveyResults(surveyId));
         }
 
         [HttpGet()]
         [Route("{surveyId}")]
         public JsonResult GetSurvey(int surveyId)
         {
-            Survey sr = _surveyService.GetSurveyQuestions(surveyId);
-            return Json(sr);
+            return Json(_surveyService.GetSurveyQuestions(surveyId));
         }
 
         [HttpGet()]
         [Route("{surveyId}/OfferedAnswers")]
         public JsonResult GetOfferedAnswersForSurvey(int surveyId)
         {
-            OfferedAnswerResult sr = _surveyService.GetOfferedAnswersForSurvey(surveyId);
-            return Json(sr);
-        }
-
-        [HttpGet()]
-        [Route("OfferedAnswers")]
-        public JsonResult GetAllOfferedAnswers()
-        {
-            OfferedAnswerResult sr = _surveyService.GetAllOfferedAnswers();
-            return Json(sr);
+            return Json(_surveyService.GetOfferedAnswersForSurvey(surveyId));
         }
 
         [HttpPost]

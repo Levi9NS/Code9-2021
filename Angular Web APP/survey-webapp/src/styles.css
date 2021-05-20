@@ -6,6 +6,15 @@
     width: 100%;
 }
 
+body {
+  margin: 0px !important;
+  height: 100%;
+}
+
+app-root, html {
+  height: 100%;
+}
+
 .col {
     flex-basis: 100%;
 }

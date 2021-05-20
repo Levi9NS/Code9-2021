@@ -1,9 +1,8 @@
-export class AnswersResponse {
-  public name: string;
-  public questions: Question[];
+export class OfferedAnswers {
+  public offeredAnswers: OfferedAnswer[];
 }
 
-export class Question {
-  public text: string;
-  public response: string;
+export class OfferedAnswer {
+  public questionId: string;
+  public questionAnswer: string;
 }
