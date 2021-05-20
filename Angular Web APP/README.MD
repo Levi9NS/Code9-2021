@@ -15,7 +15,8 @@ After you complete this lab, you will be able to:
 - After pressing save primary endpoint for your static website will be visible, copy that url
 - Clone repository from your branch on github to your local machine
 and open Angular Web App->survey-webapp in Visual studio code
-- In Visual Studio Code open command line and run 'npm install'
+- In Visual Studio Code open new terminal and run 'npm install'
+- If you havent installed Anuglar cli, run in terminal command 'npm i @angular/cli'
 - After that in Enviroment.ts and Enviroment.prod.ts file for 
  apiUrl variable put url of your API on Azure
 - After that run command 'ng build --prod'
