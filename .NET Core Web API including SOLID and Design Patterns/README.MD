@@ -32,5 +32,6 @@ After you complete this lab, you will be able to:
 
 ## Homework
 - Create API for storing and getting Survery General information, Questions and OfferedAnswers
+- Create API for storing new survey result and information for survey participants
 - Send to us Web API URL (We will use this for testing)
 - Send to us SQL server name and credentials (We will use this for testing)
