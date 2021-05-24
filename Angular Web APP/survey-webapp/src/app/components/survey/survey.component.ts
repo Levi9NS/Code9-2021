@@ -87,7 +87,5 @@ export class SurveyComponent implements OnInit {
     }, error => {
       this.notificationService.errorMessage('Failed to save results');
     });
-    console.log(surveyResult.data);
-    console.log({result});
   }
 }
