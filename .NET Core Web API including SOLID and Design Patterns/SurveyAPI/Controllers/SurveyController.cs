@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SurveyAPI.Dtos;
 using SurveyAPI.Interfaces;
 using SurveyAPI.Models;
 
@@ -45,6 +46,14 @@ namespace SurveyAPI.Controllers
         public JsonResult AddSurvey([FromBody] Survey survey)
         {
             Survey sr = _surveyService.AddSurvey(survey);
+            return Json(sr);
+        }
+
+        [HttpPost]
+        [Route("PostSurveyResult")]
+        public JsonResult PostSurveyResult([FromBody] SurveyResultDto surveyResult)
+        {
+            SurveyResultDto sr = _surveyService.AddSurveyAnswer(surveyResult);
             return Json(sr);
         }
 

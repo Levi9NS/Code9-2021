@@ -3,6 +3,7 @@ export class OfferedAnswers {
 }
 
 export class OfferedAnswer {
-  public questionId: string;
+  public questionId: number;
   public questionAnswer: string;
+  public answerId: number;
 }

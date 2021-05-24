@@ -1,4 +1,5 @@
-﻿using SurveyAPI.Models;
+﻿using SurveyAPI.Dtos;
+using SurveyAPI.Models;
 
 namespace SurveyAPI.Interfaces
 {
@@ -7,7 +8,7 @@ namespace SurveyAPI.Interfaces
         Survey GetSurvey(int surveyId);
         Survey AddSurvey(Survey survey); 
         SurveyResult GetSurveyResult(int surveyId);
-        SurveyResult AddSurveyResult(SurveyResult survey);
+        SurveyResultDto AddSurveyResult(SurveyResultDto surveyResult);
         OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId);
         void DeleteSurvey(int surveyId);
     }
