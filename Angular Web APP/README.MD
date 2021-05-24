@@ -28,6 +28,8 @@ and open Angular Web App->survey-webapp in Visual studio code
 - In allowed origins add your primary endpoint of your storage account and also add your 'http://localhost:4200' endpoint if you want to make requests from your local instance of webapp to the API on Azure
 
 ## Homework
+- Create page adding general survey informations and general questions and answers
+- Adjusting functionality for saving survey result with participant data
 - Create page for showing results of survey
 - Endpoint for that is available on Web API
 - Send to us link to the Web app (we will use for testing purpose)
