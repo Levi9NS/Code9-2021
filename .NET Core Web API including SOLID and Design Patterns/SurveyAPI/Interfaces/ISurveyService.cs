@@ -1,4 +1,5 @@
-﻿using SurveyAPI.Models;
+﻿using SurveyAPI.Dtos;
+using SurveyAPI.Models;
 
 namespace SurveyAPI.Interfaces
 {
@@ -12,7 +13,7 @@ namespace SurveyAPI.Interfaces
 
         Survey GetSurveyQuestions(int surveyId);
 
-        SurveyResult AddSurveyAnswer(SurveyResult survey);
+        SurveyResultDto AddSurveyAnswer(SurveyResultDto survey);
 
         OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId);
     }

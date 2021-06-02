@@ -4,6 +4,7 @@ using SurveyAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using SurveyAPI.Dtos;
 using static SurveyAPI.Models.OfferedAnswerResult;
 
 namespace SurveyAPI.Repositories
@@ -201,14 +202,44 @@ namespace SurveyAPI.Repositories
             return survey;
         }
 
-        public SurveyResult AddSurveyResult(SurveyResult survey)
+        public SurveyResultDto AddSurveyResult(SurveyResultDto surveyResult)
         {
-            throw new NotImplementedException();
+            string command = string.Empty;
+
+            foreach (var answer in surveyResult.Answers)
+            {
+                command += string.Format(@"INSERT INTO [Survey].[Answers]
+                                       ([ParticipantId]
+                                       ,[SurveyId]
+                                       ,[QuestionId]
+                                       ,[QuestionAnswersId]
+                                       ,[ChangedBy]
+                                       ,[ChangedDate]
+                                       ,[CreatedBy]
+                                       ,[CreateDate])
+                                 VALUES
+                                       ('{0}'
+                                       ,'{1}'
+                                       ,'{2}'
+                                       ,'{3}'
+                                       ,'{4}'
+                                       ,'{5:yyyy-MM-dd HH:mm:ss.fff}'
+                                       ,'{6}'
+                                       ,'{7:yyyy-MM-dd HH:mm:ss.fff}');",
+                    surveyResult.ParticipantId, surveyResult.SurveyId, answer.QuestionId, answer.QuestionAnswerId, "user", DateTime.Now, "user", DateTime.Now);
+            }
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(command, _connection);
+            _sqlcommand.ExecuteNonQuery();
+            _connection.Close();
+            return surveyResult;
         }
 
         public OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId)
         {
-            string _statement = string.Format(@"SELECT DISTINCT q.id, oa.Text FROM
+            string _statement = string.Format(@"SELECT DISTINCT q.id, oa.Text, oa.id FROM
                                    Survey.GeneralInformations ge
                                    INNER JOIN Survey.SurveyQuestionRelations sqr
                                        ON ge.id = sqr.SurveyId
@@ -236,6 +267,7 @@ namespace SurveyAPI.Repositories
                     {
                         QuestionId = _reader.GetInt32(0),
                         QuestionAnswer = _reader.GetString(1),
+                        AnswerId = _reader.GetInt32(2)
                     };
                     _offeredAnswers.Add(_answer);
                 }

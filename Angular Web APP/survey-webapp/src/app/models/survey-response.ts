@@ -1,5 +1,5 @@
 export class SurveyResponse {
-  public id: string;
+  public id: number;
   public name: string;
   public questions: Questions[];
   public startDate: string;
@@ -8,6 +8,6 @@ export class SurveyResponse {
 
 export class Questions {
   public questionText: string;
-  public id: string;
+  public id: number;
 }
 

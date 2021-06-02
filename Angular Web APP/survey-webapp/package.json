@@ -20,8 +20,10 @@
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
     "core-js": "^2.5.4",
+    "ngx-toastr": "^10.1.0",
     "rxjs": "~6.3.3",
     "survey-angular": "^1.8.47",
+    "toastr": "^2.1.4",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },

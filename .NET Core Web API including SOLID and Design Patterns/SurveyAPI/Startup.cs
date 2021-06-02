@@ -31,6 +31,8 @@ namespace SurveyAPI
                 options.AddPolicy(name: CorsPolicy, builder =>
                 {
                     builder.WithOrigins(new string[] { "http://localhost:4200" });
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
                 });
             });
         }

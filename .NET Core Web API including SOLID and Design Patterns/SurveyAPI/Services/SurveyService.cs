@@ -1,6 +1,7 @@
 ﻿using SurveyAPI.Interfaces;
 using SurveyAPI.Models;
 using System;
+using SurveyAPI.Dtos;
 
 namespace SurveyAPI.Services
 {
@@ -33,7 +34,7 @@ namespace SurveyAPI.Services
             return _repository.AddSurvey(survey);
         }
 
-        public SurveyResult AddSurveyAnswer(SurveyResult survey)
+        public SurveyResultDto AddSurveyAnswer(SurveyResultDto survey)
         {
             return _repository.AddSurveyResult(survey);
         }
