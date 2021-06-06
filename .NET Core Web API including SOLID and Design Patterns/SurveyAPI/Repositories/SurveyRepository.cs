@@ -4,7 +4,11 @@ using SurveyAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using static SurveyAPI.Models.OfferedAnswerResult;
+using OfferedAnswer = SurveyAPI.Models.OfferedAnswer;
 
 namespace SurveyAPI.Repositories
 {
@@ -12,239 +16,199 @@ namespace SurveyAPI.Repositories
     public class SurveyRepository : ISurveyRepository
     {
 
-        private readonly string _connectionString;
+        private readonly ApplicationDBContext _context;
 
-        public SurveyRepository(IConfiguration configuration)
+        public SurveyRepository(ApplicationDBContext context)
         {
-            _connectionString = configuration.GetConnectionString("SQLConnection");
+            _context = context;
         }
-
-        private SqlConnection GetConnection(string _connection_string)
-        {
-            return new SqlConnection(_connection_string);
-        }
-
 
         public void DeleteSurvey(int surveyId)
         {
-            string _statement = string.Format("DELETE FROM [Survey].[SurveyQuestionRelations] " +
-                               "   WHERE SurveyId =  '{0}'" +
-                               "   GO " +
-                               "   DELETE FROM [Survey].GeneralInformations" +
-                               "         WHERE Id  = '{0}' " +
-                               "   GO"
-                               , surveyId);
+            var surveyInDb = _context.GeneralInformations
+                .Include(q => q.SurveyQuestionRelations)
+                .SingleOrDefault(s => s.Id == surveyId);
 
-            SqlConnection _connection = GetConnection(_connectionString);
-
-            _connection.Open();
-            SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
-            _sqlcommand.ExecuteNonQuery();
-
+            foreach (var sqr in surveyInDb.SurveyQuestionRelations)
+            {
+                _context.SurveyQuestionRelations.Remove(sqr);
+            }
+            _context.GeneralInformations.Remove(surveyInDb);
+            _context.SaveChanges();
         }
 
         public Survey GetSurvey(int surveyId)
         {
-            string _statement = string.Format("SELECT ge.id,  ge.Description as Name, ge.StartDate, ge.EndDate,q.QuestionText, q.id " +
-                                "FROM" +
-                                "   Survey.GeneralInformations ge" +
-                                "   INNER JOIN Survey.SurveyQuestionRelations sqr" +
-                                "       ON ge.id = sqr.SurveyId" +
-                                "   INNER JOIN Survey.Questions q" +
-                                "       ON sqr.QuestionId = q.id" +
-                                "   WHERE ge.Id = '{0}'"
-                                , surveyId);
+            var surveyInDb = _context.GeneralInformations
+                .Include(s => s.SurveyQuestionRelations)
+                .ThenInclude(s => s.Question)
+                .SingleOrDefault(s => s.Id == surveyId);
 
-            Survey survey = new Survey();
-            List<Question> _lquestions = new List<Question>();
-
-            SqlConnection _connection = GetConnection(_connectionString);
-
-            _connection.Open();
-            SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
-
-            using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
+            List<Question> questions = new List<Question>();
+            Survey survey = new Survey
             {
-                while (_reader.Read())
+                Id = surveyInDb.Id,
+                Name = surveyInDb.Description,
+                EndDate = surveyInDb.EndDate,
+                StartDate = surveyInDb.StartDate
+            };
+
+            foreach (var sqr in surveyInDb.SurveyQuestionRelations)
+            {
+                Question question = new Question
                 {
-                    survey.Id = _reader.GetInt32(0);
-
-                    survey.Name = _reader.GetString(1);
-                    survey.StartDate = _reader.GetDateTime(2);
-                    survey.EndDate = _reader.GetDateTime(3);
-                    Question _question = new Question()
-                    {
-                        QuestionText = _reader.GetString(4),
-                        Id = _reader.GetInt32(5),
-                    };
-                    _lquestions.Add(_question);
-
-                }
-
+                    QuestionText = sqr.Question.QuestionText
+                };
+                questions.Add(question);
             }
-
-            survey.Questions = _lquestions;
-
-            _connection.Close();
-
+            survey.Questions = questions;
             return survey;
         }
 
         public SurveyResult GetSurveyResult(int surveyId)
         {
-            SurveyResult sr = new SurveyResult();
+            var answersInDb = _context.Answers
+                .Include(a => a.Survey)
+                .Include(a => a.Participant)
+                .Include(a => a.Question)
+                .Include(a => a.QuestionAnswers)
+                .Where(a => a.Survey.Id == surveyId).ToList();
 
-            List<AnsweredQuestion> _lquestions = new List<AnsweredQuestion>();
-            string _statement = string.Format("SELECT ge.id, ge.Description,q.QuestionText, oa.text, q.id, a.id, COUNT(*) AS count " +
-                                "FROM" +
-                                "   Survey.GeneralInformations ge" +
-                                "   INNER JOIN Survey.SurveyQuestionRelations sqr" +
-                                "       ON ge.id = sqr.SurveyId" +
-                                "   INNER JOIN Survey.Questions q" +
-                                "       ON sqr.QuestionId = q.id" +
-                                "   INNER JOIN Survey.QuestionOfferedAnswerRelations qoar" +
-                                "       ON q.id = qoar.QuestionId" +
-                                "   INNER JOIN Survey.OfferedAnswers oa" +
-                                "       ON qoar.OfferedAnswerId = oa.id" +
-                                "   INNER JOIN Survey.Participants pa" +
-                                "       ON pa.SurveyId = pa.SurveyId" +
-                                "   INNER JOIN Survey.Answers a" +
-                                "       ON pa.id = a.ParticipantId AND qoar.QuestionId = a.QuestionId AND qoar.OfferedAnswerId = a.QuestionAnswersId" +
-                                "   WHERE ge.Id = '{0}'" +
-                                " GROUP BY ge.id,ge.Description,oa.id,q.id,a.id,q.QuestionText,oa.Text ORDER BY ge.id,q.id,oa.id", surveyId);
 
-            SqlConnection _connection = GetConnection(_connectionString);
+            SurveyResult survey = new SurveyResult();
+            List<AnsweredQuestion> answeredList = new List<AnsweredQuestion>();
 
-            _connection.Open();
-            SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
-
-            using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
+            foreach (var r in answersInDb)
             {
-                while (_reader.Read())
+                AnsweredQuestion _question = new AnsweredQuestion()
                 {
-                    sr.Name = _reader.GetString(1);
-                    AnsweredQuestion _question = new AnsweredQuestion()
-                    {
-                        text = _reader.GetString(2),
-                        response = _reader.GetString(3),
-                        Id = _reader.GetInt32(4),
-                        count = _reader.GetInt32(5),                      
-                    };
+                    text = r.Question.QuestionText,
+                    response = r.QuestionAnswers.Text,
+                    Id = r.Id,
+                    count = answersInDb.Count
+                };
 
-                    _lquestions.Add(_question);
-                }
+                answeredList.Add(_question);
             }
-            _connection.Close();
 
-            sr.Questions = _lquestions;
+            survey.Questions = answeredList;
 
-            return sr;
+            return survey;
         }
 
         public Survey AddSurvey(Survey survey)
         {
-            string command = string.Empty;
+            foreach (var q in survey.Questions)
+            {
+                q.CreatedBy = "User";
+                q.CreateDate = DateTime.Now;
+                _context.Questions.Add(q);
+            }
 
-            command += "DECLARE @QuestionsIdSTable Table (ID int);";
-            command += "DECLARE @SurveyId Int;";
+            GeneralInformation generalInformation = new GeneralInformation
+            {
+                Description = survey.Name,
+                StartDate = survey.StartDate,
+                EndDate = survey.EndDate,
+                IsOpen = true,
+                CreatedBy = "User",
+                CreateDate = DateTime.Now
+            };
+            _context.GeneralInformations.Add(generalInformation);
 
             foreach (var q in survey.Questions)
             {
-                command += string.Format(@"INSERT INTO [Survey].[Questions]
-                           ([QuestionText]
-                           ,[CreatedBy]
-                           ,[CreateDate])
-                        OUTPUT inserted.Id INTO @QuestionsIdSTable
-                        VALUES
-                           ('{0}'
-                           ,'{1}'
-                           ,'{2}'
-                           ,'{3}')
-                            GO;", q.QuestionText, "user", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") );
-                
+                foreach (var s in q.SurveyQuestionRelations)
+                {
+                    s.CreatedBy = "User";
+                    s.CreateDate = DateTime.Now;
+                    _context.SurveyQuestionRelations.Add(s);
+                }
             }
+            _context.SaveChanges();
 
-            command += string.Format(@"INSERT INTO [Survey].[GeneralInformations]
-                                       ([Description]
-                                       ,[StartDate]
-                                       ,[EndDate]
-                                       ,[CreatedBy]
-                                       ,[CreateDate])
-                                 VALUES
-                                       ('{0}'
-                                       ,'{1}'
-                                       ,'{2}'
-                                       ,'{3}'
-                                       ,'{4}')
-                                GO;
-                                SET @SurveyId = SCOPE_IDENTITY();", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), "user", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-
-
-            foreach (var q in survey.Questions)
-            {
-                command += string.Format(@"INSERT INTO [Survey].[SurveyQuestionRelations]
-                            ([SurveyId]
-                            ,[QuestionId]
-                            ,[CreatedBy]
-                            ,[CreateDate])
-                        
-                        SELECT @SurveyId, Id, {0} ,{1}
-                               FROM @QuestionsIdSTable);
-                GO;", "user", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            }
-
-            SqlConnection _connection = GetConnection(_connectionString);
-
-            _connection.Open();
-            SqlCommand _sqlcommand = new SqlCommand(command, _connection);
-            _sqlcommand.ExecuteNonQuery();
             return survey;
         }
 
-        public SurveyResult AddSurveyResult(SurveyResult survey)
+        public Answer AddSurveyResult(Answer answer)
         {
-            throw new NotImplementedException();
+            answer.CreatedBy = "User";
+            answer.CreateDate = DateTime.Now;
+            answer.ChangedDate = DateTime.Now;
+            answer.ChangedBy = "User";
+            _context.Answers.Add(answer);
+            _context.SaveChanges();
+            return answer;
         }
 
         public OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId)
         {
-            string _statement = string.Format(@"SELECT DISTINCT q.id, oa.Text FROM
-                                   Survey.GeneralInformations ge
-                                   INNER JOIN Survey.SurveyQuestionRelations sqr
-                                       ON ge.id = sqr.SurveyId
-                                   INNER JOIN Survey.Questions q
-                                       ON sqr.QuestionId = q.id
-                                   INNER JOIN Survey.QuestionOfferedAnswerRelations qoar
-                                       ON q.id = qoar.QuestionId
-                                   INNER JOIN Survey.OfferedAnswers oa
-                                       ON qoar.OfferedAnswerId = oa.id
-                                   WHERE ge.Id = '{0}'", surveyId);
-            
+            var answersInDb = _context.Answers
+                .Include(a => a.Survey)
+                .Include(a => a.Participant)
+                .Include(a => a.Question)
+                .Include(a => a.QuestionAnswers)
+                .Where(a => a.Survey.Id == surveyId);
+
             OfferedAnswerResult result = new OfferedAnswerResult();
-            List<OfferedAnswer> _offeredAnswers = new List<OfferedAnswer>();
+            List<OfferedAnswerResult.OfferedAnswer> _offeredAnswers = new List<OfferedAnswerResult.OfferedAnswer>();
 
-            SqlConnection _connection = GetConnection(_connectionString);
-
-            _connection.Open();
-            SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
-
-            using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
+            foreach (var r in answersInDb)
             {
-                while (_reader.Read())
-                {                    
-                    OfferedAnswer _answer = new OfferedAnswer
-                    {
-                        QuestionId = _reader.GetInt32(0),
-                        QuestionAnswer = _reader.GetString(1),
-                    };
-                    _offeredAnswers.Add(_answer);
-                }
+                OfferedAnswerResult.OfferedAnswer _answer = new OfferedAnswerResult.OfferedAnswer
+                {
+                    QuestionId = r.QuestionId,
+                    QuestionAnswer = r.QuestionAnswers.Text
+                };
+                _offeredAnswers.Add(_answer);
             }
 
             result.OfferedAnswers = _offeredAnswers;
-            _connection.Close();
-
             return result;
+        }
+        public Participant AddSurveyParticipant(Participant participant)
+        {
+            participant.CreatedBy = "User";
+            participant.CreateDate = DateTime.Now;
+            _context.Participants.Add(participant);
+            _context.SaveChanges();
+            return participant;
+        }
+
+        public Question AddSurveyQuestion(Question question)
+        {
+            question.CreatedBy = "User";
+            question.CreateDate = DateTime.Now;
+            _context.Questions.Add(question);
+
+            foreach (var q in question.SurveyQuestionRelations)
+            {
+                q.CreatedBy = "User";
+                q.CreateDate = DateTime.Now;
+                q.QuestionId = question.Id;
+                _context.SurveyQuestionRelations.Add(q);
+            }
+
+            _context.SaveChanges();
+            return question;
+        }
+
+        public OfferedAnswer AddOfferedAnswer(OfferedAnswer offeredAnswer)
+        {
+            offeredAnswer.CreatedBy = "User";
+            offeredAnswer.CreateDate = DateTime.Now;
+            _context.OfferedAnswers.Add(offeredAnswer);
+
+            foreach (var qoar in offeredAnswer.QuestionOfferedAnswerRelations)
+            {
+                qoar.CreatedBy = "User";
+                qoar.CreateDate = DateTime.Now;
+                qoar.OfferedAnswerId = offeredAnswer.Id;
+                _context.QuestionOfferedAnswerRelations.Add(qoar);
+            }
+
+            _context.SaveChanges();
+            return offeredAnswer;
         }
     }
 }

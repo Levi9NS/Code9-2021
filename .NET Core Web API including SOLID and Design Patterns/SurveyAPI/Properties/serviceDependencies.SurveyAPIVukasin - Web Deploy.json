@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/code9servervukasin/databases/Gode9DatabaseVukasin",
+      "type": "mssql.azure",
+      "connectionId": "SQLConnection",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

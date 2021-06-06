@@ -9,8 +9,10 @@ using SurveyAPI.Repositories;
 using SurveyAPI.Services;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SurveyAPI
 {
@@ -22,6 +24,8 @@ namespace SurveyAPI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddMvc();
             services.AddTransient<ISurveyService, SurveyService>();
             services.AddScoped<ISurveyRepository, SurveyRepository>();
@@ -33,6 +37,8 @@ namespace SurveyAPI
                     builder.WithOrigins(new string[] { "http://localhost:4200" });
                 });
             });
+            services.AddDbContext<ApplicationDBContext>(options =>
+                options.UseSqlServer("Server=tcp:code9servervukasin.database.windows.net,1433;Initial Catalog=Gode9DatabaseVukasin;Persist Security Info=False;User ID=vukasinvukovic;Password=Plazma123.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

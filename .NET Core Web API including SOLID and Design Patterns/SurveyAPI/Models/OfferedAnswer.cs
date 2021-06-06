@@ -5,17 +5,16 @@ using System.Collections.Generic;
 
 namespace SurveyAPI.Models
 {
-    public partial class Question
+    public partial class OfferedAnswer
     {
-        public Question()
+        public OfferedAnswer()
         {
             Answers = new HashSet<Answer>();
             QuestionOfferedAnswerRelations = new HashSet<QuestionOfferedAnswerRelation>();
-            SurveyQuestionRelations = new HashSet<SurveyQuestionRelation>();
         }
 
         public int Id { get; set; }
-        public string QuestionText { get; set; }
+        public string Text { get; set; }
         public string ChangedBy { get; set; }
         public DateTime? ChangedDate { get; set; }
         public string CreatedBy { get; set; }
@@ -23,6 +22,5 @@ namespace SurveyAPI.Models
 
         public virtual ICollection<Answer> Answers { get; set; }
         public virtual ICollection<QuestionOfferedAnswerRelation> QuestionOfferedAnswerRelations { get; set; }
-        public virtual ICollection<SurveyQuestionRelation> SurveyQuestionRelations { get; set; }
     }
 }

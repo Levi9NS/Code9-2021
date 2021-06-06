@@ -10,17 +10,17 @@ namespace SurveyAPI.Services
         public SurveyService(ISurveyRepository repository)
         {
             _repository = repository;
-        }        
+        }
 
         public SurveyResult GetSurveyResults(int surveyId)
         {
             return _repository.GetSurveyResult(surveyId);
-                        
+
         }
 
         public void DeleteSurvey(int surveyId)
         {
-            _repository.GetSurveyResult(surveyId);
+            _repository.DeleteSurvey(surveyId);
         }
 
         public Survey GetSurveyQuestions(int surveyId)
@@ -33,14 +33,29 @@ namespace SurveyAPI.Services
             return _repository.AddSurvey(survey);
         }
 
-        public SurveyResult AddSurveyAnswer(SurveyResult survey)
+        public Answer AddSurveyAnswer(Answer answer)
         {
-            return _repository.AddSurveyResult(survey);
+            return _repository.AddSurveyResult(answer);
         }
 
         public OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId)
         {
             return _repository.GetOfferedAnswersForSurvey(surveyId);
+        }
+
+        public Participant AddSurveyParticipant(Participant participant)
+        {
+            return _repository.AddSurveyParticipant(participant);
+        }
+
+        public Question AddSurveyQuestion(Question question)
+        {
+            return _repository.AddSurveyQuestion(question);
+        }
+
+        public OfferedAnswer AddOfferedAnswer(OfferedAnswer offeredAnswer)
+        {
+            return _repository.AddOfferedAnswer(offeredAnswer);
         }
     }
 }

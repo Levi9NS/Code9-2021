@@ -48,6 +48,38 @@ namespace SurveyAPI.Controllers
             return Json(sr);
         }
 
+        [HttpPost]
+        [Route("Participants")]
+        public JsonResult AddSurveyParticipant([FromBody] Participant participant)
+        {
+            Participant p = _surveyService.AddSurveyParticipant(participant);
+            return Json(p);
+        }
+
+        [HttpPost]
+        [Route("Questions")]
+        public JsonResult AddSurveyQuestion([FromBody] Question question)
+        {
+            Question q = _surveyService.AddSurveyQuestion(question);
+            return Json(q);
+        }
+
+        [HttpPost]
+        [Route("OfferedAnswers")]
+        public JsonResult AddOfferedAnswer([FromBody] OfferedAnswer offeredAnswer)
+        {
+            OfferedAnswer oa = _surveyService.AddOfferedAnswer(offeredAnswer);
+            return Json(oa);
+        }
+
+        [HttpPost]
+        [Route("Answers")]
+        public JsonResult AddSurveyResult([FromBody] Answer answer)
+        {
+            Answer a = _surveyService.AddSurveyAnswer(answer);
+            return Json(a);
+        }
+
         [HttpDelete]
         [Route("{surveyId}")]
         public JsonResult DeleteSurvey(int surveyId)
