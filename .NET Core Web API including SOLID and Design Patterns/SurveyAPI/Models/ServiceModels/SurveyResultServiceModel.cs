@@ -2,10 +2,9 @@
 
 namespace SurveyAPI.Models
 {
-    public class SurveyResult
+    public class SurveyResultServiceModel
     {
         public string Name { get; set; }
-
-        public List<AnsweredQuestion> Questions { get; set; }
+        public List<AnsweredQuestionServiceModel> Questions { get; set; }
     }
 }

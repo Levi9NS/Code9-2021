@@ -1,19 +1,22 @@
 ﻿using SurveyAPI.Models;
+using SurveyAPI.Models.ServiceModels;
+using System.Threading.Tasks;
 
 namespace SurveyAPI.Interfaces
 {
     public interface ISurveyService
     {
-        SurveyResult GetSurveyResults(int surveyId);
+        Task<GenericResponseModel<SurveyServiceModel>> GetAll();
+        Task<GenericResponseModel<SurveyResultServiceModel>> GetSurveyResults(int surveyId);
 
-        Survey AddSurvey(Survey survey);
+        Task<GenericResponseModel<SurveyServiceModel>> CreateSurvey(SurveyServiceModel survey);
 
-        void DeleteSurvey(int surveyId);
+        Task<GenericResponseModel<SubmitSurveyServiceModel>> SubmitSurvey(SubmitSurveyServiceModel submit);
 
-        Survey GetSurveyQuestions(int surveyId);
+        Task<GenericResponseModel<SurveyServiceModel>> DeleteSurvey(int surveyId);
 
-        SurveyResult AddSurveyAnswer(SurveyResult survey);
+        Task<GenericResponseModel<SurveyServiceModel>> GetSurveyQuestions(int surveyId);
 
-        OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId);
+        Task<GenericResponseModel<OfferedAnswerResultServiceModel>> GetOfferedAnswersForSurvey(int surveyId);
     }
 }
