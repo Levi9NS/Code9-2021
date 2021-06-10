@@ -115,15 +115,20 @@ namespace SurveyAPI.Repositories
                 CreateDate = DateTime.Now
             };
             _context.GeneralInformations.Add(generalInformation);
+            _context.SaveChanges();
 
             foreach (var q in survey.Questions)
             {
-                foreach (var s in q.SurveyQuestionRelations)
+                SurveyQuestionRelation s = new SurveyQuestionRelation
                 {
-                    s.CreatedBy = "User";
-                    s.CreateDate = DateTime.Now;
-                    _context.SurveyQuestionRelations.Add(s);
-                }
+                    CreatedBy = "User",
+                    CreateDate = DateTime.Now,
+                    QuestionId = q.Id,
+                    SurveyId = generalInformation.Id,
+                    Survey = generalInformation,
+                    Question = q,
+                };
+                _context.SurveyQuestionRelations.Add(s);
             }
             _context.SaveChanges();
 
