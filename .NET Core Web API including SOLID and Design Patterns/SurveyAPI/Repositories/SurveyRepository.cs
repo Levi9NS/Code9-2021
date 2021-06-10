@@ -74,7 +74,6 @@ namespace SurveyAPI.Repositories
                 .Include(a => a.QuestionAnswers)
                 .Where(a => a.Survey.Id == surveyId).ToList();
 
-
             SurveyResult survey = new SurveyResult();
             List<AnsweredQuestion> answeredList = new List<AnsweredQuestion>();
 
@@ -85,7 +84,7 @@ namespace SurveyAPI.Repositories
                     text = r.Question.QuestionText,
                     response = r.QuestionAnswers.Text,
                     Id = r.Id,
-                    count = answersInDb.Count
+                    count = answersInDb.Where(c => c.QuestionId == r.QuestionId && c.QuestionAnswersId == r.QuestionAnswersId).Count()
                 };
 
                 answeredList.Add(_question);
