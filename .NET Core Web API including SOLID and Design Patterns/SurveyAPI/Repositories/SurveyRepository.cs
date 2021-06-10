@@ -57,6 +57,7 @@ namespace SurveyAPI.Repositories
             {
                 Question question = new Question
                 {
+                    Id = sqr.Question.Id,
                     QuestionText = sqr.Question.QuestionText
                 };
                 questions.Add(question);
@@ -147,24 +148,31 @@ namespace SurveyAPI.Repositories
 
         public OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId)
         {
-            var answersInDb = _context.Answers
-                .Include(a => a.Survey)
-                .Include(a => a.Participant)
-                .Include(a => a.Question)
-                .Include(a => a.QuestionAnswers)
-                .Where(a => a.Survey.Id == surveyId);
+            var answersInDb = _context.OfferedAnswers
+                .Include(a => a.QuestionOfferedAnswerRelations)
+                .ThenInclude(a => a.Question)
+                .ThenInclude(a => a.SurveyQuestionRelations.Where(s => s.SurveyId == surveyId));
 
             OfferedAnswerResult result = new OfferedAnswerResult();
             List<OfferedAnswerResult.OfferedAnswer> _offeredAnswers = new List<OfferedAnswerResult.OfferedAnswer>();
 
-            foreach (var r in answersInDb)
+            foreach (var a in answersInDb)
             {
-                OfferedAnswerResult.OfferedAnswer _answer = new OfferedAnswerResult.OfferedAnswer
+                foreach (var b in a.QuestionOfferedAnswerRelations)
                 {
-                    QuestionId = r.QuestionId,
-                    QuestionAnswer = r.QuestionAnswers.Text
-                };
-                _offeredAnswers.Add(_answer);
+                    foreach (var c in b.Question.SurveyQuestionRelations)
+                    {
+                        if (c.SurveyId == surveyId)
+                        {
+                            OfferedAnswerResult.OfferedAnswer _answer = new OfferedAnswerResult.OfferedAnswer
+                            {
+                                QuestionId = b.QuestionId,
+                                QuestionAnswer = b.OfferedAnswer.Text
+                            };
+                            _offeredAnswers.Add(_answer);
+                        }
+                    }
+                }
             }
 
             result.OfferedAnswers = _offeredAnswers;
