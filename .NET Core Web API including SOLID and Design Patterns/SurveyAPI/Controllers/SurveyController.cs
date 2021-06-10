@@ -15,11 +15,12 @@ namespace SurveyAPI.Controllers
             _surveyService = _svc;
         }
 
+        /*Ometa swagger
         public IActionResult Index()
         {
             return View();
         }
-
+        */
         [HttpGet()]
         [Route("{surveyId}/Answers")]
         public JsonResult GetSurveyResult(int surveyId)

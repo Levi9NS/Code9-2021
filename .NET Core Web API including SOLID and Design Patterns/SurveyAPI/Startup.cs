@@ -30,6 +30,8 @@ namespace SurveyAPI
             services.AddTransient<ISurveyService, SurveyService>();
             services.AddScoped<ISurveyRepository, SurveyRepository>();
 
+            services.AddSwaggerGen();
+
             services.AddCors(options =>
             {
                 options.AddPolicy(name: CorsPolicy, builder =>
@@ -48,6 +50,13 @@ namespace SurveyAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseCors(CorsPolicy);
 
