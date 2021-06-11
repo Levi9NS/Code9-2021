@@ -10,7 +10,6 @@ namespace SurveyAPI.Repositories
 {
     public interface IOfferedAnswersRepository : IRepository<OfferedAnswer>
     {
-        Task<IEnumerable<OfferedAnswer>> GetBySurveyId(int surveyId);
         Task<IEnumerable<OfferedAnswer>> InsertOfferedAnswersListAsync(List<OfferedAnswer> answers);
         Task<OfferedAnswer> GetByText(string text);
     }
@@ -32,17 +31,6 @@ namespace SurveyAPI.Repositories
         public async Task<OfferedAnswer> GetByIdAsync(int id)
         {
             var data = await _surveyContext.OfferedAnswers.Where(q => q.Id == id).FirstOrDefaultAsync();
-            return data;
-        }
-
-        public async Task<IEnumerable<OfferedAnswer>> GetBySurveyId(int surveyId)
-        {
-            var data = await _surveyContext.OfferedAnswers
-                .Include(oa => oa.QuestionOfferedAnswerRelations)
-                .ThenInclude(of => of.Question)
-                .ThenInclude(q => q.SurveyQuestionRelations.Where(sq => sq.SurveyId == surveyId))
-                .ToListAsync();
-
             return data;
         }
 
