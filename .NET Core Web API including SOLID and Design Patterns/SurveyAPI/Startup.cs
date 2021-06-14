@@ -43,7 +43,7 @@ namespace SurveyAPI
             });
 
             services.AddDbContext<SurveyConetxt>(options =>
-                options.UseSqlServer(""));
+                options.UseSqlServer("Server=tcp:code9serverzr.database.windows.net,1433;Initial Catalog=Code9DB;Persist Security Info=False;User ID=adminCode9;Password=Samsung123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
         
     }
 
@@ -62,7 +62,10 @@ namespace SurveyAPI
                 c.RoutePrefix = string.Empty;
             });
 
-            app.UseCors(CorsPolicy);
+            app.UseCors(x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
             app.UseRouting();
 
