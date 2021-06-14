@@ -4,10 +4,20 @@
     display: flex;
     background-color: rgb(25, 66, 245);
     border-radius: 30px;
+    justify-content: start;
+    align-items: center;
+    
 }
 
 .app-logo{
     font-weight: 900;
-    margin: 15px 1px 1px 30px;
+    margin: 0 30px;
+    color: white;
+}
+
+.link{
+    margin-right: 20px;
+    text-decoration: none;
+    font-size: 20px;
     color: white;
 }

@@ -1,0 +1,12 @@
+<div *ngIf="!dataLoaded" class="loader"></div>
+<div *ngIf="dataLoaded" class="container">
+  <div class="card" routerLink="survey/{{survey.id}}" *ngFor="let survey of surveyList; let i=index;">
+    <div class="heading">
+      <p class="name">{{survey.name}}</p>
+    </div>
+    <div class="btns">
+        <button routerLink="result/{{survey.id}}" class="result">Results</button>
+        <button (click)="deleteSurvey(survey);$event.stopPropagation()" class="remove">Delete</button>
+    </div>
+  </div>
+</div>

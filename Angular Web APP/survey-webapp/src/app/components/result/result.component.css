@@ -1,0 +1,17 @@
+h1{
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+p{
+    font-size: 1.2rem;
+}
+
+.spectre-line-chart {
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    margin: 10px auto 50px auto;
+    display: flex;
+    justify-content: center;
+}

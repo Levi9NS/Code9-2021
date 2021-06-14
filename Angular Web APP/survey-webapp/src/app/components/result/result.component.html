@@ -1,0 +1,26 @@
+<div *ngIf="!dataLoaded" class="loader"></div>
+
+<div *ngIf="dataLoaded" class="container">
+  <h1>{{result?.name}}</h1>
+    <div *ngFor="let r of result.questions; let i=index;">
+      <p>{{i+1}} . {{r.questionText}}</p>
+     
+        <div class="spectre-line-chart">
+        <ngx-charts-bar-vertical
+        (window:resize)="onResize($event)"
+        [view]="view"
+        [results]="surveyData.questionData[i].graph"
+        [xAxisLabel]="'Answers'"
+        [legendTitle]="'Answers'"
+        [yAxisLabel]="'Count'"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [gradient]="true">
+        </ngx-charts-bar-vertical>
+      </div>
+   </div>
+</div>
+
+

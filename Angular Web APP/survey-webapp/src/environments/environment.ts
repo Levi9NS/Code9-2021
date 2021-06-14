@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  // apiUrl: 'http://surveyapialeksandar.azurewebsites.net',
-  apiUrl: 'https://localhost:44325'
+  apiUrl: 'http://surveyapisasagataric.azurewebsites.net',
+  // apiUrl: 'https://localhost:44325'
 };

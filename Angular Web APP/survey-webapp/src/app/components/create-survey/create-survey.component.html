@@ -1,0 +1,70 @@
+<div class="form">
+
+  <div *ngIf="success">
+    Survey is successfully created
+  </div>
+
+  <div *ngIf="error">
+    {{errorText}}
+  </div>
+
+  <form [hidden]="success"  [formGroup]="survey">
+    <h1>Survey</h1>
+   <div class="column general">
+    
+    <mat-form-field >
+      <input matInput   placeholder="Name"  formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Start Date</mat-label>
+      <input matInput [matDatepicker]="picker"  [min]="minDatStart" [max]="getEndDate()" formControlName="startDate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>End Date</mat-label>
+      <input matInput [matDatepicker]="picker2" [min]="getStartDate() || minDatStart" formControlName="endDate">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+      
+    </mat-form-field>
+
+   
+    
+   </div>
+  
+   <div class="column" formArrayName="questions">
+     <div class="row question" *ngFor="let question of getQuestions(survey); let i=index;" [formGroupName]="i">
+       
+        <div class="question-text">
+            <mat-form-field>
+              <textarea matInput placeholder="Question text"  formControlName="questionText"></textarea>
+              <mat-error *ngIf="getQuetionText(i).invalid"> Insert questino with ?</mat-error>
+            </mat-form-field>
+            <button mat-icon-button color="warn" [style.visibility]="showRemovieQuestion()" (click)="removeQuestion(i)">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+        </div>
+
+        <div class="column answers" formArrayName="offeredAnswers">
+          <div class="offeredAnswer"  *ngFor="let offeredAnswer of getOfferedAnsvers(question); let j=index;" [formGroupName]="j">
+            <mat-form-field>
+              <input matInput placeholder="Answer"  formControlName="text">
+              <mat-error *ngIf="getOfferedAnswer(i,j).invalid"> Insert unique answer</mat-error>
+            </mat-form-field>
+            <button mat-icon-button color="warn" [style.visibility]="showRemovieAnswer(i)" (click)="removeOfferedAnsver(i,j)">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+          <button  class="btn-add" (click)="addOfferedAnsver(i)">Add</button>
+        </div>
+
+     </div>
+     <button mat-raised-button  class="btn-add" (click)="addQuestion()">Add question</button>
+     
+   </div>
+   <button mat-raised-button [disabled]="survey.invalid"  class="btn-submit" (click)="submitSurvey()">Submit</button>
+  </form>
+</div>

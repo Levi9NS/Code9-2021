@@ -1,0 +1,77 @@
+.container{
+    width: auto;
+    min-width: 30vw;
+    background-color: rgba(120, 154, 199, 0.664);
+    border-radius: 30px;
+    padding: 25px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.card{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px auto;
+    background-color: rgba(75, 148, 182, 0.5);
+    border-radius: 20px;
+    width: auto;
+    padding: 10px 30px;  
+    cursor: pointer;
+}
+.card:hover{
+    background-color: rgba(50, 102, 126, 0.5);
+    border:1px solid white;
+}
+
+.heading{
+    flex: 2;
+     color: white;
+     margin: auto;
+}
+.btns{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    color: white;
+    margin: auto;
+}
+
+p{
+    text-decoration: none;
+    color: white;
+    font-size: 1.2rem;
+}
+
+button{
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+    padding: 5px 10px;
+    margin: 0 10px;
+    border:1px solid rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+
+
+.result{
+    background-color: rgb(65, 199, 65);
+    border:1px solid rgb(57, 146, 57);
+    
+}
+
+.result:hover{
+    background-color: rgb(61, 167, 61)
+}
+
+.remove{
+    background-color: rgb(253, 4, 4);
+    border:1px solid rgb(156, 14, 14);
+}
+.remove:hover{
+    background-color: rgb(206, 22, 22);
+   
+}

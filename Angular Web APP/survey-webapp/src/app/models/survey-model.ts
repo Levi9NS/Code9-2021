@@ -1,4 +1,5 @@
 export class SurveyModel {
+  public id: string;
   public title: string;
   public pages: PageModel[];
 }
@@ -9,6 +10,7 @@ export class PageModel {
 }
 
 export class QuestionModel {
+  public id: string;
   public name: string;
   public title: string;
   public type: string;
