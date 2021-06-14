@@ -62,7 +62,10 @@ namespace SurveyAPI
                 c.RoutePrefix = string.Empty;
             });
 
-            app.UseCors(CorsPolicy);
+            app.UseCors(x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
             app.UseRouting();
 
