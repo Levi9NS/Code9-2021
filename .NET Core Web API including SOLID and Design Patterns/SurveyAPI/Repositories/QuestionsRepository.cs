@@ -11,7 +11,7 @@ namespace SurveyAPI.Repositories
 {
     public interface IQuestionsRepository : IRepository<Question>
     {
-        Task<IEnumerable<Question>> GetBySurveyId(int surveyId);
+        Task<IEnumerable<Question>> GetBySurveyIdAsync(int surveyId);
         Task<IEnumerable<QuestionServiceModel>> InsertQuestionsListAsync(List<QuestionServiceModel> questions);
     }
     public class QuestionsRepository : IQuestionsRepository
@@ -35,7 +35,7 @@ namespace SurveyAPI.Repositories
             return data;
         }
 
-        public async Task<IEnumerable<Question>> GetBySurveyId(int surveyId)
+        public async Task<IEnumerable<Question>> GetBySurveyIdAsync(int surveyId)
         {
             var data = await _surveyContext.Questions
                 .Include(q => q.SurveyQuestionRelations)
