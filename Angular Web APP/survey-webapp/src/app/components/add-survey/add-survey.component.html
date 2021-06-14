@@ -1,0 +1,38 @@
+<h2>Add new survey</h2>
+<br/>
+<form (submit)="onSubmit()">
+  <table align="left">
+    <tr>
+      <th>
+        Id:
+      </th>
+      <td>
+        <input required name="id" [(ngModel)]="id" #ctrl="ngModel" type="number" name="id" min="0">
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Name:
+      </th>
+      <td>
+        <input required name="name" [(ngModel)]="name" #ctrl="ngModel" type="text" placeholder="Survey description">
+      </td>
+    </tr>
+    <tr>
+      <th>
+        End date:
+      </th>
+      <td>
+        <input required name="endDate" [(ngModel)]="endDate" #ctrl="ngModel" type="date">
+      </td>
+    </tr>
+    <br/>
+    <tr>
+        <td>
+          <button (click)="onSubmit()">SUBMIT</button>
+        </td>
+    </tr>
+  </table>
+</form>
+
+
