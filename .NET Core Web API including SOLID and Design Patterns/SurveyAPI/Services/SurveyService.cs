@@ -56,6 +56,7 @@ namespace SurveyAPI.Services
             };
         }
 
+
         public async Task<GenericResponseModel<SurveyResultServiceModel>> GetSurveyResults(int surveyId)
         {
             var survey = await _generaInformationsRepository.GetByIdAsync(surveyId);
@@ -67,16 +68,20 @@ namespace SurveyAPI.Services
                     ErrorMessage = Messages.SURVEY_ID_NULL
                 };
             }
-            var offeredAnswers = await GetOfferedAnswersForSurvey(surveyId);
+            var questions = await _questionsRepository.GetBySurveyIdAsync(surveyId);
             var survayResult = new SurveyResultServiceModel
             {
                 Name = survey.Description,
-                Questions = offeredAnswers.Data.OfferedAnswers.Select( item => new AnsweredQuestionServiceModel
+                Questions = questions.Select(q => new AnsweredQuestionServiceModel
                 {
-                    questionId = item.QuestionId,
-                    questionText = item.QuestionText,
-                    response = item.QuestionAnswer,
-                    count = _answersRepository.GetCountForQuestionAnswer(surveyId, item.QuestionId, item.OfferedAnswerId)
+                    questionId = q.Id,
+                    questionText = q.QuestionText,
+                    answerResult = q.QuestionOfferedAnswerRelations.Select(qa => new AnswersResultServiceModel
+                    {
+                        answer=qa.OfferedAnswer.Text,
+                        count = _answersRepository.GetCountForQuestionAnswer(surveyId, qa.QuestionId, qa.OfferedAnswerId)
+                    }).ToList()
+                    
                 }).ToList()
             };
 
@@ -137,7 +142,7 @@ namespace SurveyAPI.Services
                     ErrorMessage = Messages.SURVEY_ID_NULL
                 };
             }
-            var questions = await _questionsRepository.GetBySurveyId(surveyId);
+            var questions = await _questionsRepository.GetBySurveyIdAsync(surveyId);
             if (questions == null)
             {
                 return new GenericResponseModel<OfferedAnswerResultServiceModel>
@@ -396,7 +401,7 @@ namespace SurveyAPI.Services
             }
 
             //Check for number of answers
-            var questionsForSurvey = await _questionsRepository.GetBySurveyId(submit.Participant.SurveyId);
+            var questionsForSurvey = await _questionsRepository.GetBySurveyIdAsync(submit.Participant.SurveyId);
             if (questionsForSurvey.Count() != submit.Answers.Count())
             {
                 return new GenericResponseModel<SubmitSurveyServiceModel>
