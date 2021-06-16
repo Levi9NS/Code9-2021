@@ -43,7 +43,7 @@ getSurveyResult(surveyId): Observable<any> {
    addOfferedAnswerQuestionRelation(offeredAnswerQuestionRelation:OfferedAnswerQuestionRelation): Observable<OfferedAnswerQuestionRelation> {
     return this.httpClient.post<OfferedAnswerQuestionRelation>(`${environment.apiUrl}/api/Survey/OfferedAnswerRelation`,offeredAnswerQuestionRelation);
  
-   }
+   }     
  
 
 
