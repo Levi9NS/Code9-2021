@@ -1,0 +1,13 @@
+.app-header{
+    height: 70px;
+    width: 100%;
+    display: flex;
+    background-color: rgb(25, 66, 245);
+    border-radius: 30px;
+}
+
+.app-logo{
+    font-weight: 900;
+    margin: 15px 1px 1px 30px;
+    color: white;
+}

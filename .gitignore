@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/VSWorkspaceState.json
+/.vs/ProjectSettings.json
+/.NET Core Web API including SOLID and Design Patterns/SurveyAPI/.vs/SurveyAPI/DesignTimeBuild/.dtbcache.v2

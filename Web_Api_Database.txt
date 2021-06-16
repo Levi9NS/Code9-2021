@@ -1,0 +1,9 @@
+Web API URL:
+http://surveyapimarko.azurewebsites.net
+
+SQL server name and credentials:
+
+code9servermarko.database.windows.net
+markoadmin
+Priboj98
+
