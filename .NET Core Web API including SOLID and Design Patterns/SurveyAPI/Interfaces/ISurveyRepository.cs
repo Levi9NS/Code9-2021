@@ -8,14 +8,19 @@ namespace SurveyAPI.Interfaces
         Survey GetSurvey(int surveyId);
         Survey AddSurvey(Survey survey); 
         SurveyResult GetSurveyResult(int surveyId);
-        SurveyResult AddSurveyResult(SurveyResult survey);
         OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId);
         void DeleteSurvey(int surveyId);
-        Question AddQuestion(Question question);
-        Answer AddAnswer(Answer answer);
+        QuestionWithAnswers AddQuestion(QuestionWithAnswers question);
+        Answer AddSurveyAnswer(Answer answer);
         List<QuestionModel> GetSurveyQuestions(int surveyId);
-        void DeleteQuestion(int surveyId, int questionId);
-        void LinkOfferedAnswerToquestion(int questionId, int answerId);
+        void RemoveSurveyQuestion(int surveyId, int questionId);
         OfferedAnswerModel AddOfferedAnswer(OfferedAnswerModel answerModel);
+        List<QuestionModel> GetAllQuestions();
+        void DeleteQuestion(int questionId);
+        ShortSurveyModel GetShortSurveyModel(int surveyId);
+        List<ShortSurveyModel> GetShortSurveyModels();
+        QuestionWithSurveyId AddQuestionToSurvey(QuestionWithSurveyId question);
+        List<OfferedAnswerModel> GetAllOfferedAnswers();
+        SurveyLink LinkQuestion(SurveyLink link);
     }
 }

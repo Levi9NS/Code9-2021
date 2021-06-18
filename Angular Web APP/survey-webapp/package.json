@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
     "core-js": "^2.5.4",
+    "jquery": "^3.6.0",
     "rxjs": "~6.3.3",
     "survey-angular": "^1.8.47",
     "tslib": "^1.9.0",

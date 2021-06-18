@@ -1,0 +1,27 @@
+<h2>"{{survey.description}}" results:</h2>
+<table *ngIf="dataExists">
+  <tr>
+    <th>Text</th>
+    <th>Response</th>
+    <th>Count</th>
+    <th>Id</th>
+  </tr>
+  <tr *ngFor="let question of surveyResult.questions; index as i;">
+    <td>
+      {{question.text}}
+    </td>
+    <td class="response">
+      {{question.response}}
+    </td>
+    <td class="response">
+      {{question.count}}
+    </td>
+    <td style="text-align: right;">
+      {{question.id}}
+    </td>
+  </tr>
+</table>
+
+<p *ngIf="!dataExists">
+  No results
+</p>

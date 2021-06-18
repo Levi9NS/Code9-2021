@@ -1,7 +1,7 @@
 <h2>Add new survey</h2>
 <br/>
-<form (submit)="onSubmit()">
-  <table align="left">
+<form id="surveyForm" (submit)="onSubmit()">
+  <table id="table" align="left">
     <tr>
       <th>
         Id:
@@ -29,7 +29,7 @@
     <br/>
     <tr>
         <td>
-          <button (click)="onSubmit()">SUBMIT</button>
+          <button class="button-style" type="submit">SUBMIT</button>
         </td>
     </tr>
   </table>

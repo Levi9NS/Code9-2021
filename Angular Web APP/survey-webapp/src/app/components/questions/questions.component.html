@@ -1,0 +1,33 @@
+<h2>All questions:</h2>
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Text</th>
+    <th>Created by</th>
+    <th>Created at</th>
+  </tr>
+  <tr *ngFor="let question of existingQuestions | keyvalue; index as i;">
+    <td style="font-weight: bold; text-align: left;">
+      {{question.value.id}}.
+    </td>
+    <td style="text-align: left;">
+      {{question.value.questionText}}
+    </td>
+    <td style="text-align: center;">
+      {{question.value.createdBy}}
+    </td>
+    <td>
+      {{question.value.createDate}}
+    </td>
+    <td>
+      <button *ngIf="surveyId != undefined && !question.value.linked" class="button-style" (click)="linkQuestion(question.value.id)">Link</button>
+    </td>
+    <td>
+      <button *ngIf="surveyId == undefined" class="button-style1" (click)="deleteQuestion(question.value.id)">Delete</button>
+    </td>
+  </tr>
+</table>
+<br/>
+<button *ngIf="surveyId == undefined" class="button-style" (click)="newQuestion()">Add</button>
+
+<div *ngIf="!dataLoaded" class="loader"></div>

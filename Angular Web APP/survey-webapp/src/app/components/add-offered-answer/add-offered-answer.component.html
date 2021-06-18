@@ -1,0 +1,30 @@
+<h2>Add new offered answer</h2>
+<br/>
+<form id="offeredAnswerForm" (submit)="onSubmit()">
+  <table id="table" align="left">
+    <tr>
+      <th>
+        Id:
+      </th>
+      <td>
+        <input required name="id" [(ngModel)]="id" #ctrl="ngModel" type="number" name="id" min="0">
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Text:
+      </th>
+      <td>
+        <input required name="text" [(ngModel)]="text" #ctrl="ngModel" type="text" placeholder="Text">
+      </td>
+    </tr>
+    <br/>
+    <tr>
+        <td>
+          <button class="button-style" type="submit">SUBMIT</button>
+        </td>
+    </tr>
+  </table>
+</form>
+
+

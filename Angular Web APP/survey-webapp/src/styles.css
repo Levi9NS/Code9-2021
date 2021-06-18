@@ -120,3 +120,41 @@ app-root, html {
     }
   }
   
+.button-style{
+  text-align: center;
+  color: white;
+  background-color: black;
+  border-radius: 6px;
+  border-width: 0px;
+  height: 30px;
+}
+
+.button-style:hover {
+  opacity: 0.8;
+}
+
+.button-style1{
+  text-align: center;
+  color: white;
+  background-color: darkred;
+  border-radius: 6px;
+  border-width: 0px;
+  height: 30px;
+}
+
+.button-style1:hover {
+  opacity: 0.8;
+}
+
+.button-style2{
+  text-align: center;
+  color: white;
+  background-color: rgb(25, 66, 245);;
+  border-radius: 6px;
+  border-width: 0px;
+  height: 30px;
+}
+
+.button-style2:hover {
+  opacity: 0.8;
+}

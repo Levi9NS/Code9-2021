@@ -5,16 +5,3 @@ input {
     font-family: Raleway;
     border: 1px solid #aaaaaa;
 }
-
-button{
-    text-align: center;
-    color: white;
-    background-color: black;
-    border-radius: 6px;
-    border-width: 0px;
-    height: 30px;
-}
-
-button:hover {
-    opacity: 0.8;
-}

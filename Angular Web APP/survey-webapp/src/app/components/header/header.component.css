@@ -10,4 +10,20 @@
     font-weight: 900;
     margin: 15px 1px 1px 30px;
     color: white;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.header-button{
+    margin-left: 50px;
+    margin-bottom: 3px;
+    font-weight: 900;
+    font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: transparent;
+    color: white;
+    border: 0px;
+}
+
+.header-button:hover{
+    cursor: pointer;
 }

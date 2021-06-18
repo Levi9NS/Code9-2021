@@ -1,0 +1,19 @@
+<h2>All offered answers:</h2>
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Text</th>
+  </tr>
+  <tr *ngFor="let q of offeredAnswers; index as i;">
+    <td style="font-weight: bold; text-align: left;">
+      {{q.id}}.
+    </td>
+    <td style="text-align: left;">
+      {{q.text}}
+    </td>
+  </tr>
+</table>
+<br/>
+<button class="button-style" (click)="newOA()">Add</button>
+
+<div *ngIf="!dataLoaded" class="loader"></div>

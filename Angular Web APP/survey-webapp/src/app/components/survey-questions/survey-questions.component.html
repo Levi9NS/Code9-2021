@@ -1,0 +1,34 @@
+<h2>"{{survey.description}}" questions:</h2>
+<table *ngIf="dataExists">
+  <tr>
+    <th>Id</th>
+    <th>Text</th>
+    <th>Created by</th>
+    <th>Created at</th>
+  </tr>
+  <tr *ngFor="let question of questions; index as i;">
+    <td style="font-weight: bold; text-align: left;">
+      {{question.id}}.
+    </td>
+    <td style="text-align: left;">
+      {{question.questionText}}
+    </td>
+    <td style="text-align: center;">
+      {{question.createdBy}}
+    </td>
+    <td>
+      {{question.createDate}}
+    </td>
+    <td>
+      <button class="button-style1" (click)="removeQuestion(question.id)">Remove</button>
+    </td>
+  </tr>
+</table>
+<p *ngIf="!dataExists">
+  No questions
+</p>
+<br/>
+<button class="button-style" (click)="newQuestion()">Add new</button>
+<button class="button-style" style="margin-left: 20px;" (click)="existingQuestion()">Add an existing question</button>
+
+<div *ngIf="!dataLoaded" class="loader"></div>

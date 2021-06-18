@@ -21,7 +21,7 @@ export class SurveyComponent implements OnInit {
 
   ngOnInit() {
     const surveyId = this.route.snapshot.params[this.queryParamSurveyId];
-
+    
     this.surveyService.getSurvey(surveyId)
     .subscribe(surveyResponse => {
       this.survey = surveyResponse;

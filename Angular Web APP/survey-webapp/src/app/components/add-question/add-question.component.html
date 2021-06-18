@@ -1,3 +1,45 @@
-<p>
-  add-question works!
-</p>
+<h2>Add new question</h2>
+<br/>
+<form id="questionForm" (submit)="onSubmit()">
+  <table id="table" align="left">
+    <tr>
+      <th>
+        Id:
+      </th>
+      <td>
+        <input required name="id" [(ngModel)]="id" #ctrl="ngModel" type="number" name="id" min="0">
+      </td>
+    </tr>
+    <tr>
+      <th>
+        Text:
+      </th>
+      <td>
+        <input required name="questionText" [(ngModel)]="questionText" #ctrl="ngModel" type="text" placeholder="Question text">
+      </td>
+    </tr>
+    <br/>
+    <tr>
+      <th>Offered answers:</th>
+    </tr>
+    <tr *ngFor="let q of offeredAnswers; index as i;">
+      <td>
+        {{q.id}}.
+      </td>
+      <td>
+        {{q.text}}
+      </td>
+      <td>
+        <input type="checkbox" value="{{q.id}}" (change)="onChange(q.id,$event)">
+      </td>
+    </tr>
+    <br/>
+    <tr>
+        <td>
+          <button class="button-style" type="submit">SUBMIT</button>
+        </td>
+    </tr>
+  </table>
+</form>
+
+

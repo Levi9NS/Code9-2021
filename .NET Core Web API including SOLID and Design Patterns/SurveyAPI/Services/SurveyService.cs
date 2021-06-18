@@ -34,9 +34,14 @@ namespace SurveyAPI.Services
             return _repository.AddSurvey(survey);
         }
 
-        public Question AddQuestion(Question question)
+        public QuestionWithAnswers AddQuestion(QuestionWithAnswers question)
         {
             return _repository.AddQuestion(question);
+        }
+
+        public List<QuestionModel> GetAllQuestions()
+        {
+            return _repository.GetAllQuestions();
         }
 
         public List<QuestionModel> GetSurveyQuestions(int surveyId)
@@ -44,14 +49,9 @@ namespace SurveyAPI.Services
             return _repository.GetSurveyQuestions(surveyId);
         }
 
-        public Answer AddAnswer(Answer answer)
+        public Answer AddSurveyAnswer(Answer answer)
         {
-            return _repository.AddAnswer(answer);
-        }
-
-        public SurveyResult AddSurveyAnswer(SurveyResult survey)
-        {
-            return _repository.AddSurveyResult(survey);
+            return _repository.AddSurveyAnswer(answer);
         }
 
         public OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId)
@@ -59,19 +59,44 @@ namespace SurveyAPI.Services
             return _repository.GetOfferedAnswersForSurvey(surveyId);
         }
 
-        public void DeleteQuestion(int surveyId, int questionId)
+        public void RemoveSurveyQuestion(int surveyId, int questionId)
         {
-            _repository.DeleteQuestion(surveyId, questionId);
-        }
-
-        public void LinkOfferedAnswerToquestion(int questionId, int answerId)
-        {
-            _repository.LinkOfferedAnswerToquestion(questionId, answerId);
+            _repository.RemoveSurveyQuestion(surveyId, questionId);
         }
 
         public OfferedAnswerModel AddOfferedAnswer(OfferedAnswerModel answerModel)
         {
             return _repository.AddOfferedAnswer(answerModel);
+        }
+
+        public void DeleteQuestion(int questionId)
+        {
+            _repository.DeleteQuestion(questionId);
+        }
+
+        public ShortSurveyModel GetShortSurveyModel(int surveyId)
+        {
+            return _repository.GetShortSurveyModel(surveyId);
+        }
+
+        public List<ShortSurveyModel> GetShortSurveyModels()
+        {
+            return _repository.GetShortSurveyModels();
+        }
+
+        public QuestionWithSurveyId AddQuestionToSurvey(QuestionWithSurveyId question)
+        {
+            return _repository.AddQuestionToSurvey(question);
+        }
+
+        public List<OfferedAnswerModel> GetAllOfferedAnswers()
+        {
+            return _repository.GetAllOfferedAnswers();
+        }
+
+        public SurveyLink LinkQuestion(SurveyLink link)
+        {
+            return _repository.LinkQuestion(link);
         }
     }
 }

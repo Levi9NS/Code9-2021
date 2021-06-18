@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Questions, SurveyResponse } from 'src/app/models/survey-response';
 import { SurveyService } from 'src/app/services/survey-service/survey-service.service';
 import { Question } from 'survey-angular';
@@ -18,7 +18,7 @@ export class AddSurveyComponent implements OnInit {
   public startDate: Date = new Date();
   public endDate: Date = new Date();
 
-  constructor(private readonly surveyService: SurveyService, private route: ActivatedRoute) { }
+  constructor(private readonly surveyService: SurveyService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
 
@@ -32,6 +32,14 @@ export class AddSurveyComponent implements OnInit {
       StartDate: this.startDate,
       EndDate: this.endDate
     };
-    this.surveyService.addSurvey(body);
+    this.surveyService.addSurvey(body).subscribe(
+      res => {
+        alert("New survey '"+body.Name+"' added");
+        this.router.navigateByUrl('/survey/home');
+      }, err =>
+      {
+        console.log(err);
+      }
+    );
   }
 }

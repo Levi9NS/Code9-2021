@@ -34,6 +34,20 @@ namespace SurveyAPI.Controllers
             return Json(_surveyService.GetSurvey(surveyId));
         }
 
+        [HttpGet]
+        [Route("{surveyId}/short")]
+        public JsonResult GetShortSurveyModel(int surveyId)
+        {
+            return Json(_surveyService.GetShortSurveyModel(surveyId));
+        }
+
+        [HttpGet]
+        [Route("survey/shorts")]
+        public JsonResult GetShortSurveyModels()
+        {
+            return Json(_surveyService.GetShortSurveyModels());
+        }
+
         // link betweetn survey questions and answers
         [HttpGet()]
         [Route("{surveyId}/OfferedAnswers")]
@@ -51,13 +65,28 @@ namespace SurveyAPI.Controllers
             return Json(sr);
         }
 
-        // adding individual questions for surveys
+        // adding general questions
         [HttpPost]
         [Route("question/add")]
-        public JsonResult AddQuestion([FromBody] Question question)
+        public JsonResult AddQuestion([FromBody] QuestionWithAnswers question)
         {
-            Question q = _surveyService.AddQuestion(question);
+            QuestionWithAnswers q = _surveyService.AddQuestion(question);
             return Json(q);
+        }
+
+        [HttpPost]
+        [Route("question/add/survey")]
+        public JsonResult AddQuestionToSurvey([FromBody] QuestionWithSurveyId question)
+        {
+            QuestionWithSurveyId q = _surveyService.AddQuestionToSurvey(question);
+            return Json(q);
+        }
+
+        [HttpGet]
+        [Route("survey/getAllQuestions")]
+        public JsonResult GetAllQuestions()
+        {
+            return Json(_surveyService.GetAllQuestions());
         }
 
         [HttpPost]
@@ -68,29 +97,30 @@ namespace SurveyAPI.Controllers
             return Json(model);
         }
 
-        // getting questions of a survey for either deletion or addition
         [HttpGet]
-        [Route("{surveyId}/Questions")]
+        [Route("survey/getAllOfferedAnswers")]
+        public JsonResult GetAllOfferedAnswers()
+        {
+            return Json(_surveyService.GetAllOfferedAnswers());
+        }
+
+        // getting questions of a survey for either removal or addition
+        [HttpGet]
+        [Route("{surveyId}/questions")]
         public JsonResult GetSurveyQuestions(int surveyId)
         {
             return Json(_surveyService.GetSurveyQuestions(surveyId));
         }
 
+        // 2 variants of adding a question, 1 directly to survey and 1 in general
+
         // submit a survey result
         [HttpPost]
         [Route("{surveyId}/submit")]
-        public JsonResult AddAnswer([FromBody] Answer answer)
+        public JsonResult AddSurveyAnswer([FromBody] Answer answer)
         {
-            Answer ans = _surveyService.AddAnswer(answer);
+            Answer ans = _surveyService.AddSurveyAnswer(answer);
             return Json(ans);
-        }
-
-        [HttpPost]
-        [Route("link/{questionId}/{answerId}")]
-        public JsonResult LinkOfferedAnswerToQuestion(int questionId, int answerId)
-        {
-            _surveyService.LinkOfferedAnswerToquestion(questionId, answerId);
-            return Json(Ok());
         }
 
         [HttpDelete]
@@ -101,13 +131,30 @@ namespace SurveyAPI.Controllers
             return Json(Ok());
         }
         
-        // delete a survey question and all its relations
+        // remove a question from survey, but the question will still exist
         [HttpDelete]
-        [Route("{surveyId}/Questions/{questionId}")]
-        public JsonResult DeleteQuestion(int surveyId, int questionId)
+        [Route("{surveyId}/questions/{questionId}")]
+        public JsonResult RemoveSurveyQuestion(int surveyId, int questionId)
         {
-            _surveyService.DeleteQuestion(surveyId, questionId);
+            _surveyService.RemoveSurveyQuestion(surveyId, questionId);
             return Json(Ok());
+        }
+
+        // delete a question
+        [HttpDelete]
+        [Route("survey/getAllQuestions/{questionId}")]
+        public JsonResult DeleteQuestion(int questionId)
+        {
+            _surveyService.DeleteQuestion(questionId);
+            return Json(Ok());
+        }
+
+        [HttpPost]
+        [Route("survey/linkQuestion")]
+        public JsonResult LinkQuestion([FromBody] SurveyLink link)
+        {
+            SurveyLink surveyLink = _surveyService.LinkQuestion(link);
+            return Json(surveyLink);
         }
     }
 }

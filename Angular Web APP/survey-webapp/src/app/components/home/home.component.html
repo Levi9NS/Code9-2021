@@ -1,0 +1,26 @@
+<h2>Surveys</h2>
+<table>
+  <tr *ngFor="let survey of surveys; index as i;">
+    <td>
+      <button class="button-style2" (click)="goToSurvey(survey.id)">{{survey.description}}</button>
+    </td>
+    <td>
+      <button class="button-style" (click)="viewQuestions(survey.id)">Edit</button>
+    </td>
+    <td>
+      <button class="button-style" (click)="results(survey.id)">Results</button>
+    </td>
+    <br/>
+  </tr>
+  <br/>
+  <tr>
+    <button class="button-style" (click)="addNewSurvey()">Add new</button>
+  </tr>
+</table>
+<h2>Other options</h2>
+<button class="button-style" (click)="allQuestions()">Questions</button>
+<br/>
+<br/>
+<button class="button-style" (click)="allOfferedAnswers()">Offered answers</button>
+
+<div *ngIf="!dataLoaded" class="loader"></div>
