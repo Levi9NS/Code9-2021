@@ -13,10 +13,12 @@ import { RxwebValidators } from '@rxweb/reactive-form-validators';
 export class CreateSurveyComponent implements OnInit {
   public survey : FormGroup;
   public success=false;
-  public error=true;
+  public error=false;
   public errorText:string;
   public minDatStart:Date;
   public dateError=false;
+  public submitted=false;
+
   constructor(private readonly surveyService: SurveyService,private _fb: FormBuilder,private router: Router) { 
     const currentDate = Date.now()
     this.minDatStart = new Date(currentDate);
@@ -50,7 +52,7 @@ export class CreateSurveyComponent implements OnInit {
     return this._fb.group({
       text: ['',[
         Validators.required,
-        RxwebValidators.unique()
+       RxwebValidators.unique()
       ]]
     });
   }
@@ -101,6 +103,7 @@ export class CreateSurveyComponent implements OnInit {
   
    
   submitSurvey(){
+    this.submitted=true;
     this.surveyService.createSurvey(this.survey.value).subscribe(
       answer=> {
       this.success=true;
@@ -108,6 +111,7 @@ export class CreateSurveyComponent implements OnInit {
         this.router.navigate(['']);
       }, 2000);
     },error=>{
+      this.error=true;
       this.errorText=error
     });
   }

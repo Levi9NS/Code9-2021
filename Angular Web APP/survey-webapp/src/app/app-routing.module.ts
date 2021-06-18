@@ -21,7 +21,8 @@ const routes: Routes = [
   {
     component: ResultComponent,
     path: 'result/:id'
-  }
+  },
+  {path: '**', redirectTo: '/'}
 ];
 
 @NgModule({

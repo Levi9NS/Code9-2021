@@ -11,17 +11,20 @@ import { HomeComponent } from './components/home/home.component';
 import { ResultComponent } from './components/result/result.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatIconModule} from '@angular/material';
+import { 
+  MatFormFieldModule,
+  MatInputModule ,
+  MatButtonModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatIconModule,
+  MatProgressSpinnerModule,
+  MatToolbarModule
+} from '@angular/material';
 
 import { NgxChartsModule }from '@swimlane/ngx-charts';
-
-import {  RxReactiveFormsModule } from "@rxweb/reactive-form-validators"
+import {RxReactiveFormsModule} from "@rxweb/reactive-form-validators"
 
 @NgModule({
   declarations: [
@@ -46,7 +49,9 @@ import {  RxReactiveFormsModule } from "@rxweb/reactive-form-validators"
     MatDatepickerModule,
     MatIconModule,
     NgxChartsModule,
-    RxReactiveFormsModule
+    RxReactiveFormsModule,
+    MatProgressSpinnerModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

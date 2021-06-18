@@ -9,13 +9,17 @@ import { SurveyResponse } from '../../models/survey-response';
 })
 export class HomeComponent implements OnInit {
 
-  public surveyList : SurveyResponse[];
-  dataLoaded = false;
+  private surveyList : SurveyResponse[];
+   dataLoaded = false;
+   empty = false;
   constructor(private readonly surveyService: SurveyService) { }
 
   ngOnInit() {
     this.surveyService.getAllSurveys().subscribe(answr => {
       this.surveyList=answr;
+      if(this.surveyList.length==0){
+        this.empty=true
+      }
       this.dataLoaded = true;
     })
   }
