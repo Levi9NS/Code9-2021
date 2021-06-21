@@ -4,7 +4,7 @@
     display: flex;
     height: calc(100% - 120px);
     justify-content: center;
-    margin-top: 40px;
+    padding: 40px 0;
 }
 
 app-survey {

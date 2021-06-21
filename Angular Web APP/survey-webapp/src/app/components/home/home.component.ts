@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   }
 
   deleteSurvey(survey : SurveyResponse){
-    if(confirm("Are you sure to delete "+survey.name)) {
+    if(confirm("Are you sure you want to delete "+survey.name)) {
       this.surveyService.deleteSurvey(survey.id).subscribe(answer => {
         this.surveyList = this.surveyList.filter(item => item !== survey);
       });

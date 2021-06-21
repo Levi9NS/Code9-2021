@@ -7,6 +7,9 @@ p{
     font-size: 1.2rem;
 }
 
+.container{
+    margin: 0 10px;
+}
 .spectre-line-chart {
     text-align: center;
     height: 100%;

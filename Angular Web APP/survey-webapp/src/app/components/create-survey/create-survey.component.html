@@ -42,7 +42,7 @@
        
         <div class="question-text">
             <mat-form-field>
-              <textarea matInput placeholder="Question text"  formControlName="questionText"></textarea>
+              <textarea matInput placeholder="{{i+1}}. Question text"  formControlName="questionText"></textarea>
               <mat-error *ngIf="getQuetionText(i).invalid"> Insert questino with ?</mat-error>
             </mat-form-field>
             <button mat-icon-button color="warn" [style.visibility]="showRemovieQuestion()" (click)="removeQuestion(i)">

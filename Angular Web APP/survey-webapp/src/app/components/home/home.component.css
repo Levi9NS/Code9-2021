@@ -30,9 +30,10 @@ p{
 }
 
 .heading{
-    flex: 2;
+    flex: 1;
      color: white;
      margin: auto;
+     min-width: 150px;
 }
 .btns{
     flex: 1;
