@@ -158,3 +158,7 @@ app-root, html {
 .button-style2:hover {
   opacity: 0.8;
 }
+
+tr:hover{
+  cursor: context-menu;
+}

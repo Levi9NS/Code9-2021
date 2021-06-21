@@ -160,7 +160,8 @@ namespace SurveyAPI.Repositories
                            ,'{1}'
                            ,'{2}'
                            ,'{3}'
-                           ,'{4}');", q.QuestionText, 
+                           ,'{4}');", 
+                           q.QuestionText, 
                            "Ognjen", 
                            DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), 
                            "Ognjen", 
@@ -353,12 +354,12 @@ namespace SurveyAPI.Repositories
             foreach (var f in answer.QuestionAnswers)
             {
                 command += String.Format(@"insert into [Survey].[Answers]
-                                        ([ParticipantId],
-                                        [SurveyId],
-                                        [QuestionId],
-                                        [QuestionAnswersId],
-                                        [ChangedBy]
-                                       ,[ChangedDate],
+                                        ([ParticipantId]
+                                       ,[SurveyId]
+                                       ,[QuestionId]
+                                       ,[QuestionAnswersId]
+                                       ,[ChangedBy]
+                                       ,[ChangedDate]
                                        ,[CreatedBy]
                                        ,[CreateDate])
                                     VALUES
@@ -525,7 +526,7 @@ namespace SurveyAPI.Repositories
 
             string command = String.Empty;
 
-            command += String.Format(@"Select g.Id, g.Description from [Survey].GeneralInformations g where Id = '{0}'", surveyId);
+            command += String.Format(@"Select g.Id, g.Description, g.EndDate from [Survey].GeneralInformations g where Id = '{0}'", surveyId);
 
             SqlConnection _connection = GetConnection(_connectionString);
 
@@ -539,7 +540,8 @@ namespace SurveyAPI.Repositories
                     ShortSurveyModel _model = new ShortSurveyModel
                     {
                         Id = _reader.GetInt32(0),
-                        Description = _reader.GetString(1)
+                        Description = _reader.GetString(1),
+                        EndDate = _reader.GetDateTime(2)
                     };
 
                     pov = _model;
@@ -558,7 +560,7 @@ namespace SurveyAPI.Repositories
 
             string command = String.Empty;
 
-            command += "Select g.Id, g.Description from [Survey].GeneralInformations g";
+            command += "Select g.Id, g.Description, g.EndDate from [Survey].GeneralInformations g";
 
             SqlConnection _connection = GetConnection(_connectionString);
 
@@ -572,7 +574,8 @@ namespace SurveyAPI.Repositories
                     ShortSurveyModel _model = new ShortSurveyModel
                     {
                         Id = _reader.GetInt32(0),
-                        Description = _reader.GetString(1)
+                        Description = _reader.GetString(1),
+                        EndDate = _reader.GetDateTime(2)
                     };
 
                     _models.Add(_model);

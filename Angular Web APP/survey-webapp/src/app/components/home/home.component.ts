@@ -21,6 +21,14 @@ export class HomeComponent implements OnInit {
       res => {
         this.surveys = res as Array<ShortSurveyModel>;
         this.dataLoaded = true;
+        this.surveys.forEach((item) => {
+          item['isAvailable'] = 0;
+          var now = new Date();
+          var surveyDate = new Date(item['endDate']);
+          if (now > surveyDate){
+            item['isAvailable'] = 1;
+          }
+        })
       },
       err => {
         console.log(err);

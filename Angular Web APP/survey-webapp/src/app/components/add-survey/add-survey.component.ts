@@ -32,14 +32,21 @@ export class AddSurveyComponent implements OnInit {
       StartDate: this.startDate,
       EndDate: this.endDate
     };
-    this.surveyService.addSurvey(body).subscribe(
-      res => {
-        alert("New survey '"+body.Name+"' added");
-        this.router.navigateByUrl('/survey/home');
-      }, err =>
-      {
-        console.log(err);
-      }
-    );
+    var now = new Date();
+    var surveyDate = new Date(body.EndDate);
+    if (now > surveyDate){
+      alert("Enter valid end date!");
+    }
+    else{
+      this.surveyService.addSurvey(body).subscribe(
+        res => {
+          alert("New survey '"+body.Name+"' added");
+          this.router.navigateByUrl('/survey/home');
+        }, err =>
+        {
+          console.log(err);
+        }
+      );
+    }
   }
 }

@@ -2,13 +2,16 @@
 <table>
   <tr *ngFor="let survey of surveys; index as i;">
     <td>
-      <button class="button-style2" (click)="goToSurvey(survey.id)">{{survey.description}}</button>
+      <button class="button-style2" [disabled]="survey.isAvailable == 1" (click)="goToSurvey(survey.id)">{{survey.description}}</button>
     </td>
     <td>
       <button class="button-style" (click)="viewQuestions(survey.id)">Edit</button>
     </td>
     <td>
       <button class="button-style" (click)="results(survey.id)">Results</button>
+    </td>
+    <td *ngIf="survey.isAvailable == 1">
+      <label>Expired</label>
     </td>
     <br/>
   </tr>

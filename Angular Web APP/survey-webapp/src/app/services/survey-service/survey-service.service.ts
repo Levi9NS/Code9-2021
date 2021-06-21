@@ -109,4 +109,9 @@ export class SurveyService {
   addSurvey(body: any){
     return this.httpClient.post(`${environment.apiUrl}/api/Survey/survey/add`, body);
   }
+
+  sendAnswer(body: any){
+    body.Id = 1;
+    return this.httpClient.post(`${environment.apiUrl}/api/Survey/survey/submit`, body);
+  }
 }

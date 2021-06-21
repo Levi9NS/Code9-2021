@@ -116,7 +116,7 @@ namespace SurveyAPI.Controllers
 
         // submit a survey result
         [HttpPost]
-        [Route("{surveyId}/submit")]
+        [Route("survey/submit")]
         public JsonResult AddSurveyAnswer([FromBody] Answer answer)
         {
             Answer ans = _surveyService.AddSurveyAnswer(answer);

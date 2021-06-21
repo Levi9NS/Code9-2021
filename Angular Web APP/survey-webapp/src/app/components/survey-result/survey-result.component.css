@@ -9,3 +9,9 @@ td{
 h2{
     text-align: center;
 }
+
+tr:hover{
+    transform: scale(1.2);
+    font-weight: bold;
+    cursor: context-menu;
+}
