@@ -160,7 +160,7 @@ namespace SurveyAPI.Repositories
                            ,'{1}'
                            ,'{2}'
                            ,'{3}')
-                            GO;", q.QuestionText, "user", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") );
+                            GO;", q.QuestionText, "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") );
                 
             }
 
@@ -177,7 +177,7 @@ namespace SurveyAPI.Repositories
                                        ,'{3}'
                                        ,'{4}')
                                 GO;
-                                SET @SurveyId = SCOPE_IDENTITY();", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), "user", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                SET @SurveyId = SCOPE_IDENTITY();", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
 
             foreach (var q in survey.Questions)
@@ -190,7 +190,7 @@ namespace SurveyAPI.Repositories
                         
                         SELECT @SurveyId, Id, {0} ,{1}
                                FROM @QuestionsIdSTable);
-                GO;", "user", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                GO;", "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             }
 
             SqlConnection _connection = GetConnection(_connectionString);
@@ -201,11 +201,7 @@ namespace SurveyAPI.Repositories
             return survey;
         }
 
-        public SurveyResult AddSurveyResult(SurveyResult survey)
-        {
-            throw new NotImplementedException();
-        }
-
+       
         public OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId)
         {
             string _statement = string.Format(@"SELECT DISTINCT q.id, oa.Text FROM
@@ -245,6 +241,204 @@ namespace SurveyAPI.Repositories
             _connection.Close();
 
             return result;
+        }
+
+        public List<Question> GetSurveyQuestions(int surveyId)
+        {
+            List<Question> _questions = new List<Question>();
+
+            string _command = String.Format(@"SELECT q.id, q.QuestionText FROM
+                                Survey.GeneralInformations gi 
+                                INNER JOIN Survey.SurveyQuestionRelations qr 
+                                ON qr.SurveyId = gi.id
+		                        INNER JOIN Survey.Questions q 
+                                ON q.id = qr.QuestionId
+                                WHERE gi.id = {0}", surveyId);
+
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(_command, _connection);
+
+            using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    Question _question = new Question
+                    {
+                        Id = _reader.GetInt32(0),
+                        QuestionText = _reader.GetString(1),
+                    };
+                    _questions.Add(_question);
+                }
+            }
+            _connection.Close();
+
+            return _questions;
+        }
+
+       
+        public QuestionAndAnswers AddQuestionWithAnswers(QuestionAndAnswers qAndA)
+        {
+            string _command = String.Empty;
+
+            _command += "DECLARE @QuestionId Int;";
+            _command += "DECLARE @AnswerId Int;";
+
+            _command += String.Format(@"INSERT INTO [Survey].[Questions] 
+                                   (
+                                        QuestionText,
+                                        ChangedBy,
+                                        ChangedDate,
+                                        CreatedBy,
+                                        CreateDate
+                                    )
+                                    VALUES
+                                    (   {0},        
+	                                    {1},        
+	                                    {2},        
+	                                    {3},        
+	                                    {4}         
+	                                )
+                                    GO;
+                                    SET @QuestionId = SCOPE_IDENTITY();", qAndA.QuestionText,
+                                    "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                    "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+            _command += String.Format(@"INSERT INTO [Survey].[SurveyQuestionRelations]
+                                    (
+                                        [SurveyId],
+                                        [QuestionId],
+                                        [CreatedBy],
+                                        [CreateDate],
+                                        [ChangedBy],
+                                        [ChangedDate]
+                                    )
+                                    VALUES
+                                    (   
+                                        {0},
+                                        @QuestionId,
+                                        {1},        
+	                                    {2},        
+	                                    {3},        
+	                                    {4}        
+	                                )
+                                    GO;" , qAndA.SurveyId,
+                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+            foreach ( var item in qAndA.Answers) 
+            {
+                _command += String.Format(@"INSERT INTO [Survey].[OfferedAnswers] 
+                                   (
+                                        [Text],
+                                        ChangedBy,
+                                        ChangedDate,
+                                        CreatedBy,
+                                        CreateDate
+                                    )
+                                    VALUES
+                                    (   {0},        
+	                                    {1},        
+	                                    {2},        
+	                                    {3},        
+	                                    {4}         
+	                                )
+                                    GO;
+                                    SET @AnswerId = SCOPE_IDENTITY();", item,
+                                    "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                    "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+                _command += String.Format(@"INSERT INTO [Survey].[QuestionOfferedAnswerRelations] 
+                                   (
+                                        QuestionId,
+                                        OfferedAnswerId,
+                                        ChangedBy,
+                                        ChangedDate,
+                                        CreatedBy,
+                                        CreateDate
+                                    )
+                                    VALUES
+                                    (   @QuestionId,   
+                                        @AnswerId,
+	                                    {0},        
+	                                    {1},        
+	                                    {2},        
+	                                    {3}         
+	                                )
+                                    GO;
+                                    SET @AnswerId = SCOPE_IDENTITY();",
+                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            }
+
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(_command, _connection);
+            _sqlcommand.ExecuteNonQuery();
+
+            return qAndA;
+        }
+
+        public OfferedAnswerResult AddOfferedAnswersForQuestion(OfferedAnswerResult offeredAnswer)
+        {
+            string _command = String.Empty;
+            _command += "DECLARE @AnswerId Int;";
+
+            foreach (var iteam in offeredAnswer.OfferedAnswers) 
+            {
+                _command += String.Format(@"INSERT INTO [Survey].[OfferedAnswers] 
+                                   (
+                                        [Text],
+                                        ChangedBy,
+                                        ChangedDate,
+                                        CreatedBy,
+                                        CreateDate
+                                    )
+                                    VALUES
+                                    (   {0},        
+	                                    {1},        
+	                                    {2},        
+	                                    {3},        
+	                                    {4}         
+	                                )
+                                    GO;
+                                    SET @AnswerId = SCOPE_IDENTITY();", iteam.QuestionAnswer,
+                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+                _command += String.Format(@"INSERT INTO [Survey].[QuestionOfferedAnswerRelations] 
+                                   (
+                                        QuestionId,
+                                        OfferedAnswerId,
+                                        ChangedBy,
+                                        ChangedDate,
+                                        CreatedBy,
+                                        CreateDate
+                                    )
+                                    VALUES
+                                    (   {0}   
+                                        @AnswerId,
+	                                    {1},        
+	                                    {2},        
+	                                    {3},        
+	                                    {4}         
+	                                )
+                                    GO;", iteam.QuestionId,
+                                  "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                  "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+
+            }
+
+
+            return offeredAnswer;
+        }
+
+        public SurveyResult AddSurveyResult(SurveyResult survey)
+        {
+            throw new NotImplementedException();
         }
     }
 }

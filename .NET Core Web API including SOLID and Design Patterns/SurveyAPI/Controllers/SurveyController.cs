@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SurveyAPI.Interfaces;
 using SurveyAPI.Models;
+using static SurveyAPI.Models.OfferedAnswerResult;
 
 namespace SurveyAPI.Controllers
 {
@@ -27,12 +28,12 @@ namespace SurveyAPI.Controllers
             return Json(_surveyService.GetSurveyResults(surveyId));
         }
 
-        [HttpGet()]
-        [Route("{surveyId}")]
-        public JsonResult GetSurvey(int surveyId)
-        {
-            return Json(_surveyService.GetSurveyQuestions(surveyId));
-        }
+        //[HttpGet()]
+        //[Route("{surveyId}")]
+        //public JsonResult GetSurvey(int surveyId)
+        //{
+        //    return Json(_surveyService.GetSurveyQuestions(surveyId));
+        //}
 
         [HttpGet()]
         [Route("{surveyId}/OfferedAnswers")]
@@ -48,6 +49,20 @@ namespace SurveyAPI.Controllers
             return Json(sr);
         }
 
+        [HttpPost]
+        public JsonResult AddQuestionWithAnswers([FromBody] QuestionAndAnswers qAndA)
+        {
+            QuestionAndAnswers qA = _surveyService.AddQuestionWithAnswers(qAndA);
+            return Json(qA);
+        }
+
+        [HttpPost]
+        public JsonResult AddOfferedAnswersForQuestion([FromBody] OfferedAnswerResult offeredAnswerResult)
+        {
+            OfferedAnswerResult oA = _surveyService.AddOfferedAnswersForQuestion(offeredAnswerResult);
+            return Json(oA);
+        }
+
         [HttpDelete]
         [Route("{surveyId}")]
         public JsonResult DeleteSurvey(int surveyId)
@@ -55,5 +70,14 @@ namespace SurveyAPI.Controllers
             _surveyService.DeleteSurvey(surveyId);
             return Json(Ok());
         }
+
+        [HttpGet]
+        [Route("{surveyId}/GetSurveyQuestions")]
+        public JsonResult GetSurveyQuestions(int surveyId)
+        {
+            return Json(_surveyService.GetSurveyQuestions(surveyId));
+        }
+
+
     }
 }
