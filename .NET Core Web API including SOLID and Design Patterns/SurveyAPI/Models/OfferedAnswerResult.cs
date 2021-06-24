@@ -10,6 +10,7 @@ namespace SurveyAPI.Models
         {
             public string QuestionAnswer { get; set; }
             public int QuestionId { get; internal set; }
+            public int OaId { get; internal set; }
         }
     }
 }

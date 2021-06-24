@@ -9,5 +9,10 @@ export class SurveyResponse {
 export class Questions {
   public questionText: string;
   public id: string;
+  public offeredAnswers : OfferedAnswer[]
 }
 
+export class OfferedAnswer{
+  public id: string;
+  public text:string;
+}

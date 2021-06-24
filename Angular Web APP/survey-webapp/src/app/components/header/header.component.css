@@ -1,13 +1,31 @@
-.app-header{
-    height: 70px;
-    width: 100%;
-    display: flex;
-    background-color: rgb(25, 66, 245);
-    border-radius: 30px;
+.app-header {
+  height: 70px;
+  width: 100%;
+  display: flex;
+  background-color: rgb(25, 66, 245);
+  border-radius: 30px;
+  margin: 0;
 }
 
-.app-logo{
-    font-weight: 900;
-    margin: 15px 1px 1px 30px;
-    color: white;
+.app-logo {
+  font-weight: 600;
+  margin: 10px 1px 1px 30px;
+  color: white;
+}
+
+.link {
+  margin: 20px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  color: white;
+}
+
+.link:hover {
+  background-color: black;
+  border-radius: 10px;
+  margin: 20px;
+  transform: scale(0.95);
+  transition: linear 0.2s;
 }

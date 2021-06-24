@@ -1,0 +1,27 @@
+.card {
+  width: 600px;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  transition: linear 0.3s;
+  border-radius: 30px;
+  background: #f5cc19;
+}
+
+h1 {
+  text-align: center;
+}
+
+p {
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: inherit;
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+  font-weight: bold;
+  background: #f5cc19;
+}

@@ -1,0 +1,18 @@
+<br />
+<div
+  class="card card-body"
+  style="text-align: center; margin: 20px"
+  *ngFor="let s of surveys"
+  routerLink="survey/{{ s.id }}"
+>
+  <div class="card-title">
+    <h1 class="name">{{ s.name }}</h1>
+    <p>Click on the card or results!</p>
+  </div>
+  <div class="card-body">
+    <button class="btn btn-primary" routerLink="results/{{ s.id }}">
+      Results
+    </button>
+  </div>
+</div>
+<br />

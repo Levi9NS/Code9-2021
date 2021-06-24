@@ -1,6 +1,7 @@
 ﻿using SurveyAPI.Interfaces;
 using SurveyAPI.Models;
 using System;
+using System.Collections.Generic;
 
 namespace SurveyAPI.Services
 {
@@ -33,7 +34,7 @@ namespace SurveyAPI.Services
             return _repository.AddSurvey(survey);
         }
 
-        public Answer AddSurveyAnswer(Answer answer)
+        public SurveyAdd AddSurveyAnswer(SurveyAdd answer)
         {
             return _repository.AddSurveyResult(answer);
         }
@@ -53,9 +54,19 @@ namespace SurveyAPI.Services
             return _repository.AddSurveyQuestion(question);
         }
 
-        public OfferedAnswer AddOfferedAnswer(OfferedAnswer offeredAnswer)
+        public OfferedAnswer AddOfferedAnswer(OfferedAnswerBasic offeredAnswer)
         {
             return _repository.AddOfferedAnswer(offeredAnswer);
+        }
+
+        public List<Survey> GetAllSurveys()
+        {
+            return _repository.GetAllSurveys();
+        }
+
+        public List<Question> GetAllQuestions()
+        {
+            return _repository.GetAllQuestions();
         }
     }
 }

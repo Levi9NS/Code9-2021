@@ -1,0 +1,14 @@
+<h1>{{ name }}</h1>
+<div
+  class="card card-body"
+  style="text-align: center; margin: 20px"
+  *ngFor="let q of questions"
+>
+  <h3 class="name">{{ q.text }}</h3>
+  <hr />
+  <div *ngFor="let r of q.responses">
+    <p class="center">{{ r.response }}</p>
+    <p>ANSWERS: {{ r.count }}</p>
+  </div>
+</div>
+<br />

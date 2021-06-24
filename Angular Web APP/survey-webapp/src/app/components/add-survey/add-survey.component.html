@@ -1,0 +1,87 @@
+<link
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+<br />
+<div class="card card-body">
+  <h1 style="text-align: center">ADD SURVEY</h1>
+  <form
+    [formGroup]="addSurveyForm"
+    (ngSubmit)="onSubmit(addSurveyForm)"
+    style="text-align: center"
+  >
+    <div>
+      <label>
+        Survey name:
+        <br />
+        <input type="text" formControlName="name" placeholder="Survey name" />
+        <br />
+        End date:
+        <br />
+        <input
+          type="date"
+          formControlName="date"
+          placeholder="Survey end-date"
+        />
+      </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Add survey</button>
+  </form>
+</div>
+<br />
+<div class="card card-body">
+  <h1 style="text-align: center">ADD QUESTION</h1>
+  <form
+    [formGroup]="addQuestionForm"
+    (ngSubmit)="onSubmit(addQuestionForm)"
+    style="text-align: center"
+  >
+    <div>
+      <label>
+        Select survey:
+        <br />
+        <select class="form-control" formControlName="survey">
+          <option *ngFor="let s of surveys" [ngValue]="s.id">
+            {{ s.name }}
+          </option>
+        </select>
+      </label>
+      <br />
+      <label>
+        Question text:
+        <br />
+        <input type="text" formControlName="text" placeholder="Question" />
+      </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Add question</button>
+  </form>
+</div>
+<br />
+<div class="card card-body">
+  <h1 style="text-align: center">ADD QUESTION ANSWER</h1>
+  <form
+    [formGroup]="addQuestionAnswerForm"
+    (ngSubmit)="onSubmit(addQuestionAnswerForm)"
+    style="text-align: center"
+  >
+    <div>
+      <label>
+        Select question:
+        <br />
+        <select class="form-control" formControlName="question">
+          <option *ngFor="let q of questions" [ngValue]="q.id">
+            {{ q.questionText }}
+          </option>
+        </select>
+      </label>
+      <br />
+      <label>
+        Answer text:
+        <br />
+        <input type="text" formControlName="text" placeholder="Answer" />
+      </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Add answer</button>
+  </form>
+</div>
+<br />

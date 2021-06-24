@@ -1,4 +1,5 @@
-﻿using SurveyAPI.Models;
+﻿using System.Collections.Generic;
+using SurveyAPI.Models;
 
 namespace SurveyAPI.Interfaces
 {
@@ -12,7 +13,7 @@ namespace SurveyAPI.Interfaces
 
         Survey GetSurveyQuestions(int surveyId);
 
-        Answer AddSurveyAnswer(Answer answer);
+        SurveyAdd AddSurveyAnswer(SurveyAdd SurveyAdd);
 
         OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId);
 
@@ -20,6 +21,10 @@ namespace SurveyAPI.Interfaces
 
         Question AddSurveyQuestion(Question question);
 
-        OfferedAnswer AddOfferedAnswer(OfferedAnswer offeredAnswer);
+        OfferedAnswer AddOfferedAnswer(OfferedAnswerBasic offeredAnswer);
+
+        List<Survey> GetAllSurveys();
+
+        List<Question> GetAllQuestions();
     }
 }

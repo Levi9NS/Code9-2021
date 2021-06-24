@@ -1,2 +1,35 @@
+<br />
+<div class="card card-body">
+  <h3>Fill the form</h3>
+  <form [formGroup]="addParticipantForm">
+    <div>
+      <label>
+        First name:
+        <br />
+        <input type="text" formControlName="name" placeholder="First name" />
+        <br />
+        <br />
+        Last name:
+        <br />
+        <input type="text" formControlName="lastname" placeholder="Last name" />
+        <br />
+        <br />
+        Email:
+        <br />
+        <input type="email" formControlName="email" placeholder="Email" />
+        <br />
+        <br />
+        Password:
+        <br />
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Password"
+        />
+      </label>
+    </div>
+  </form>
+</div>
+<br />
 <div id="survey-element"></div>
 <div *ngIf="!dataLoaded" class="loader"></div>
