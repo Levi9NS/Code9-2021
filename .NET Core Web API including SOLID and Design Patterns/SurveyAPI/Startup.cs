@@ -31,8 +31,13 @@ namespace SurveyAPI
                 options.AddPolicy(name: CorsPolicy, builder =>
                 {
                     builder.WithOrigins(new string[] { "http://localhost:4200" });
+                    builder.AllowAnyHeader();
                 });
             });
+
+
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +47,13 @@ namespace SurveyAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
+            });
+
 
             app.UseCors(CorsPolicy);
 
@@ -57,6 +69,9 @@ namespace SurveyAPI
                         pattern: "{controller=Survey}/{action=Index}");
                 });
             });
+
+           
+
         }
     }
 }

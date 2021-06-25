@@ -1,0 +1,41 @@
+
+<div class="card" style="width: 28rem;">
+  <div   [formGroup]="newFormGroup">
+    <label for="FirstName" class="col-md-8 col-form-label">FirstName:</label>
+    <div >
+      <input type="text" class="form-control" formControlName="FirstName" id="FirstName" style="font-weight: bold;"  [ngClass]="{ 'is-invalid': submitted && f.FirstName.errors }" >
+      <div *ngIf="submitted && f.FirstName.errors" class="invalid-feedback">
+        <div *ngIf="f.FirstName.errors.required">First Name is required</div>
+    </div>
+
+
+    <label for="LastName" class="col-md-8 col-form-label">LastName:</label>
+    <div >
+      <input   type="text" class="form-control" formControlName="LastName" id="LastName" style="font-weight: bold;" [ngClass]="{ 'is-invalid': submitted && f.LastName.errors }"  >
+      <div *ngIf="submitted && f.LastName.errors" class="invalid-feedback">
+        <div *ngIf="f.LastName.errors.required">Last Name is required</div>
+    </div>
+    </div>
+
+  
+  
+
+    <label for="Email" class="col-md-8 col-form-label">Email:</label>
+    <div >
+      <input   type="tel" class="form-control" formControlName="Email" id="Email" style="font-weight: bold;"  [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" >
+      <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+        <div *ngIf="f.Email.errors.required">Email is required</div>
+    </div>
+
+
+    <label for="Password" class="col-md-8 col-form-label">Password:</label>
+    <div>
+      <input   type="password" class="form-control" formControlName="Password" id="Password" style="font-weight: bold;"  [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" >
+      <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+        <div *ngIf="f.Password.errors.required">Password is required</div>
+    </div>
+  </div>
+  <div style="margin-top: 2%">
+  <button type="submit" class="btn btn-primary btn-lg btn-block" (click)="OnSubmit()">Next</button>
+</div>
+</div>

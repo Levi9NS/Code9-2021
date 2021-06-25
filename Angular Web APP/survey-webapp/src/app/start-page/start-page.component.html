@@ -1,0 +1,9 @@
+
+<p  *ngFor="let survey of surveys">
+  <ngb-alert style="background-color: whitesmoke; width: 50rem;" [dismissible]="false">
+    Description <strong>{{survey.name}}  </strong>   <button  (click)="onOpen(survey.id)"  class="btn btn-primary" >Open</button>  <button  (click)="onResults(survey.id)"  class="btn btn-primary" >Results</button> <p> Start Date {{survey.startDate | date:'shortDate'}} End Date {{survey.endDate | date:'shortDate'}}  </p>
+   
+  </ngb-alert>
+</p>
+
+<button (click) = "createNew()" class="btn btn-primary btn-lg btn-block" > Create New</button>
