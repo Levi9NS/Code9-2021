@@ -35,3 +35,9 @@ After you complete this lab, you will be able to:
 - Create API for storing new survey result and information for survey participants
 - Send to us Web API URL (We will use this for testing)
 - Send to us SQL server name and credentials (We will use this for testing)
+
+## Informations for testing 
+- WEB API URL: https://surveyapidejan.azurewebsites.net
+- SQL server name: code9dejan.database.windows.net
+- SQL server username: adminDekisa
+- SQL server password: Admin1234
