@@ -30,7 +30,12 @@ namespace SurveyAPI.Services
             return _repository.AddSurvey(survey);
         }
 
-        public SurveyResult AddSurveyAnswer(SurveyResult survey)
+        public Survey GetSurvey(int surveyId)
+        {
+            return _repository.GetSurvey(surveyId);
+        }
+
+        public Answers AddSurveyResult(Answers survey)
         {
             return _repository.AddSurveyResult(survey);
         }
@@ -53,6 +58,21 @@ namespace SurveyAPI.Services
         public OfferedAnswerResult AddOfferedAnswersForQuestion(OfferedAnswerResult offeredAnswer)
         {
             return _repository.AddOfferedAnswersForQuestion(offeredAnswer);
+        }
+
+        public Participant AddParticipant(Participant participant)
+        {
+            return _repository.AddParticipant(participant);
+        }
+
+        public GeneralInformations AddGeneralInformations(GeneralInformations survey)
+        {
+            return _repository.AddGeneralInformations(survey);
+        }
+
+        public GeneralInformations GetGeneralInformations(int surveyId)
+        {
+            return _repository.GetGeneralInformations(surveyId);
         }
     }
 }

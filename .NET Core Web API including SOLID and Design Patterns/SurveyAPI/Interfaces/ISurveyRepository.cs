@@ -9,12 +9,14 @@ namespace SurveyAPI.Interfaces
         Survey GetSurvey(int surveyId);
         Survey AddSurvey(Survey survey); 
         SurveyResult GetSurveyResult(int surveyId);
-        SurveyResult AddSurveyResult(SurveyResult survey);
+        Answers AddSurveyResult(Answers survey);
         OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId);
         void DeleteSurvey(int surveyId);
-
+        GeneralInformations AddGeneralInformations(GeneralInformations survey);
+        GeneralInformations GetGeneralInformations(int surveyId);
         List<Question> GetSurveyQuestions(int surveyId);
         QuestionAndAnswers AddQuestionWithAnswers(QuestionAndAnswers qAndA);
         OfferedAnswerResult AddOfferedAnswersForQuestion(OfferedAnswerResult offeredAnswer);
+        Participant AddParticipant(Participant participant);
     }
 }

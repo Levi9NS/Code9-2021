@@ -432,13 +432,160 @@ namespace SurveyAPI.Repositories
 
             }
 
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(_command, _connection);
+            _sqlcommand.ExecuteNonQuery();
 
             return offeredAnswer;
         }
 
-        public SurveyResult AddSurveyResult(SurveyResult survey)
+        public Participant AddParticipant(Participant participant)
         {
-            throw new NotImplementedException();
+            string _command = String.Empty;
+
+            _command += String.Format(@"INSERT INTO [Survey].[Participants] 
+                                   (
+                                        [FirstName],
+                                        [LastName],   
+                                        [Email],
+                                        [Password],
+	                                    [SurveyId],
+                                        [ChangedBy],
+                                        [ChangedDate],
+                                        [CreatedBy],
+                                        [CreateDate]
+                                    )
+                                    VALUES
+                                    (   {0},        
+	                                    {1},        
+	                                    {2},        
+	                                    {3},        
+	                                    {4},
+	                                    {5},
+	                                    {6},
+	                                    {7},
+	                                    {8}
+	                                )
+                                    GO;", participant.FirstName, participant.LastName, 
+                                    participant.Email, participant.Password, participant.SurveyId,
+                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(_command, _connection);
+            _sqlcommand.ExecuteNonQuery();
+
+            return participant;
+        }
+
+        public GeneralInformations AddGeneralInformations(GeneralInformations survey)
+        {
+            string _command = String.Empty;
+
+            _command += String.Format(@"INSERT INTO [Survey].[GeneralInformations] 
+                                   ([Description]
+                                       ,[StartDate]
+                                       ,[EndDate]
+                                       ,[ChangedBy]
+                                       ,[ChangedDate]
+                                       ,[CreatedBy]
+                                       ,[CreateDate])
+                                 VALUES
+                                       ('{0}'
+                                       ,'{1}'
+                                       ,'{2}'
+                                       ,'{3}'
+                                       ,'{4}'
+                                       ,'{5}'
+                                       ,'{6}')
+                                GO;
+                                SET @SurveyId = SCOPE_IDENTITY();", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), 
+                                "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(_command, _connection);
+            _sqlcommand.ExecuteNonQuery();
+
+            return survey;
+        }
+
+        public GeneralInformations GetGeneralInformations(int surveyId)
+        {
+            string _statement = string.Format("SELECT ge.id,  ge.Description as Name, ge.StartDate, ge.EndDate, " +
+                                "FROM Survey.[GeneralInformations] ge" +
+                                "   WHERE ge.Id = '{0}'"
+                                , surveyId);
+
+            GeneralInformations survey = new GeneralInformations();
+
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
+
+            using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    survey.Id = _reader.GetInt32(0);
+
+                    survey.Name = _reader.GetString(1);
+                    survey.StartDate = _reader.GetDateTime(2);
+                    survey.EndDate = _reader.GetDateTime(3);
+                }
+
+            }
+
+            _connection.Close();
+
+            return survey;
+        }
+
+        public Answers AddSurveyResult(Answers survey)
+        {
+            string _command = String.Empty;
+
+            foreach (var iteam in survey.AnsweredQuestions) 
+            {
+                _command += String.Format(@"INSERT INTO [Survey].[GeneralInformations] 
+                                   ([Description]
+                                       ,[ParticipantId]
+                                       ,[SurveyId]
+                                       ,[QuestionId]
+                                       ,[QuestionAnswersId]    
+                                       ,[ChangedBy]
+                                       ,[ChangedDate]
+                                       ,[CreatedBy]
+                                       ,[CreateDate])
+                                 VALUES
+                                       ('{0}'
+                                       ,'{1}'
+                                       ,'{2}'
+                                       ,'{3}'
+                                       ,'{4}'
+                                       ,'{5}'
+                                       ,'{6}')
+                                GO;", survey.ParticipantID, survey.SurveyID, iteam.QuestionId, iteam.QuestionAnswersId,
+                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            }
+
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(_command, _connection);
+            _sqlcommand.ExecuteNonQuery();
+
+
+            return survey;
         }
     }
 }

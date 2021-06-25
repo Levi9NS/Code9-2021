@@ -28,12 +28,20 @@ namespace SurveyAPI.Controllers
             return Json(_surveyService.GetSurveyResults(surveyId));
         }
 
-        //[HttpGet()]
-        //[Route("{surveyId}")]
-        //public JsonResult GetSurvey(int surveyId)
-        //{
-        //    return Json(_surveyService.GetSurveyQuestions(surveyId));
-        //}
+        [HttpPost]
+        public JsonResult AddSurveyResult([FromBody] Answers survey)
+        {
+            Answers sr = _surveyService.AddSurveyResult(survey);
+            return Json(sr);
+        }
+        
+
+        [HttpGet()]
+        [Route("{surveyId}")]
+        public JsonResult GetSurvey(int surveyId)
+        {
+            return Json(_surveyService.GetSurvey(surveyId));
+        }
 
         [HttpGet()]
         [Route("{surveyId}/OfferedAnswers")]
@@ -71,13 +79,32 @@ namespace SurveyAPI.Controllers
             return Json(Ok());
         }
 
-        [HttpGet]
+        [HttpGet()]
         [Route("{surveyId}/GetSurveyQuestions")]
         public JsonResult GetSurveyQuestions(int surveyId)
         {
             return Json(_surveyService.GetSurveyQuestions(surveyId));
         }
 
+        [HttpPost]
+        public JsonResult AddParticipant([FromBody] Participant participant)
+        {
+            Participant p = _surveyService.AddParticipant(participant);
+            return Json(p);
+        }
 
+        [HttpGet()]
+        [Route("{surveyId}/GetGeneralInformations")]
+        public JsonResult GetGeneralInformations(int surveyId)
+        {
+            return Json(_surveyService.GetGeneralInformations(surveyId));
+        }
+
+        [HttpPost]
+        public JsonResult AddGeneralInformations([FromBody] GeneralInformations survey)
+        {
+            GeneralInformations p = _surveyService.AddGeneralInformations(survey);
+            return Json(p);
+        }
     }
 }
