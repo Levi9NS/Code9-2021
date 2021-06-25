@@ -51,11 +51,10 @@ export class ParticipantComponent implements OnInit {
             return;
         }
 
-        // display form values on success
-        alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.newFormGroup.value, null, 4));
-    this.AddSurvey();
-    this.data=this.participant;
-    this.dialogRef.close(this.data);
+      
+        this.AddSurvey();
+        this.data=this.participant;
+        this.dialogRef.close(this.data);
   }
 
   get f() { return this.newFormGroup.controls; }

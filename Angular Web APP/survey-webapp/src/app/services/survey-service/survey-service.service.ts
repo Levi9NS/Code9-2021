@@ -27,9 +27,7 @@ export class SurveyService {
     return this.httpClient.get<OfferedAnswers>(`${environment.apiUrl}/api/Survey/${surveyId}/OfferedAnswers`);
   }
 
-  // postSurveyResult(surveyResult: SurveyResult): Observable<SurveyResult> {
-  //   return this.httpClient.post<SurveyResult>(`${environment.apiUrl}/api/Survey/PostSurveyResult`, surveyResult);
-  // }
+  
 
   AddSurvey(survey: Survey) 
   {
