@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { stringify } from '@angular/core/src/util';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OfferedAnswer } from 'src/app/models/offered-answer';
 import { SurveyService } from 'src/app/services/survey-service/survey-service.service';
@@ -49,26 +50,31 @@ export class AddQuestionComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.surveyId == undefined){
-      this.service.addQuestion(this.id, this.questionText, this.answers).subscribe(
-        (res: any) => {
-          this.router.navigateByUrl('survey/getAllQuestions');
-        },
-        err => {
-          console.log(err);
-        }
-      );
+    if (this.questionText != ""){
+      if (this.surveyId == undefined){
+        this.service.addQuestion(this.id, this.questionText, this.answers).subscribe(
+          (res: any) => {
+            this.router.navigateByUrl('survey/getAllQuestions');
+          },
+          err => {
+            console.log(err);
+          }
+        );
+      }
+      else
+      {
+        this.service.addQuestionToSurvey(this.surveyId, this.id, this.questionText, this.answers).subscribe(
+          (res: any) => {
+            this.router.navigateByUrl('/' + this.surveyId + '/questions');
+          },
+          err => {
+            console.log(err);
+          }
+        );
+      }
     }
-    else
-    {
-      this.service.addQuestionToSurvey(this.surveyId, this.id, this.questionText, this.answers).subscribe(
-        (res: any) => {
-          this.router.navigateByUrl('/' + this.surveyId + '/questions');
-        },
-        err => {
-          console.log(err);
-        }
-      );
+    else{
+      alert("Text field cannot be empty");
     }
   }
 }

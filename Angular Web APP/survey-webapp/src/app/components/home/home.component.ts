@@ -65,4 +65,17 @@ export class HomeComponent implements OnInit {
   {
     this.router.navigateByUrl('/survey/add');
   }
+
+  delete(id: number)
+  {
+    this.service.deleteSurvey(id).subscribe(
+      res => {
+        alert("Survey with id: " + id + " successfully deleted");
+        location.reload();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
 }

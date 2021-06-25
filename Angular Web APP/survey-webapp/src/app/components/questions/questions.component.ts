@@ -67,7 +67,7 @@ export class QuestionsComponent implements OnInit {
   {
     this.service.deleteQuestion(id).subscribe(
       res => {
-        alert("Question with id: " + id + " successfully deleted!");
+        alert("Question with id: " + id + " successfully deleted");
         location.reload();
       },
       err => {

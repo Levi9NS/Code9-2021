@@ -50,7 +50,7 @@ export class SurveyQuestionsComponent implements OnInit {
   {
     this.service.removeQuestion(this.surveyId, id).subscribe(
       res => {
-        alert("Question with id: " + id + " successfully removed from survey!");
+        alert("Question with id: " + id + " successfully removed from survey");
         location.reload();
       },
       err => {

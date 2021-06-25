@@ -114,4 +114,9 @@ export class SurveyService {
     body.Id = 1;
     return this.httpClient.post(`${environment.apiUrl}/api/Survey/survey/submit`, body);
   }
+
+  deleteSurvey(id: any)
+  {
+    return this.httpClient.delete(`${environment.apiUrl}/api/Survey/` + id);
+  }
 }

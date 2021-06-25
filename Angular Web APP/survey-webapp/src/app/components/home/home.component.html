@@ -10,6 +10,9 @@
     <td>
       <button class="button-style" (click)="results(survey.id)">Results</button>
     </td>
+    <td>
+      <button class="button-style" (click)="delete(survey.id)">Remove</button>
+    </td>
     <td *ngIf="survey.isAvailable == 1">
       <label>Expired</label>
     </td>

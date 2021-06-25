@@ -35,7 +35,7 @@ export class AddSurveyComponent implements OnInit {
     var now = new Date();
     var surveyDate = new Date(body.EndDate);
     if (now > surveyDate){
-      alert("Enter valid end date!");
+      alert("Enter valid end date");
     }
     else{
       this.surveyService.addSurvey(body).subscribe(

@@ -19,13 +19,18 @@ export class AddOfferedAnswerComponent implements OnInit {
 
   onSubmit()
   {
-    this.service.addOfferedAnswer(this.id, this.text).subscribe(
-      (res: any) => {
-        this.router.navigateByUrl('/survey/getAllOfferedAnswers');
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    if (this.text != ""){
+      this.service.addOfferedAnswer(this.id, this.text).subscribe(
+        (res: any) => {
+          this.router.navigateByUrl('/survey/getAllOfferedAnswers');
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
+    else{
+      alert("Text field cannot be empty");
+    }
   }
 }
