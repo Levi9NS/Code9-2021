@@ -72,34 +72,47 @@ namespace SurveyAPI.Repositories
 			var answersInDb = _context.Answers
 				.Include(a => a.Survey)
 				.Include(a => a.Participant)
-				.Include(a => a.Question)
+                .Include(a => a.QuestionAnswers)
+                .Include(a => a.Question)
                 .ThenInclude(qa => qa.QuestionOfferedAnswerRelations)
-				.Include(a => a.QuestionAnswers)
 				.Where(a => a.Survey.Id == surveyId)
 				.ToList();
+            var test = _context.QuestionOfferedAnswerRelations
+                .Include(a => a.OfferedAnswer)
+                .Include(a => a.Question)
+                .ToList();
 
 			SurveyResult survey = new SurveyResult();
-			List<AnsweredQuestion> answeredList = new List<AnsweredQuestion>();
-
-			foreach (var r in answersInDb)
-			{
-				if (!answeredList.Any(q => q.text == r.Question.QuestionText)) {
-					survey.Name = r.Survey.Description;
-                    AnsweredQuestion _question = new AnsweredQuestion()
+            List<AnsweredQuestion> answeredList = new List<AnsweredQuestion>();
+			if (answersInDb != null)
+            {
+                foreach (var r in answersInDb)
+                {
+                    if (!answeredList.Any(q => q.text == r.Question.QuestionText))
                     {
-                        text = r.Question.QuestionText,
-						responses = r.Question.QuestionOfferedAnswerRelations.Select(qa => new AnsweredQuestionList
+                        survey.Name = r.Survey.Description;
+                        AnsweredQuestion _question = new AnsweredQuestion()
                         {
-							response = qa.OfferedAnswer.Text,
-							count = answersInDb.Where(c => c.QuestionId == qa.QuestionId && c.QuestionAnswersId == qa.OfferedAnswerId).Count()
-						}).ToList()
-                        
-                    };
-                    answeredList.Add(_question);
-				}
-			}
+                            text = r.Question.QuestionText,
+                            responses = r.Question.QuestionOfferedAnswerRelations.Select(qa => new AnsweredQuestionList
+                            {
+                                response = qa.OfferedAnswer.Text,
+                                count = answersInDb.Where(c =>
+                                    c.QuestionId == qa.QuestionId && c.QuestionAnswersId == qa.OfferedAnswerId).Count()
+							}).ToList()
 
-			survey.Questions = answeredList.OrderBy(a => a.text).ToList();
+                        };
+                        answeredList.Add(_question);
+                    }
+                }
+                survey.Questions = answeredList.OrderBy(a => a.text).ToList();
+            }
+            else if (answersInDb == null)
+            {
+                var surveyInDb = _context.GeneralInformations.SingleOrDefault(s => s.Id == surveyId);
+                survey.Name = surveyInDb.Description;
+                survey.Questions = answeredList;
+            }
             return survey;
 		}
 
@@ -227,7 +240,8 @@ namespace SurveyAPI.Repositories
 				CreatedBy = "User",
 				CreateDate = DateTime.Now,
 				QuestionId = offeredAnswer.QuestionId,
-				OfferedAnswerId = newOA.Id
+				OfferedAnswerId = newOA.Id,
+
 			};
 			_context.QuestionOfferedAnswerRelations.Add(qoar);
 			_context.SaveChanges();
