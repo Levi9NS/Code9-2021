@@ -95,23 +95,22 @@ namespace SurveyAPI.Repositories
             SurveyResult sr = new SurveyResult();
 
             List<AnsweredQuestion> _lquestions = new List<AnsweredQuestion>();
-            string _statement = string.Format("SELECT ge.id, ge.Description,q.QuestionText, oa.text, q.id, a.id, COUNT(*) AS count " +
-                                "FROM" +
-                                "   Survey.GeneralInformations ge" +
-                                "   INNER JOIN Survey.SurveyQuestionRelations sqr" +
-                                "       ON ge.id = sqr.SurveyId" +
-                                "   INNER JOIN Survey.Questions q" +
-                                "       ON sqr.QuestionId = q.id" +
-                                "   INNER JOIN Survey.QuestionOfferedAnswerRelations qoar" +
-                                "       ON q.id = qoar.QuestionId" +
-                                "   INNER JOIN Survey.OfferedAnswers oa" +
-                                "       ON qoar.OfferedAnswerId = oa.id" +
-                                "   INNER JOIN Survey.Participants pa" +
-                                "       ON pa.SurveyId = pa.SurveyId" +
-                                "   INNER JOIN Survey.Answers a" +
-                                "       ON pa.id = a.ParticipantId AND qoar.QuestionId = a.QuestionId AND qoar.OfferedAnswerId = a.QuestionAnswersId" +
-                                "   WHERE ge.Id = '{0}'" +
-                                " GROUP BY ge.id,ge.Description,oa.id,q.id,a.id,q.QuestionText,oa.Text ORDER BY ge.id,q.id,oa.id", surveyId);
+            string _statement = string.Format(@"SELECT ge.Description, q.QuestionText as Question, oa.text as Answer, COUNT(*) AS count
+                                FROM Survey.GeneralInformations ge
+                                   INNER JOIN Survey.SurveyQuestionRelations sqr
+                                       ON ge.id = sqr.SurveyId
+                                   INNER JOIN Survey.Questions q
+                                       ON sqr.QuestionId = q.id
+                                   INNER JOIN Survey.QuestionOfferedAnswerRelations qoar
+                                       ON q.id = qoar.QuestionId
+                                   INNER JOIN Survey.OfferedAnswers oa
+                                       ON qoar.OfferedAnswerId = oa.id
+                                   INNER JOIN Survey.Participants pa
+                                       ON pa.SurveyId = pa.SurveyId
+                                   INNER JOIN Survey.Answers a
+                                       ON pa.id = a.ParticipantId AND qoar.QuestionId = a.QuestionId AND qoar.OfferedAnswerId = a.QuestionAnswersId
+                                   WHERE ge.Id = '{0}'
+								   GROUP BY ge.Description, q.QuestionText,oa.Text ORDER BY q.QuestionText", surveyId);
 
             SqlConnection _connection = GetConnection(_connectionString);
 
@@ -122,15 +121,13 @@ namespace SurveyAPI.Repositories
             {
                 while (_reader.Read())
                 {
-                    sr.Name = _reader.GetString(1);
+                    sr.Name = _reader.GetString(0);
                     AnsweredQuestion _question = new AnsweredQuestion()
                     {
-                        text = _reader.GetString(2),
-                        response = _reader.GetString(3),
-                        Id = _reader.GetInt32(4),
-                        count = _reader.GetInt32(5),                      
+                        question = _reader.GetString(1),
+                        answer = _reader.GetString(2),
+                        count = _reader.GetInt32(3)  
                     };
-
                     _lquestions.Add(_question);
                 }
             }
@@ -160,7 +157,7 @@ namespace SurveyAPI.Repositories
                            ,'{1}'
                            ,'{2}'
                            ,'{3}')
-                            GO;", q.QuestionText, "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") );
+                            GO;", q.QuestionText, "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") );
                 
             }
 
@@ -177,7 +174,7 @@ namespace SurveyAPI.Repositories
                                        ,'{3}'
                                        ,'{4}')
                                 GO;
-                                SET @SurveyId = SCOPE_IDENTITY();", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                SET @SurveyId = SCOPE_IDENTITY();", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
 
             foreach (var q in survey.Questions)
@@ -190,7 +187,7 @@ namespace SurveyAPI.Repositories
                         
                         SELECT @SurveyId, Id, {0} ,{1}
                                FROM @QuestionsIdSTable);
-                GO;", "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                GO;", "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             }
 
             SqlConnection _connection = GetConnection(_connectionString);
@@ -302,8 +299,8 @@ namespace SurveyAPI.Repositories
 	                                )
                                     GO;
                                     SET @QuestionId = SCOPE_IDENTITY();", qAndA.QuestionText,
-                                    "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-                                    "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
             _command += String.Format(@"INSERT INTO [Survey].[SurveyQuestionRelations]
                                     (
@@ -324,8 +321,8 @@ namespace SurveyAPI.Repositories
 	                                    {4}        
 	                                )
                                     GO;" , qAndA.SurveyId,
-                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
             foreach ( var item in qAndA.Answers) 
             {
@@ -368,8 +365,8 @@ namespace SurveyAPI.Repositories
 	                                )
                                     GO;
                                     SET @AnswerId = SCOPE_IDENTITY();",
-                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             }
 
             SqlConnection _connection = GetConnection(_connectionString);
@@ -405,8 +402,8 @@ namespace SurveyAPI.Repositories
 	                                )
                                     GO;
                                     SET @AnswerId = SCOPE_IDENTITY();", iteam.QuestionAnswer,
-                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
                 _command += String.Format(@"INSERT INTO [Survey].[QuestionOfferedAnswerRelations] 
                                    (
@@ -426,8 +423,8 @@ namespace SurveyAPI.Repositories
 	                                    {4}         
 	                                )
                                     GO;", iteam.QuestionId,
-                                  "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-                                  "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                  "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                  "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
 
             }
@@ -445,33 +442,30 @@ namespace SurveyAPI.Repositories
         {
             string _command = String.Empty;
 
-            _command += String.Format(@"INSERT INTO [Survey].[Participants] 
-                                   (
-                                        [FirstName],
-                                        [LastName],   
-                                        [Email],
-                                        [Password],
-	                                    [SurveyId],
-                                        [ChangedBy],
-                                        [ChangedDate],
-                                        [CreatedBy],
-                                        [CreateDate]
-                                    )
+            _command += String.Format(@"INSERT INTO [Survey].[Participants]
+                                        ([SurveyId]
+                                        ,[FirstName]
+                                        ,[LastName]
+                                        ,[Email]
+                                        ,[Password]
+                                        ,[ChangedBy]
+                                        ,[ChangedDate]
+                                        ,[CreatedBy]
+                                        ,[CreateDate])
                                     VALUES
-                                    (   {0},        
-	                                    {1},        
-	                                    {2},        
-	                                    {3},        
-	                                    {4},
-	                                    {5},
-	                                    {6},
-	                                    {7},
-	                                    {8}
-	                                )
-                                    GO;", participant.FirstName, participant.LastName, 
-                                    participant.Email, participant.Password, participant.SurveyId,
-                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                        ('{0}'
+                                        ,'{1}'
+                                        ,'{2}'
+                                        ,'{3}'
+                                        ,'{4}'
+                                        ,'{5}'
+                                        ,'{6}'
+                                        ,'{7}'
+                                        ,'{8}')", 
+                                    participant.SurveyId, participant.FirstName, participant.LastName, 
+                                    participant.Email, participant.Password,
+                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
             SqlConnection _connection = GetConnection(_connectionString);
 
@@ -504,8 +498,8 @@ namespace SurveyAPI.Repositories
                                        ,'{6}')
                                 GO;
                                 SET @SurveyId = SCOPE_IDENTITY();", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), 
-                                "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-                                "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
 
             SqlConnection _connection = GetConnection(_connectionString);
@@ -556,9 +550,8 @@ namespace SurveyAPI.Repositories
 
             foreach (var iteam in survey.AnsweredQuestions) 
             {
-                _command += String.Format(@"INSERT INTO [Survey].[GeneralInformations] 
-                                   ([Description]
-                                       ,[ParticipantId]
+                _command += String.Format(@"INSERT INTO [Survey].[Answers] 
+                                   ([ParticipantId]
                                        ,[SurveyId]
                                        ,[QuestionId]
                                        ,[QuestionAnswersId]    
@@ -573,10 +566,11 @@ namespace SurveyAPI.Repositories
                                        ,'{3}'
                                        ,'{4}'
                                        ,'{5}'
-                                       ,'{6}')
-                                GO;", survey.ParticipantID, survey.SurveyID, iteam.QuestionId, iteam.QuestionAnswersId,
-                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
-                                   "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                       ,'{6}'
+                                       ,'{7}')
+                                ", survey.ParticipantID, survey.SurveyID, iteam.QuestionId, iteam.QuestionAnswersId,
+                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             }
 
             SqlConnection _connection = GetConnection(_connectionString);
@@ -647,6 +641,42 @@ namespace SurveyAPI.Repositories
             _connection.Close();
 
             return offeredAnswers;
+        }
+
+        public Participant GetLastParticipantAdded()
+        {
+            string _statement = string.Format(@"SELECT TOP 1 [id]
+                                            ,[SurveyId]
+                                            ,[FirstName]
+                                            ,[LastName]
+                                            ,[Email]
+                                            ,[Password] 
+                                            FROM [Survey].[Participants] ORDER BY id DESC");
+            Participant participant = new Participant();
+
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
+
+            using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    participant = new Participant
+                    {
+                        id = _reader.GetInt32(0),
+                        SurveyId = _reader.GetInt32(1),
+                        FirstName = _reader.GetString(2),
+                        LastName = _reader.GetString(3),
+                        Email = _reader.GetString(4),
+                        Password = _reader.GetString(5),
+                    };
+                }
+            }
+            _connection.Close();
+
+            return participant;
         }
     }
 }

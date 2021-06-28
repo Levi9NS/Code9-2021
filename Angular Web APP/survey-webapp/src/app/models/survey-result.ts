@@ -1,13 +1,12 @@
 export class SurveyResults
 {
-    name : string;
+    name: string;
     questions: AnswerdQuestions[];
 }
 
 export class AnswerdQuestions
 {
-    text : string
-    response : string;
+    question : string
+    answer : string;
     count : number;
-    id : number;
 }

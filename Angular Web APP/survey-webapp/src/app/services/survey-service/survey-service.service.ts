@@ -7,6 +7,8 @@ import { Participant } from 'src/app/models/participant-model';
 import { GeneralInformations } from 'src/app/models/general-informations';
 import { SurveyResults } from 'src/app/models/survey-result';
 import { OfferedAnswers, OfferedAnswersModel } from 'src/app/models/answers-response';
+import { Survey } from 'src/app/models/survey';
+import { Answers } from 'src/app/models/result';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +36,11 @@ export class SurveyService {
     return this.httpClient.get<Array<OfferedAnswersModel>>(`${environment.apiUrl}/api/Survey/GetOfferedAnswers`);
   }
 
+  getParticipant(){
+    return this.httpClient.get<Participant>(`${environment.apiUrl}/api/Survey/GetLastParticipantAdded`);
+  }
+
+
   addParticipant(participant: any) {
     
     return this.httpClient.post<any>(`${environment.apiUrl}/api/Survey/participant/Add`, participant);
@@ -45,6 +52,14 @@ export class SurveyService {
 
   addQuestion(questionAndAnswers: QuestionAndAnswers){
     return this.httpClient.post<QuestionAndAnswers>(`${environment.apiUrl}/api/Survey/questionAndAnswers/Add`, questionAndAnswers);
+  }
+
+  addSurvey(survey : Survey){
+    return this.httpClient.post<Survey>(`${environment.apiUrl}/api/Survey/newSurvey/Add`, survey);
+  }
+  
+  addResult(answers: Answers){
+    return this.httpClient.post<Answers>(`${environment.apiUrl}/api/Survey/surveyResult/Add`, answers);
   }
 
 }

@@ -26,12 +26,13 @@ export class ParticipantDataComponent implements OnInit {
   onSubmit(data)
   {
     this.participant = data as Participant;
+    this.participant.surveyId = this.surveyId;
     this.service.addParticipant(this.participant).subscribe(
       //result => console.log(this.participant),
       error => console.error('error', error)
     );
     console.log(this.participant);
-    this.router.navigateByUrl('/'+this.surveyId);
+    this.router.navigateByUrl('/'+this.surveyId, {state:{id: this.surveyId}});
   }
 
   OnCancel(){

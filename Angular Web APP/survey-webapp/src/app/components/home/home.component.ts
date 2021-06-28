@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
           let start_date = this.datepipe.transform(iteam.startDate, 'yyyy-MM-dd');
 
           if(current_date > end_date || current_date < start_date){
-            iteam.isOpen = true;
+            iteam.isOpen = false;
           }
           else{
             iteam.isOpen = true;
@@ -53,8 +53,8 @@ export class HomeComponent implements OnInit {
   getSurveyResults(id:number){
     this.router.navigateByUrl('/'+id+'/Answers', {state:{surveyId: id}})
   }
-  
-  addGeneralInformations(){
-    this.router.navigateByUrl('/generalInformations/Add');
+
+  addNewSurvey(){
+    this.router.navigateByUrl('/newSurvey/Add');
   }
 }

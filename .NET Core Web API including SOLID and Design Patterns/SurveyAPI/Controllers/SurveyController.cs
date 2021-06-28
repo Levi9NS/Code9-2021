@@ -52,7 +52,7 @@ namespace SurveyAPI.Controllers
         }
 
         [HttpPost]
-        [Route("survey/Add")]
+        [Route("newSurvey/Add")]
         public JsonResult AddSurvey([FromBody] Survey survey)
         {
             Survey sr = _surveyService.AddSurvey(survey);
@@ -118,6 +118,13 @@ namespace SurveyAPI.Controllers
         public JsonResult GetOfferedAnswers()
         {
             return Json(_surveyService.GetOfferedAnswers());
+        }
+
+        [HttpGet()]
+        [Route("GetLastParticipantAdded")]
+        public JsonResult GetLastParticipantAdded()
+        {
+            return Json(_surveyService.GetLastParticipantAdded());
         }
 
         [HttpPost]

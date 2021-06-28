@@ -10,15 +10,16 @@ import { SurveyService } from 'src/app/services/survey-service/survey-service.se
 })
 export class ResultComponent implements OnInit {
   dataloaded = false;
-  surveyId;
+  surveyId: number;
   surveyResults= new SurveyResults();
   constructor(private service: SurveyService, private router: Router) { }
 
   ngOnInit() {
-    this.surveyId = history.state.surveyId
+    this.surveyId = history.state.surveyId;
     this.service.getSurveyResults(this.surveyId).subscribe(
       result => {
         this.surveyResults = result;
+        console.log(this.surveyResults);
       },
       error => {
         console.error("Error Occured", error);

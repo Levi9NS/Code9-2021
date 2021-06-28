@@ -20,11 +20,13 @@
         <td>{{gI.startDate | date : 'dd-MM-yyyy'}}</td>
         <td>{{gI.endDate | date : 'dd-MM-yyyy'}}</td>
         <td>
-          <div *ngIf="gI.isOpen == 1">
-            <button (click)="doSurvey(gI.id)">Do Survey</button>
-            <button (click)="addQuestions(gI.id)">Add Questions</button>
+          <div>
+            <div *ngIf="gI.isOpen == 1">
+              <button (click)="doSurvey(gI.id)" class="btn-secondary">Do</button>
+              <button (click)="addQuestions(gI.id)" class="btn-secondary">Edit</button>
+            </div>
+            <button (click)="getSurveyResults(gI.id)" class="btn-info" >Results</button>
           </div>
-          <button (click)="getSurveyResults(gI.id)">Results</button>
         </td>
       </tr>
     </tbody>
@@ -33,6 +35,5 @@
   <div>
     <button (click)="addNewSurvey()">Add New Survey</button>
     <br/>
-    <button (click)="addGeneralInformations()">Add General Informations</button>
   </div>
 </div>

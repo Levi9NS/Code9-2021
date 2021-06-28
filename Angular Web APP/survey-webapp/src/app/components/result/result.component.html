@@ -6,14 +6,14 @@
     <thead>
       <tr>
         <th>Question</th>
-        <th>Response</th>
+        <th>Answer</th>
         <th>Count</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let answerdQuestions of surveyResults.questions; let i = index;">
-        <td>{{answerdQuestions.text}}</td>
-        <td>&nbsp;{{answerdQuestions.response}}</td>
+        <td>{{answerdQuestions.question}}</td>
+        <td>&nbsp;{{answerdQuestions.answer}}</td>
         <td>{{answerdQuestions.count}}</td>
       </tr>
     </tbody>

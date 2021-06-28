@@ -28,5 +28,7 @@ namespace SurveyAPI.Interfaces
         OfferedAnswerResult AddOfferedAnswersForQuestion(OfferedAnswerResult offeredAnswer);
 
         Participant AddParticipant(Participant participant);
+
+        Participant GetLastParticipantAdded();
     }
 }

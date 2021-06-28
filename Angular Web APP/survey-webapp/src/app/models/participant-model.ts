@@ -6,4 +6,5 @@ export class Participant
     lastName: string;
     email: string;
     password: string;
+    id: number;
 }

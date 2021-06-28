@@ -84,5 +84,9 @@ namespace SurveyAPI.Services
         {
             return _repository.GetOfferedAnswers();
         }
+
+        public Participant GetLastParticipantAdded() {
+            return _repository.GetLastParticipantAdded();
+        }
     }
 }

@@ -2,9 +2,8 @@
 {
     public class AnsweredQuestion
     {
-        public string text { get; set; }
-        public string response { get; set; }
+        public string question { get; set; }
+        public string answer { get; set; }
         public int count { get; set; }
-        public int Id { get; internal set; }
     }
 }

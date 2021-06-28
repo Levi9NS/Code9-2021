@@ -9,9 +9,8 @@ import { HomeComponent } from './components/home/home.component';
 import { ParticipantDataComponent } from './components/participant-data/participant-data.component';
 import { ResultComponent } from './components/result/result.component';
 import { AddQuestionsComponent } from './components/add-questions/add-questions.component';
-import { AddGeneralinfoComponent } from './components/add-generalinfo/add-generalinfo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AddSurveyComponent } from './add-survey/add-survey.component';
+import { AddSurveyComponent } from './components/add-survey/add-survey.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +21,6 @@ import { AddSurveyComponent } from './add-survey/add-survey.component';
     ParticipantDataComponent,
     ResultComponent,
     AddQuestionsComponent,
-    AddGeneralinfoComponent,
     AddSurveyComponent
   ],
   imports: [
