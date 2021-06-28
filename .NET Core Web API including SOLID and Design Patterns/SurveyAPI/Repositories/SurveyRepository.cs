@@ -519,7 +519,7 @@ namespace SurveyAPI.Repositories
 
         public GeneralInformations GetGeneralInformations(int surveyId)
         {
-            string _statement = string.Format("SELECT ge.id,  ge.Description as Name, ge.StartDate, ge.EndDate, " +
+            string _statement = string.Format("SELECT ge.id,  ge.Description as Name, ge.StartDate, ge.EndDate, ge.IsOpen " +
                                 "FROM Survey.[GeneralInformations] ge" +
                                 "   WHERE ge.Id = '{0}'"
                                 , surveyId);
@@ -540,6 +540,7 @@ namespace SurveyAPI.Repositories
                     survey.Name = _reader.GetString(1);
                     survey.StartDate = _reader.GetDateTime(2);
                     survey.EndDate = _reader.GetDateTime(3);
+                    survey.IsOpen = _reader.GetBoolean(4);
                 }
 
             }
@@ -586,6 +587,66 @@ namespace SurveyAPI.Repositories
 
 
             return survey;
+        }
+
+        public List<GeneralInformations> GetAllGeneralInformations()
+        {
+            string _statement = string.Format("SELECT ge.id,  ge.Description as Name, ge.StartDate, ge.EndDate " +
+                               "FROM Survey.[GeneralInformations] ge");
+
+            List<GeneralInformations> generalInformations = new List<GeneralInformations>();
+
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
+
+            using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    GeneralInformations generalInformation = new GeneralInformations
+                    {
+                        Id = _reader.GetInt32(0),
+                        Name = _reader.GetString(1),
+                        StartDate = _reader.GetDateTime(2),
+                        EndDate = _reader.GetDateTime(3),
+                    };
+                    generalInformations.Add(generalInformation);
+                }
+            }
+            _connection.Close();
+
+            return generalInformations;
+        }
+
+        public List<OfferedAnswers> GetOfferedAnswers()
+        {
+            string _statement = string.Format(@"SELECT [id]
+                                            ,[Text]
+                                            FROM [Survey].[OfferedAnswers]");
+            List<OfferedAnswers> offeredAnswers = new List<OfferedAnswers>();
+
+            SqlConnection _connection = GetConnection(_connectionString);
+
+            _connection.Open();
+            SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
+
+            using (SqlDataReader _reader = _sqlcommand.ExecuteReader())
+            {
+                while (_reader.Read())
+                {
+                    OfferedAnswers generalInformation = new OfferedAnswers
+                    {
+                        Id = _reader.GetInt32(0),
+                        Text = _reader.GetString(1)
+                    };
+                    offeredAnswers.Add(generalInformation);
+                }
+            }
+            _connection.Close();
+
+            return offeredAnswers;
         }
     }
 }

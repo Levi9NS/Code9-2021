@@ -1,0 +1,23 @@
+<div>
+  <br/>
+  <h1>{{surveyResults.name}} Results: </h1>
+  <button (click)="goBack()">Back</button>
+  <table class="surveysTabel">
+    <thead>
+      <tr>
+        <th>Question</th>
+        <th>Response</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let answerdQuestions of surveyResults.questions; let i = index;">
+        <td>{{answerdQuestions.text}}</td>
+        <td>&nbsp;{{answerdQuestions.response}}</td>
+        <td>{{answerdQuestions.count}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br/>
+  
+</div>

@@ -1,0 +1,38 @@
+
+<div *ngIf="!dataLoaded" class="loader"></div>
+<div *ngIf="dataLoaded">
+  <br/>
+  <h1>Code 9 Surveys</h1>
+  <table class="surveysTabel">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Options</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let gI of generalInformations; let i = index;">
+        <td>{{gI.id}}</td>
+        <td>{{gI.name}}</td>
+        <td>{{gI.startDate | date : 'dd-MM-yyyy'}}</td>
+        <td>{{gI.endDate | date : 'dd-MM-yyyy'}}</td>
+        <td>
+          <div *ngIf="gI.isOpen == 1">
+            <button (click)="doSurvey(gI.id)">Do Survey</button>
+            <button (click)="addQuestions(gI.id)">Add Questions</button>
+          </div>
+          <button (click)="getSurveyResults(gI.id)">Results</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br/>
+  <div>
+    <button (click)="addNewSurvey()">Add New Survey</button>
+    <br/>
+    <button (click)="addGeneralInformations()">Add General Informations</button>
+  </div>
+</div>

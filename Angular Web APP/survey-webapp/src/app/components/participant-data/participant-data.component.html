@@ -1,0 +1,40 @@
+<div class="container-fluid" >
+  <div>
+    <h3  id="headerLable">Enter Your Details<br></h3>
+  </div>
+  <form #userPost="ngForm" (ngSubmit)="onSubmit(userPost.value)">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input type="text" name="firstName" #firstName="ngModel" [class.is-valid]="firstName.invalid && firstName.touched" maxlength="30" id="firstName"
+        title="Your First Name" required [(ngModel)]="userPost.firstName" class="form-control" >
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input type="text" name="lastName" #lastname="ngModel" [class.is-valid]="lastname.invalid && lastname.touched" maxlength="30" id="lastName"
+        title="Your Last Name" required [(ngModel)]="userPost.lastName" class="form-control" >
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" name="email" #email="ngModel" [class.is-valid]="email.invalid && email.touched" id="email"
+        title="Enter your Email adress" required [(ngModel)]="userPost.email" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input required type="password" name="password" #password="ngModel" [class.is-valid]="password.invalid && password.touched" id="password"
+        title="Enter your Password"  [(ngModel)]="userPost.password" class="form-control">
+    </div>
+    <br />
+    <div>
+      <button type="submit" class="btn btn-primary" name="submit" id="submit">Enter
+        <br />
+      </button>
+      <button type="button" class="btn btn-secondary" name="cancel" id="cancel" (click)="OnCancel()">Cancel
+        <br />
+      </button>
+    </div>
+    <div>
+      
+    </div>
+  </form>
+
+</div>

@@ -1,3 +1,5 @@
+import { OfferedAnswersModel } from "./answers-response";
+
 export class SurveyResponse {
   public id: string;
   public name: string;
@@ -9,5 +11,11 @@ export class SurveyResponse {
 export class Questions {
   public questionText: string;
   public id: string;
+}
+
+export class QuestionAndAnswers{
+  text: string;
+  answers: OfferedAnswersModel[];
+  surveyId: number;
 }
 

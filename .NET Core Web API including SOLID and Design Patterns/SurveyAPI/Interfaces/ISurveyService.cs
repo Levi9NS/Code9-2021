@@ -18,6 +18,8 @@ namespace SurveyAPI.Interfaces
         void DeleteSurvey(int surveyId);
 
         List<Question> GetSurveyQuestions(int surveyId);
+        List<GeneralInformations> GetAllGeneralInformations();
+        List<OfferedAnswers> GetOfferedAnswers();
 
         OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId);
 

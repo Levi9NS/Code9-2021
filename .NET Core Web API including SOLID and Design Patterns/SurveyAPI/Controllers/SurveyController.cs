@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SurveyAPI.Interfaces;
 using SurveyAPI.Models;
-using static SurveyAPI.Models.OfferedAnswerResult;
+using static SurveyAPI.Models.OfferedAnswers;
 
 namespace SurveyAPI.Controllers
 {
@@ -29,9 +29,10 @@ namespace SurveyAPI.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddSurveyResult([FromBody] Answers survey)
+        [Route("surveyResult/Add")]
+        public JsonResult AddSurveyResult([FromBody] Answers surveyResult)
         {
-            Answers sr = _surveyService.AddSurveyResult(survey);
+            Answers sr = _surveyService.AddSurveyResult(surveyResult);
             return Json(sr);
         }
         
@@ -51,6 +52,7 @@ namespace SurveyAPI.Controllers
         }
 
         [HttpPost]
+        [Route("survey/Add")]
         public JsonResult AddSurvey([FromBody] Survey survey)
         {
             Survey sr = _surveyService.AddSurvey(survey);
@@ -58,13 +60,15 @@ namespace SurveyAPI.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddQuestionWithAnswers([FromBody] QuestionAndAnswers qAndA)
+        [Route("questionAndAnswers/Add")]
+        public JsonResult AddQuestionWithAnswers([FromBody] QuestionAndAnswers questionAndAnswers)
         {
-            QuestionAndAnswers qA = _surveyService.AddQuestionWithAnswers(qAndA);
+            QuestionAndAnswers qA = _surveyService.AddQuestionWithAnswers(questionAndAnswers);
             return Json(qA);
         }
 
         [HttpPost]
+        [Route("offeredAnswerResult/Add")]
         public JsonResult AddOfferedAnswersForQuestion([FromBody] OfferedAnswerResult offeredAnswerResult)
         {
             OfferedAnswerResult oA = _surveyService.AddOfferedAnswersForQuestion(offeredAnswerResult);
@@ -75,6 +79,7 @@ namespace SurveyAPI.Controllers
         [Route("{surveyId}")]
         public JsonResult DeleteSurvey(int surveyId)
         {
+            
             _surveyService.DeleteSurvey(surveyId);
             return Json(Ok());
         }
@@ -87,6 +92,7 @@ namespace SurveyAPI.Controllers
         }
 
         [HttpPost]
+        [Route("participant/Add")]
         public JsonResult AddParticipant([FromBody] Participant participant)
         {
             Participant p = _surveyService.AddParticipant(participant);
@@ -100,10 +106,25 @@ namespace SurveyAPI.Controllers
             return Json(_surveyService.GetGeneralInformations(surveyId));
         }
 
-        [HttpPost]
-        public JsonResult AddGeneralInformations([FromBody] GeneralInformations survey)
+        [HttpGet()]
+        [Route("GetAllGeneralInformations")]
+        public JsonResult GetAllGeneralInformations()
         {
-            GeneralInformations p = _surveyService.AddGeneralInformations(survey);
+            return Json(_surveyService.GetAllGeneralInformations());
+        }
+
+        [HttpGet()]
+        [Route("GetOfferedAnswers")]
+        public JsonResult GetOfferedAnswers()
+        {
+            return Json(_surveyService.GetOfferedAnswers());
+        }
+
+        [HttpPost]
+        [Route("generalInformations/Add")]
+        public JsonResult AddGeneralInformations([FromBody] GeneralInformations generalInformations)
+        {
+            GeneralInformations p = _surveyService.AddGeneralInformations(generalInformations);
             return Json(p);
         }
     }

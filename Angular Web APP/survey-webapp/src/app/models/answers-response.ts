@@ -6,3 +6,8 @@ export class OfferedAnswer {
   public questionId: string;
   public questionAnswer: string;
 }
+
+export class OfferedAnswersModel{
+  id:number;
+  text:string;
+}

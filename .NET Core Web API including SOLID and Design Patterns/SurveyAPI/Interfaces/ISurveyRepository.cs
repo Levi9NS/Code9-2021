@@ -15,6 +15,8 @@ namespace SurveyAPI.Interfaces
         GeneralInformations AddGeneralInformations(GeneralInformations survey);
         GeneralInformations GetGeneralInformations(int surveyId);
         List<Question> GetSurveyQuestions(int surveyId);
+        List<GeneralInformations> GetAllGeneralInformations();
+        List<OfferedAnswers> GetOfferedAnswers();
         QuestionAndAnswers AddQuestionWithAnswers(QuestionAndAnswers qAndA);
         OfferedAnswerResult AddOfferedAnswersForQuestion(OfferedAnswerResult offeredAnswer);
         Participant AddParticipant(Participant participant);

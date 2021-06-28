@@ -74,5 +74,15 @@ namespace SurveyAPI.Services
         {
             return _repository.GetGeneralInformations(surveyId);
         }
+
+        public List<GeneralInformations> GetAllGeneralInformations()
+        {
+            return _repository.GetAllGeneralInformations();
+        }
+
+        public List<OfferedAnswers> GetOfferedAnswers()
+        {
+            return _repository.GetOfferedAnswers();
+        }
     }
 }

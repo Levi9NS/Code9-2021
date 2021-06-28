@@ -15,34 +15,36 @@ export class SurveyComponent implements OnInit {
   private queryParamSurveyId = 'id';
   private surveyRootElementId = 'survey-element';
   survey: SurveyResponse;
+  surveyId = 0;
   dataLoaded = false;
 
   constructor(private readonly surveyService: SurveyService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     const surveyId = this.route.snapshot.params[this.queryParamSurveyId];
-
+    this.surveyId = history.state.surveyId;
     this.surveyService.getSurvey(surveyId)
-    .subscribe(surveyResponse => {
-      this.survey = surveyResponse;
-      this.surveyService.getSurveyAnswers(surveyId)
-      .subscribe(answers => {
-        const surveyModel = this.convertAPIDataToSurveyModel(this.survey, answers);
-        const survey = new Model(surveyModel);
-        survey.onComplete.add(this.sendDataToServer);
-        SurveyNG.render(this.surveyRootElementId, {model: survey});
-        this.dataLoaded = true;
+      .subscribe(surveyResponse => {
+        this.survey = surveyResponse;
+        this.surveyService.getSurveyAnswers(surveyId)
+          .subscribe(answers => {
+            const surveyModel = this.convertAPIDataToSurveyModel(this.survey, answers);
+            const survey = new Model(surveyModel);
+            survey.onComplete.add(this.sendDataToServer);
+            SurveyNG.render(this.surveyRootElementId, { model: survey });
+            this.dataLoaded = true;
+          });
       });
-    });
   }
 
   convertAPIDataToSurveyModel(survey: SurveyResponse, answers: OfferedAnswers): SurveyModel {
     const surveyModel = {
       title: survey.name,
-      pages: [{
-        name: 'page1',
-        questions: []
-      }]
+      pages: [
+        {
+          name: 'Answer Survey Questions',
+          questions: []
+        }]
     } as SurveyModel;
 
     surveyModel.pages[0].questions = survey.questions.map<QuestionModel>(question => {
