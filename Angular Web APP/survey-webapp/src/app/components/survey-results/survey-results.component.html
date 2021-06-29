@@ -1,0 +1,16 @@
+<div class="card w-100 m-3 p-4">
+  <h1 class="mb-2">Survey results:</h1>
+  <div class="card bg-light" *ngFor="let result of surveyResults">
+    <div class="row">
+      <div class="col-12">{{result.questionText}}</div>
+      <div class="col-12" *ngFor="let answers of result.offeredAnswers | keyvalue">
+        <div class="col-8">
+          {{answers.key}}
+        </div>
+        <div class="col-4">
+          {{answers.value}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="card w-100 m-3 p-4 bg-light">
+  <h1 class="mb-2">Add Question</h1>
+  <form [formGroup]="addQuestionForm" (ngSubmit)="onSubmit(addQuestionForm)">
+    <div class="form-group">
+      <label>Question text:</label>
+      <input type="text" class="form-control" formControlName="questionText" placeholder="Question" />
+    </div>
+    <div class="form-group">
+      <label>Add offered answers:</label>
+      <select multiple class="form-control" formControlName="offeredAnswers">
+        <option *ngFor="let o of allOfferedAnswers" [ngValue]="o.questionId">
+          {{ o.questionAnswer }}
+        </option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Add question</button>
+  </form>
+</div>
+<div class="card w-100 m-3 p-4 bg-light">
+  <h1 class="mb-2">Add Offered Answer</h1>
+  <form [formGroup]="addOfferedAnswerForm" (ngSubmit)="onSubmit(addOfferedAnswerForm)">
+    <div class="form-group">
+      <label>Offered Answer Text:</label>
+      <input type="text" class="form-control" formControlName="offeredAnswerText" placeholder="Offered answer" />
+    </div>
+    <button type="submit" class="btn btn-primary">Add Offered Answer</button>
+  </form>
+</div>
