@@ -26,8 +26,15 @@ const routes: Routes = [
   }
 ];
 
+
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  entryComponents: [ParticipantComponent]
+  
 })
+
+
+
 export class AppRoutingModule { }

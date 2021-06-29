@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { OfferedAnswer, Question, Survey } from 'src/app/models/survey';
 import { SurveyResponse } from 'src/app/models/survey-response';
 import { SurveyService } from 'src/app/services/survey-service/survey-service.service';
@@ -16,7 +17,8 @@ export class CreateSurveyComponent implements OnInit {
   addquestion:Question;
   survey : Survey;
   newFormGroup: FormGroup;
-  constructor(private formBuilder: FormBuilder,public dialog: MatDialog,private surveyService : SurveyService) { }
+  submitted = false;
+  constructor(private formBuilder: FormBuilder,public dialog: MatDialog,private surveyService : SurveyService,private router: Router) { }
 
   ngOnInit() {
     this.createForm();
@@ -37,6 +39,7 @@ export class CreateSurveyComponent implements OnInit {
 
   AddSurvey()
   {
+
     this.survey.name=this.newFormGroup.controls.name.value;
     this.survey.startDate=this.newFormGroup.controls.startDate.value;
     this.survey.endDate=this.newFormGroup.controls.endDate.value;
@@ -44,15 +47,25 @@ export class CreateSurveyComponent implements OnInit {
 
 
   OnSubmit(){
+    this.submitted = true;
+
+    
+    if (this.newFormGroup.invalid) {
+      return;
+  }
     this.AddSurvey();
     console.log(this.survey);
     this.surveyService.AddSurvey(this.survey).subscribe(
       result =>
       {
-     
            console.log(result);
-         
       });
+      this.router.navigate(['/']);
+
+  }
+
+  OnCancel(){
+    this.router.navigate(['/']);
   }
 
   OnAdd() {
@@ -65,6 +78,8 @@ export class CreateSurveyComponent implements OnInit {
       this.question='';
     }
   }
+
+  get f() { return this.newFormGroup.controls; }
 
   OnAddAnswer(question : Question) {
     
@@ -85,4 +100,6 @@ export class CreateSurveyComponent implements OnInit {
       }
       });
   }
+
+  
 }

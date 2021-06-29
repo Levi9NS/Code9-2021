@@ -36,7 +36,7 @@ export class StartPageComponent implements OnInit {
   }
 
   createNew() {
-    this.router.navigate(['/1/Create']);
+    this.router.navigate(['/create']);
   }
 
   onResults(id: number)

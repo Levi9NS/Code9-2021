@@ -5,45 +5,63 @@
     </a>
     </nav>
 <div class="card-body">
-  <div class="row">
-    <div clas="GenerelInformations" style="width: 40%;">
-      <h6 style="margin-left: 2.2%;">General Informations</h6>
-      <div   [formGroup]="newFormGroup">
+ 
+    
+      <div  [formGroup]="newFormGroup">
+        <div class="row"> 
+        <div class="col-md-4">
         <label for="name" class="col-md-3 col-form-label">Name:</label>
-        <div class="col-md-6">
-          <input type="text" class="form-control" formControlName="name" id="name" style="font-weight: bold;"  >
+        <div class="col-md-8">
+          <div class="row">
+          <input type="text" class="form-control" formControlName="name" id="name" style="font-weight: bold;"  [ngClass]="{ 'is-invalid': submitted && f.name.errors }"  >
         </div>
-
-    
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback row">
+              <div *ngIf="f.name.errors.required">Name is required</div>
+            </div>
+          </div>
+      </div>
+      <div class="col-md-4">
         <label for="startDate" class="col-md-3 col-form-label">Start Date:</label>
-        <div class="col-md-6">
-          <input   type="date" class="form-control" formControlName="startDate" id="startDate" style="font-weight: bold;"  >
+        <div class="col-md-8">
+          <div class="row">
+          <input   type="date" class="form-control" formControlName="startDate" id="startDate" style="font-weight: bold;" [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }"  >
         </div>
-
+        <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback row">
+          <div *ngIf="f.startDate.errors.required">Start Date is required</div>
+        </div>
+      </div>
+      </div>
+  
       
       
-    
+    <div class="col-md-4">
         <label for="endDate" class="col-md-3 col-form-label">End Date:</label>
-        <div class="col-md-6">
-          <input   type="date" class="form-control" formControlName="endDate" id="endDate" style="font-weight: bold;"  >
+        <div class="col-md-8">
+          <div class="row">
+          <input   type="date" class="form-control" formControlName="endDate" id="endDate" style="font-weight: bold;" [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }"   >
+          </div>
+          <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback row">
+            <div *ngIf="f.endDate.errors.required">End Date is required</div>
+          </div>
         </div>
       </div>
     </div>
+    </div>
 
-    <div class="AddQuestion" style="width: 60%;">
-      <h6 style="margin-left: 2.2%;">Questions</h6>
+    <div class="AddQuestion" style="margin-top: 15px; width: 60%;">
+      <h6 style="margin-left: 2.2%;">QUESTIONS</h6>
       <label for="question" class="col-md-3 col-form-label">Question:</label>
-      <div class="col-md-9 row" >
-        <div class="col-sm">
+      <div class="col-md-11 row" >
+        <div class="col-md-9">
         <input type="text"  class="form-control"  id="question" style="font-weight: bold;" [(ngModel)]="question"  > 
       </div>
-        <div class="col-sm">
-        <button  (click)="OnAdd()" class="btn btn-primary ">Add</button>
+        <div class="col-md">
+        <button  (click)="OnAdd()" class="btn btn-primary ">Add question</button>
       </div>
       </div>
 
       <div *ngFor="let question of survey.questions">
-        <div class="card" style="width: 30rem;">
+        <div class="card" style="width: 50rem;">
           <div class="card-body">
             <h5 class="card-title">{{question.questionText}}</h5>
             <h6 class="card-subtitle mb-2 text-muted">Offered answers</h6>
@@ -60,7 +78,9 @@
 
 
     </div>
-  </div>
-</div>
-<button type="submit" (click)="OnSubmit()" class="btn btn-primary btn-lg btn-block">Save</button>
+  
+    <div style="margin-top: 7%;">
+    <button type="submit" (click)="OnSubmit()" class="btn btn-primary btn-lg btn-block">Save</button>
+    <button  (click)="OnCancel()" class="btn btn-danger btn-lg btn-block">Cancel</button>
+    </div>
 </div>

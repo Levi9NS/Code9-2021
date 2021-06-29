@@ -126,7 +126,7 @@ namespace SurveyAPI.Repositories
 
                                              "       ON pa.id = a.ParticipantId AND qoar.QuestionId = a.QuestionId AND qoar.OfferedAnswerId = a.QuestionAnswersId " +
 
-                                             "       where ge.id = 1 " +
+                                             "       where ge.id = '{0}' " +
                                          "   GROUP BY ge.id, ge.Description, oa.id, q.id, q.QuestionText, oa.Text " +
                                          "   ORDER BY ge.id, q.id, oa.id", surveyId);
 
