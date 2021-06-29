@@ -14,6 +14,7 @@ import { SurveyService } from 'src/app/services/survey-service/survey-service.se
 export class AddQuestionsComponent implements OnInit {
   dataloaded = false;
   answers = Array<OfferedAnswersModel>();
+  offeredAnswers: FormGroup;
   questionsFormGroup : FormGroup;
   question: QuestionAndAnswers;
   surveyId: number;
@@ -25,12 +26,12 @@ export class AddQuestionsComponent implements OnInit {
     this.questionsFormGroup= this.fromBuilder.group(
       {
         question: [''],
-        answers: this.fromBuilder.group({
+        answers : this.fromBuilder.group({
           answer: ['']
         }),
-
       }
     );
+
     this.service.getAllOfferedAnswers().subscribe(
       result => {
         this.answers = result;
@@ -38,11 +39,18 @@ export class AddQuestionsComponent implements OnInit {
         console.log(result);
       }
     );
+
+    
+    console.log();
   }
 
   onSubmit(){
     this.question = this.questionsFormGroup.value as QuestionAndAnswers;
     this.question.surveyId = this.surveyId;
+    this.offeredAnswers = this.questionsFormGroup.get('answers') as FormGroup;
+    let pickedAnswers = this.offeredAnswers.value as OfferedAnswersModel;
+    console.log(pickedAnswers);
+    console.log(this.question);
     this.service.addQuestion(this.question).subscribe(
       result => {
         console.log(this.question);

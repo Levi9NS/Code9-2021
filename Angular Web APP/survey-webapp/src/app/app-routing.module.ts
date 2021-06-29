@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     component: ParticipantDataComponent,
-    path: 'participant/Add',
+    path: 'participant/add',
     pathMatch: 'full'
   },
   {
@@ -24,15 +24,15 @@ const routes: Routes = [
   },
   {
     component: AddQuestionsComponent,
-    path: 'questionAndAnswers/Add'
+    path: 'questionAndAnswers/add'
   },
   {
     component: AddSurveyComponent,
-    path: 'newSurvey/Add'
+    path: 'newSurvey/add'
   },
   {
     component: HomeComponent,
-    path: '**',
+    path: '',
     pathMatch: 'full'
   }
 ];

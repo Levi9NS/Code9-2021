@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
           let start_date = this.datepipe.transform(iteam.startDate, 'yyyy-MM-dd');
 
           if(current_date > end_date || current_date < start_date){
-            iteam.isOpen = false;
+            iteam.isOpen = true;
           }
           else{
             iteam.isOpen = true;
@@ -42,11 +42,11 @@ export class HomeComponent implements OnInit {
   }
 
   doSurvey(id:number){
-    this.router.navigateByUrl('/participant/Add', {state:{ surveyId: id}});
+    this.router.navigateByUrl('/participant/add', {state:{ surveyId: id}});
   }
   
   addQuestions(id:number){
-    this.router.navigateByUrl('/questionAndAnswers/Add', {state:{ surveyId: id}});
+    this.router.navigateByUrl('/questionAndAnswers/add', {state:{ surveyId: id}});
   }
   
   
@@ -55,6 +55,6 @@ export class HomeComponent implements OnInit {
   }
 
   addNewSurvey(){
-    this.router.navigateByUrl('/newSurvey/Add');
+    this.router.navigateByUrl('/newSurvey/add');
   }
 }

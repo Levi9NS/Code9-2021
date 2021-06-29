@@ -153,11 +153,10 @@ namespace SurveyAPI.Repositories
                            ,[CreateDate])
                         OUTPUT inserted.Id INTO @QuestionsIdSTable
                         VALUES
-                           ('{0}'
-                           ,'{1}'
-                           ,'{2}'
-                           ,'{3}')
-                            GO;", q.QuestionText, "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") );
+                           ( '{0}'
+                           , '{1}'
+                           , '{2}')
+                            ", q.QuestionText, "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") );
                 
             }
 
@@ -168,13 +167,14 @@ namespace SurveyAPI.Repositories
                                        ,[CreatedBy]
                                        ,[CreateDate])
                                  VALUES
-                                       ('{0}'
-                                       ,'{1}'
-                                       ,'{2}'
-                                       ,'{3}'
-                                       ,'{4}')
-                                GO;
-                                SET @SurveyId = SCOPE_IDENTITY();", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                                       ( '{0}'
+                                       , '{1}'
+                                       , '{2}'
+                                       , '{3}'
+                                       , '{4}')
+                                
+                                SET @SurveyId = SCOPE_IDENTITY();
+                              ", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
 
             foreach (var q in survey.Questions)
@@ -185,9 +185,9 @@ namespace SurveyAPI.Repositories
                             ,[CreatedBy]
                             ,[CreateDate])
                         
-                        SELECT @SurveyId, Id, {0} ,{1}
-                               FROM @QuestionsIdSTable);
-                GO;", "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                        SELECT @SurveyId, Id, '{0}' , '{1}'
+                               FROM @QuestionsIdSTable;
+                ", "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             }
 
             SqlConnection _connection = GetConnection(_connectionString);
@@ -291,13 +291,13 @@ namespace SurveyAPI.Repositories
                                         CreateDate
                                     )
                                     VALUES
-                                    (   {0},        
-	                                    {1},        
-	                                    {2},        
-	                                    {3},        
-	                                    {4}         
+                                    (   '{0}',        
+	                                    '{1}',        
+	                                    '{2}',        
+	                                    '{3}',        
+	                                    '{4}'         
 	                                )
-                                    GO;
+                                    
                                     SET @QuestionId = SCOPE_IDENTITY();", qAndA.QuestionText,
                                     "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                     "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
@@ -313,14 +313,14 @@ namespace SurveyAPI.Repositories
                                     )
                                     VALUES
                                     (   
-                                        {0},
+                                        '{0}',
                                         @QuestionId,
-                                        {1},        
-	                                    {2},        
-	                                    {3},        
-	                                    {4}        
+                                        '{1}',        
+	                                    '{2}',        
+	                                    '{3}',        
+	                                    '{4}'        
 	                                )
-                                    GO;" , qAndA.SurveyId,
+                                    " , qAndA.SurveyId,
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
@@ -335,13 +335,13 @@ namespace SurveyAPI.Repositories
                                         CreateDate
                                     )
                                     VALUES
-                                    (   {0},        
-	                                    {1},        
-	                                    {2},        
-	                                    {3},        
-	                                    {4}         
+                                    (   '{0}',        
+	                                    '{1}',        
+	                                    '{2}',        
+	                                    '{3}',        
+	                                    '{4}'         
 	                                )
-                                    GO;
+                                    
                                     SET @AnswerId = SCOPE_IDENTITY();", item,
                                     "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                     "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
@@ -358,12 +358,12 @@ namespace SurveyAPI.Repositories
                                     VALUES
                                     (   @QuestionId,   
                                         @AnswerId,
-	                                    {0},        
-	                                    {1},        
-	                                    {2},        
-	                                    {3}         
+	                                    '{0}',        
+	                                    '{1}',        
+	                                    '{2}',        
+	                                    '{3}'         
 	                                )
-                                    GO;
+                                    
                                     SET @AnswerId = SCOPE_IDENTITY();",
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
@@ -394,13 +394,13 @@ namespace SurveyAPI.Repositories
                                         CreateDate
                                     )
                                     VALUES
-                                    (   {0},        
-	                                    {1},        
-	                                    {2},        
-	                                    {3},        
-	                                    {4}         
+                                    (   '{0}',        
+	                                    '{1}',        
+	                                    '{2}',        
+	                                    '{3}',        
+	                                    '{4}'         
 	                                )
-                                    GO;
+                                    
                                     SET @AnswerId = SCOPE_IDENTITY();", iteam.QuestionAnswer,
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
@@ -415,14 +415,14 @@ namespace SurveyAPI.Repositories
                                         CreateDate
                                     )
                                     VALUES
-                                    (   {0}   
+                                    (   '{0}'   
                                         @AnswerId,
-	                                    {1},        
-	                                    {2},        
-	                                    {3},        
-	                                    {4}         
+	                                    '{1}',        
+	                                    '{2}',        
+	                                    '{3}',        
+	                                    '{4}'         
 	                                )
-                                    GO;", iteam.QuestionId,
+                                    ", iteam.QuestionId,
                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
@@ -496,7 +496,7 @@ namespace SurveyAPI.Repositories
                                        ,'{4}'
                                        ,'{5}'
                                        ,'{6}')
-                                GO;
+                                
                                 SET @SurveyId = SCOPE_IDENTITY();", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), 
                                 "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                 "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
@@ -585,7 +585,7 @@ namespace SurveyAPI.Repositories
 
         public List<GeneralInformations> GetAllGeneralInformations()
         {
-            string _statement = string.Format("SELECT ge.id,  ge.Description as Name, ge.StartDate, ge.EndDate " +
+            string _statement = string.Format("SELECT ge.id,  ge.Description as Name, ge.StartDate, ge.EndDate, ge.IsOpen " +
                                "FROM Survey.[GeneralInformations] ge");
 
             List<GeneralInformations> generalInformations = new List<GeneralInformations>();
@@ -605,6 +605,7 @@ namespace SurveyAPI.Repositories
                         Name = _reader.GetString(1),
                         StartDate = _reader.GetDateTime(2),
                         EndDate = _reader.GetDateTime(3),
+                        IsOpen = _reader.GetBoolean(4)
                     };
                     generalInformations.Add(generalInformation);
                 }

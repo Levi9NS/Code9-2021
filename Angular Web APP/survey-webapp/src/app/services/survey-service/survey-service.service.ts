@@ -29,37 +29,37 @@ export class SurveyService {
   }
 
   getAllSurveys(): Observable<Array<GeneralInformations>>{
-    return this.httpClient.get<Array<GeneralInformations>>(`${environment.apiUrl}/api/Survey/GetAllGeneralInformations`);
+    return this.httpClient.get<Array<GeneralInformations>>(`${environment.apiUrl}/api/Survey/survey/getAllGeneralInformations`);
   }
 
   getAllOfferedAnswers(){
-    return this.httpClient.get<Array<OfferedAnswersModel>>(`${environment.apiUrl}/api/Survey/GetOfferedAnswers`);
+    return this.httpClient.get<Array<OfferedAnswersModel>>(`${environment.apiUrl}/api/Survey/survey/getOfferedAnswers`);
   }
 
   getParticipant(){
-    return this.httpClient.get<Participant>(`${environment.apiUrl}/api/Survey/GetLastParticipantAdded`);
+    return this.httpClient.get<Participant>(`${environment.apiUrl}/api/Survey/survey/getLastParticipantAdded`);
   }
 
 
   addParticipant(participant: any) {
     
-    return this.httpClient.post<any>(`${environment.apiUrl}/api/Survey/participant/Add`, participant);
+    return this.httpClient.post<any>(`${environment.apiUrl}/api/Survey/participant/add`, participant);
   }
 
   addGeneralInformations(generalinfo : GeneralInformations){
-    return this.httpClient.post<GeneralInformations>(`${environment.apiUrl}/api/Survey/generalInformations/Add`, generalinfo);
+    return this.httpClient.post<GeneralInformations>(`${environment.apiUrl}/api/Survey/generalInformations/add`, generalinfo);
   }
 
   addQuestion(questionAndAnswers: QuestionAndAnswers){
-    return this.httpClient.post<QuestionAndAnswers>(`${environment.apiUrl}/api/Survey/questionAndAnswers/Add`, questionAndAnswers);
+    return this.httpClient.post<QuestionAndAnswers>(`${environment.apiUrl}/api/Survey/questionAndAnswers/add`, questionAndAnswers);
   }
 
   addSurvey(survey : Survey){
-    return this.httpClient.post<Survey>(`${environment.apiUrl}/api/Survey/newSurvey/Add`, survey);
+    return this.httpClient.post<Survey>(`${environment.apiUrl}/api/Survey/newSurvey/add`, survey);
   }
   
   addResult(answers: Answers){
-    return this.httpClient.post<Answers>(`${environment.apiUrl}/api/Survey/surveyResult/Add`, answers);
+    return this.httpClient.post<Answers>(`${environment.apiUrl}/api/Survey/surveyResult/add`, answers);
   }
 
 }

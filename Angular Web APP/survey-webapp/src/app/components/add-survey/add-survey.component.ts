@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Questions, Survey } from 'src/app/models/survey';
+import {Questions, Survey } from 'src/app/models/survey';
 import { SurveyService } from 'src/app/services/survey-service/survey-service.service';
 import { DateValidator } from './date-validator';
 
@@ -15,6 +15,8 @@ export class AddSurveyComponent implements OnInit {
 
   surveyFormGroup: FormGroup;
   survey = new Survey();
+  questionsHelper: Questions[] = [];
+  public submited = false;
 
   constructor(private service: SurveyService, private router: Router, private formBuilder: FormBuilder) { }
 
@@ -49,7 +51,20 @@ export class AddSurveyComponent implements OnInit {
   }
 
   onSubmit(){ 
-    this.survey = this.surveyFormGroup.value as Survey;
+    
+    this.survey.Name = this.surveyFormGroup.controls.name.value;
+    this.survey.StartDate = this.surveyFormGroup.controls.startDate.value;;
+    this.survey.EndDate = this.surveyFormGroup.controls.endDate.value;;
+    console.log(this.survey);
+    let q = this.surveyFormGroup.controls.questions.value as Array<string>;
+    q.forEach(element => {
+        this.questionsHelper.push({
+          QuestionText : element
+        });
+    });
+    this.survey.Questions = this.questionsHelper;
+    console.log(this.survey);
+    this.submited = true;
     this.service.addSurvey(this.survey).subscribe(
       result => {
         console.log(result);

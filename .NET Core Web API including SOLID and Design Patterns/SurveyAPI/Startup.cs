@@ -33,6 +33,7 @@ namespace SurveyAPI
                     builder.WithOrigins(new string[] { "http://localhost:4200" });
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
+                    builder.AllowAnyOrigin();
                 });
             });
         }
