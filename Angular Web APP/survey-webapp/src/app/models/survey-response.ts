@@ -14,8 +14,8 @@ export class Questions {
 }
 
 export class QuestionAndAnswers{
-  text: string;
-  answers: OfferedAnswersModel[];
-  surveyId: number;
+  QuestionText: string;
+  SurveyId: number;
+  Answers: string[];
 }
 

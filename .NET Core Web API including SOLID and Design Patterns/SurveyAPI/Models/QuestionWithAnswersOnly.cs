@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace SurveyAPI.Models
 {
-    public class QuestionAndAnswers
+    public class QuestionWithAnswersOnly
     {
         public string QuestionText { get; set; }
-        public int SurveyId { get; set; } 
-        public List<string> Answers { get; set; }     
+        public List<string> Answers { get; set; }
     }
 }

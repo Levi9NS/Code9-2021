@@ -5,17 +5,32 @@
   <form [formGroup]="questionsFormGroup" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="question">Question</label>
-      <input type="text" formControlName="question" name="question"maxlength="30" id="question" >
+      <input type="text" formControlName="question" name="question" id="question" 
+      [ngClass]="{ 'is-invalid': submited && f.question.errors}"/>
+      <div *ngIf="f.question.touched">
+        <small *ngIf="questionControl.errors?.required" class="text-danger">Required</small>
+      </div>
     </div>
-    <div class="form-check mb-3" *ngFor="let answer of answers; let i = index;" formGroupName="answers">
-      <input type="checkbox" formControlName="answer" name="{{answer.text}}" class="form-check-input">
-      <label class="form-check-lable">{{answer.text}}</label>
+    <br />
+    <label>Answers</label>
+
+    <button type="button" class="btn btn-outline-dark" (click)="addAnswer()">+</button>
+    <br />
+    <div class="form-check mb-3" formArrayName="answers" *ngFor="let answer of answers.controls; let i=index">
+      <div>
+        <label>Answer {{i+1}}</label>
+        <input type="text" class="form-control" [formControlName]="i"
+        [ngClass]="{ 'is-invalid': submited && getValidity(i)}">
+        <div *ngIf="!getTouch(i)">
+          <small *ngIf="getValidity(i)?.required" class="text-danger">Required</small>
+        </div>
+      </div>
     </div>
     <div>
-      <button type="submit" class="btn btn-primary" question="submit" id="submit">Enter
+      <button [disabled]="!questionsFormGroup.valid" type="submit" class="btn btn-primary" name="submit" id="submit">Enter
         <br />
       </button>
-      <button type="button" class="btn btn-secondary" question="cancel" id="cancel" (click)="OnCancel()">Cancel
+      <button type="button" class="btn btn-secondary" name="cancel" id="cancel" (click)="OnCancel()">Cancel
         <br />
       </button>
     </div>

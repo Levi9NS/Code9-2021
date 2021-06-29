@@ -39,7 +39,7 @@ namespace SurveyAPI.Repositories
             _connection.Open();
             SqlCommand _sqlcommand = new SqlCommand(_statement, _connection);
             _sqlcommand.ExecuteNonQuery();
-
+            _connection.Close();
         }
 
         public Survey GetSurvey(int surveyId)
@@ -137,32 +137,61 @@ namespace SurveyAPI.Repositories
             return sr;
         }
 
-        public Survey AddSurvey(Survey survey)
+        public SurveyAddModel AddSurvey(SurveyAddModel survey)
         {
             string command = string.Empty;
 
             command += "DECLARE @QuestionsIdSTable Table (ID int);";
             command += "DECLARE @SurveyId Int;";
+            command += "DECLARE @AnswersIdSTable Table (ID int);";
 
             foreach (var q in survey.Questions)
             {
                 command += string.Format(@"INSERT INTO [Survey].[Questions]
                            ([QuestionText]
+                            ,[ChangedBy]
+                            ,[ChangedDate]
                            ,[CreatedBy]
                            ,[CreateDate])
                         OUTPUT inserted.Id INTO @QuestionsIdSTable
                         VALUES
                            ( '{0}'
                            , '{1}'
-                           , '{2}');
-                            ", q.QuestionText, "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") );
-                
+                           , '{2}'
+                           , '{3}'
+                           , '{4}');
+                            ", q.QuestionText, "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                            "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+                foreach (var item in q.Answers)
+                {
+                    command += String.Format(@"INSERT INTO [Survey].[OfferedAnswers]
+                                    ([Text]
+                                    ,[ChangedBy]
+                                    ,[ChangedDate]
+                                    ,[CreatedBy]
+                                    ,[CreateDate])
+                                    OUTPUT inserted.Id INTO @AnswersIdSTable
+                                    VALUES
+                                    ( '{0}'        
+	                                , '{1}'       
+	                                , '{2}'        
+	                                , '{3}'        
+	                                , '{4}');", item,
+                                    "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                    "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                }
+
             }
+
+
 
             command += string.Format(@"INSERT INTO [Survey].[GeneralInformations]
                                        ([Description]
                                        ,[StartDate]
                                        ,[EndDate]
+                                       ,[ChangedBy]
+                                       ,[ChangedDate]
                                        ,[CreatedBy]
                                        ,[CreateDate])
                                  VALUES
@@ -170,10 +199,12 @@ namespace SurveyAPI.Repositories
                                        , '{1}'
                                        , '{2}'
                                        , '{3}'
-                                       , '{4}');
-                                
+                                       , '{4}'
+                                       , '{5}'
+                                       , '{6}');
                                 SET @SurveyId = SCOPE_IDENTITY();
-                              ", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                              ", survey.Name, survey.StartDate.ToString("yyyy-MM-dd"), survey.EndDate.ToString("yyyy-MM-dd"), "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                              "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
 
             foreach (var q in survey.Questions)
@@ -181,12 +212,33 @@ namespace SurveyAPI.Repositories
                 command += string.Format(@"INSERT INTO [Survey].[SurveyQuestionRelations]
                             ([SurveyId]
                             ,[QuestionId]
+                            ,[ChangedBy]
+                            ,[ChangedDate]
                             ,[CreatedBy]
                             ,[CreateDate])
                         
-                        SELECT @SurveyId, Id, '{0}' , '{1}'
+                        SELECT @SurveyId, Id, '{0}' , '{1}', '{2}', '{3}'
                                FROM @QuestionsIdSTable;
-                ", "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                ", "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                 "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+                foreach (var item in q.Answers)
+                {
+
+                    command += String.Format(@"INSERT INTO [Survey].[QuestionOfferedAnswerRelations]
+                                   ([QuestionId]
+                                   ,[OfferedAnswerId]
+                                   ,[ChangedBy]
+                                   ,[ChangedDate]
+                                   ,[CreatedBy]
+                                   ,[CreateDate])
+                                    SELECT qt.Id, at.Id, '{0}' , '{1}' , '{2}', '{3}'
+                                    FROM @QuestionsIdSTable qt, @AnswersIdSTable at;
+                                    ",
+                                       "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                                       "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                }
+
             }
 
             SqlConnection _connection = GetConnection(_connectionString);
@@ -194,6 +246,7 @@ namespace SurveyAPI.Repositories
             _connection.Open();
             SqlCommand _sqlcommand = new SqlCommand(command, _connection);
             _sqlcommand.ExecuteNonQuery();
+            _connection.Close();
             return survey;
         }
 
@@ -282,88 +335,77 @@ namespace SurveyAPI.Repositories
             _command += "DECLARE @AnswerId Int;";
 
             _command += String.Format(@"INSERT INTO [Survey].[Questions] 
-                                   (
-                                        QuestionText,
-                                        ChangedBy,
-                                        ChangedDate,
-                                        CreatedBy,
-                                        CreateDate
-                                    )
+                                    ([QuestionText]
+                                   ,[ChangedBy]
+                                   ,[ChangedDate]
+                                   ,[CreatedBy]
+                                   ,[CreateDate])
                                     VALUES
-                                    (   '{0}',        
-	                                    '{1}',        
-	                                    '{2}',        
-	                                    '{3}',        
-	                                    '{4}'         
+                                    (   '{0}'
+	                                    ,'{1}'
+	                                    ,'{2}'
+	                                    ,'{3}'
+	                                    ,'{4}'
 	                                );
-                                    
                                     SET @QuestionId = SCOPE_IDENTITY();", qAndA.QuestionText,
                                     "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                     "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
             _command += String.Format(@"INSERT INTO [Survey].[SurveyQuestionRelations]
-                                    (
-                                        [SurveyId],
-                                        [QuestionId],
-                                        [CreatedBy],
-                                        [CreateDate],
-                                        [ChangedBy],
-                                        [ChangedDate]
-                                    )
+                                    ([SurveyId]
+                                   ,[QuestionId]
+                                   ,[ChangedBy]
+                                   ,[ChangedDate]
+                                   ,[CreatedBy]
+                                   ,[CreateDate])
                                     VALUES
                                     (   
-                                        '{0}',
-                                        @QuestionId,
-                                        '{1}',        
-	                                    '{2}',        
-	                                    '{3}',        
-	                                    '{4}'        
+                                        '{0}'
+                                        ,@QuestionId
+                                        ,'{1}'        
+	                                    ,'{2}'        
+	                                    ,'{3}'        
+	                                    ,'{4}'        
 	                                );
-                                    " , qAndA.SurveyId,
+                                    ", qAndA.SurveyId,
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
             foreach ( var item in qAndA.Answers) 
             {
-                _command += String.Format(@"INSERT INTO [Survey].[OfferedAnswers] 
-                                   (
-                                        [Text],
-                                        ChangedBy,
-                                        ChangedDate,
-                                        CreatedBy,
-                                        CreateDate
-                                    )
+                _command += String.Format(@"INSERT INTO [Survey].[OfferedAnswers]
+                                    ([Text]
+                                   ,[ChangedBy]
+                                   ,[ChangedDate]
+                                   ,[CreatedBy]
+                                   ,[CreateDate])
                                     VALUES
                                     (   '{0}',        
 	                                    '{1}',        
 	                                    '{2}',        
 	                                    '{3}',        
 	                                    '{4}'         
-	                                );
-                                    
+	                                )
                                     SET @AnswerId = SCOPE_IDENTITY();", item,
                                     "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                     "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
 
-                _command += String.Format(@"INSERT INTO [Survey].[QuestionOfferedAnswerRelations] 
-                                   (
-                                        QuestionId,
-                                        OfferedAnswerId,
-                                        ChangedBy,
-                                        ChangedDate,
-                                        CreatedBy,
-                                        CreateDate
-                                    )
-                                    VALUES
-                                    (   @QuestionId,   
-                                        @AnswerId,
-	                                    '{0}',        
-	                                    '{1}',        
-	                                    '{2}',        
-	                                    '{3}'         
-	                                );
-                                    
-                                    SET @AnswerId = SCOPE_IDENTITY();",
+                _command += String.Format(@"INSERT INTO [Survey].[QuestionOfferedAnswerRelations]
+                                       ([QuestionId]
+                                       ,[OfferedAnswerId]
+                                       ,[ChangedBy]
+                                       ,[ChangedDate]
+                                       ,[CreatedBy]
+                                       ,[CreateDate])
+                                        VALUES
+                                        (   @QuestionId   
+                                            ,@AnswerId
+	                                        ,'{0}'        
+	                                        ,'{1}'        
+	                                        ,'{2}'        
+	                                        ,'{3}'         
+	                                    );
+                                    ",
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             }
@@ -373,7 +415,7 @@ namespace SurveyAPI.Repositories
             _connection.Open();
             SqlCommand _sqlcommand = new SqlCommand(_command, _connection);
             _sqlcommand.ExecuteNonQuery();
-
+            _connection.Close();
             return qAndA;
         }
 
@@ -393,12 +435,12 @@ namespace SurveyAPI.Repositories
                                         CreateDate
                                     )
                                     VALUES
-                                    (   '{0}',        
-	                                    '{1}',        
-	                                    '{2}',        
-	                                    '{3}',        
-	                                    '{4}'         
-	                                );
+                                    (   '{0}'        
+	                                    ,'{1}'        
+	                                    ,'{2}'        
+	                                    ,'{3}'        
+	                                    ,'{4}'         
+	                                )
                                     
                                     SET @AnswerId = SCOPE_IDENTITY();", iteam.QuestionAnswer,
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
@@ -433,7 +475,7 @@ namespace SurveyAPI.Repositories
             _connection.Open();
             SqlCommand _sqlcommand = new SqlCommand(_command, _connection);
             _sqlcommand.ExecuteNonQuery();
-
+            _connection.Close();
             return offeredAnswer;
         }
 
@@ -471,7 +513,7 @@ namespace SurveyAPI.Repositories
             _connection.Open();
             SqlCommand _sqlcommand = new SqlCommand(_command, _connection);
             _sqlcommand.ExecuteNonQuery();
-
+            _connection.Close();
             return participant;
         }
 
@@ -506,7 +548,7 @@ namespace SurveyAPI.Repositories
             _connection.Open();
             SqlCommand _sqlcommand = new SqlCommand(_command, _connection);
             _sqlcommand.ExecuteNonQuery();
-
+            _connection.Close();
             return survey;
         }
 
@@ -577,7 +619,7 @@ namespace SurveyAPI.Repositories
             _connection.Open();
             SqlCommand _sqlcommand = new SqlCommand(_command, _connection);
             _sqlcommand.ExecuteNonQuery();
-
+            _connection.Close();
 
             return survey;
         }

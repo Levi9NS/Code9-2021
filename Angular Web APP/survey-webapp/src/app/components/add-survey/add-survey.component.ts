@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import {Questions, Survey } from 'src/app/models/survey';
+import {QuestionWithAnswersOnly, Survey } from 'src/app/models/survey';
 import { SurveyService } from 'src/app/services/survey-service/survey-service.service';
 import { DateValidator } from './date-validator';
 
@@ -15,7 +15,8 @@ export class AddSurveyComponent implements OnInit {
 
   surveyFormGroup: FormGroup;
   survey = new Survey();
-  questionsHelper: Questions[] = [];
+  questionsHelper = new QuestionWithAnswersOnly();
+  answersHelper: string[] = [];
   public submited = false;
 
   constructor(private service: SurveyService, private router: Router, private formBuilder: FormBuilder) { }
@@ -25,7 +26,8 @@ export class AddSurveyComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(2)]],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      questions: this.formBuilder.array([],[Validators.required])
+      question: ['', Validators.required],
+      answers : this.formBuilder.array([])     
     },{validator: DateValidator})
   }
 
@@ -38,12 +40,12 @@ export class AddSurveyComponent implements OnInit {
     return this.surveyFormGroup.get('startDate');
   }
 
-  get questions(){
-    return this.surveyFormGroup.get('questions') as FormArray;
+  get answers(){
+    return this.surveyFormGroup.get('answers') as FormArray;
   }
 
-  addQuestion(){
-    this.questions.push(this.formBuilder.control(''));
+  addAnswer(){
+    this.answers.push(this.formBuilder.control(''));
   }
 
   OnCancel(){
@@ -53,16 +55,14 @@ export class AddSurveyComponent implements OnInit {
   onSubmit(){ 
     
     this.survey.Name = this.surveyFormGroup.controls.name.value;
-    this.survey.StartDate = this.surveyFormGroup.controls.startDate.value;;
-    this.survey.EndDate = this.surveyFormGroup.controls.endDate.value;;
-    console.log(this.survey);
-    let q = this.surveyFormGroup.controls.questions.value as Array<string>;
-    q.forEach(element => {
-        this.questionsHelper.push({
-          QuestionText : element
-        });
-    });
-    this.survey.Questions = this.questionsHelper;
+    this.survey.StartDate = this.surveyFormGroup.controls.startDate.value;
+    this.survey.EndDate = this.surveyFormGroup.controls.endDate.value;
+
+    this.answersHelper = this.surveyFormGroup.controls.answers.value as Array<string>;
+    this.questionsHelper.QuestionText = this.surveyFormGroup.controls.question.value;
+    this.questionsHelper.Answers = this.answersHelper;
+
+    this.survey.Questions.push(this.questionsHelper);
     console.log(this.survey);
     this.submited = true;
     this.service.addSurvey(this.survey).subscribe(
@@ -73,5 +73,8 @@ export class AddSurveyComponent implements OnInit {
         console.error('error', error);
       }
     )
+    
+    this.router.navigateByUrl('');
+
   }
 }

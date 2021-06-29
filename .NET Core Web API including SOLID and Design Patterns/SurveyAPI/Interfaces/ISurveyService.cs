@@ -9,7 +9,7 @@ namespace SurveyAPI.Interfaces
         SurveyResult GetSurveyResults(int surveyId);
         Answers AddSurveyResult(Answers survey);
 
-        Survey AddSurvey(Survey survey);
+        SurveyAddModel AddSurvey(SurveyAddModel survey);
         Survey GetSurvey(int surveyId);
 
         GeneralInformations AddGeneralInformations(GeneralInformations survey);

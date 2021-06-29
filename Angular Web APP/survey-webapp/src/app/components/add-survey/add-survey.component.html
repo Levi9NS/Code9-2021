@@ -1,51 +1,52 @@
-<div class="container-fluid" >
+<div class="container-fluid">
   <div>
-    <h3  id="headerLable">Enter General Informations For Survey<br></h3>
+    <h3 id="headerLable">Enter General Informations For Survey<br></h3>
   </div>
   <form [formGroup]="surveyFormGroup" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="name">Name</label>
-      <input type="text" formControlName="name" name="name" maxlength="30" class="form-control" 
-      [ngClass]="{ 'is-invalid': submited && f.name.errors}">
+      <input type="text" formControlName="name" name="name" maxlength="30" class="form-control"
+        [ngClass]="{ 'is-invalid': submited && f.name.errors}">
       <div *ngIf="f.name.touched">
         <small *ngIf="f.name.errors?.required" class="text-danger">Required</small>
       </div>
     </div>
     <div class="form-group">
       <label for="startDate">Start Date</label>
-      <input type="date" formControlName="startDate" name="startDate" class="form-control" 
-      [ngClass]="{ 'is-invalid': submited && f.startDate.errors}"/>
+      <input type="date" formControlName="startDate" name="startDate" class="form-control"
+        [ngClass]="{ 'is-invalid': submited && f.startDate.errors}" />
       <div *ngIf="f.startDate.touched">
-        <small *ngIf="f.startDate.errors?.required"                    
-         class="text-danger">Required</small>
-        <small *ngIf="surveyFormGroup.errors?.invaineFrom" class="text-danger">  
-         Select a date Over today</small>
+        <small *ngIf="f.startDate.errors?.required" class="text-danger">Required</small>
+        <small *ngIf="surveyFormGroup.errors?.invaineFrom" class="text-danger">
+          Select a date Over today</small>
       </div>
     </div>
     <div class="form-group">
       <label for="endDate">End Date</label>
       <input type="date" formControlName="endDate" name="endDate" class="form-control"
-      [ngClass]="{ 'is-invalid': submited && f.endDate.errors}"/>
+        [ngClass]="{ 'is-invalid': submited && f.endDate.errors}" />
       <div *ngIf="f.endDate.touched">
         <small *ngIf="endDate.errors?.required" class="text-danger">Required</small>
-        <small *ngIf="surveyFormGroup.errors?.invaineTo" class="text-danger">    
-         choose a date over today</small>
+        <small *ngIf="surveyFormGroup.errors?.invaineTo" class="text-danger">
+          choose a date over today</small>
         <small *ngIf="surveyFormGroup.errors?.dates" class="text-danger">
-        End Date should be grater than start Date</small>
+          End Date should be grater than start Date</small>
       </div>
     </div>
+    <br>
     <div class="form-group">
-      <label>Questions: </label>
-      <button type="button" class="btn btn-secondary btn-sm m-2" (click) ="addQuestion()">Add Question</button>
-      <div formArrayName="questions" *ngFor="let question of questions.controls; let i=index">
-        <div>
-          <label>Question {{i+1}}</label>
-          <input type="text" class="form-control" [formControlName]="i" [ngClass]="{ 'is-invalid': submitted}">
-          <div *ngIf="f.questions.controls.touched">
-            <small *ngIf="endDate.errors?.required" class="text-danger">Required</small>
-          </div>
-        </div>
-        <br>
+      <label for="question">Question</label>
+      <input type="text" formControlName="question" name="question" maxlength="30" id="question">
+    </div>
+    <br />
+    <label>Answers</label>
+
+    <button type="button" class="btn btn-outline-dark" (click)="addAnswer()">+</button>
+    <br />
+    <div class="form-check mb-3" formArrayName="answers" *ngFor="let answer of answers.controls; let i=index">
+      <div>
+        <label>Answer {{i+1}}</label>
+        <input type="text" class="form-control" [formControlName]="i" [ngClass]="{ 'is-invalid': submitted}">
       </div>
     </div>
     <br />

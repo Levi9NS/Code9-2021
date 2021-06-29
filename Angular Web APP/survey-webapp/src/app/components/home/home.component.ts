@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
           let start_date = this.datepipe.transform(iteam.startDate, 'yyyy-MM-dd');
 
           if(current_date > end_date || current_date < start_date){
-            iteam.isOpen = true;
+            iteam.isOpen = false;
           }
           else{
             iteam.isOpen = true;

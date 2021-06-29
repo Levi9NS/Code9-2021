@@ -7,7 +7,7 @@ namespace SurveyAPI.Interfaces
     public interface ISurveyRepository
     {
         Survey GetSurvey(int surveyId);
-        Survey AddSurvey(Survey survey); 
+        SurveyAddModel AddSurvey(SurveyAddModel survey); 
         SurveyResult GetSurveyResult(int surveyId);
         Answers AddSurveyResult(Answers survey);
         OfferedAnswerResult GetOfferedAnswersForSurvey(int surveyId);

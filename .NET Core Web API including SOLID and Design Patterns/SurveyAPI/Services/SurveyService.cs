@@ -25,7 +25,7 @@ namespace SurveyAPI.Services
             _repository.GetSurveyResult(surveyId);
         }
 
-        public Survey AddSurvey(Survey survey)
+        public SurveyAddModel AddSurvey(SurveyAddModel survey)
         {
             return _repository.AddSurvey(survey);
         }

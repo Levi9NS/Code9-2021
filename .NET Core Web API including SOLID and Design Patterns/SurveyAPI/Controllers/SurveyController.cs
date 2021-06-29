@@ -54,9 +54,9 @@ namespace SurveyAPI.Controllers
 
         [HttpPost]
         [Route("NewSurvey/Add")]
-        public JsonResult AddSurvey([FromBody] Survey survey)
+        public JsonResult AddSurvey([FromBody] SurveyAddModel survey)
         {
-            Survey sr = _surveyService.AddSurvey(survey);
+            SurveyAddModel sr = _surveyService.AddSurvey(survey);
             return Json(sr);
         }
 
