@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   apiUrl: 'https://surveyapidejan.azurewebsites.net'
-  //apiUrl:''
+  //apiUrl:'https://testapidejan.azurewebsites.net'
 };

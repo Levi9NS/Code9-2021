@@ -31,8 +31,7 @@ namespace SurveyAPI.Repositories
                                "   WHERE SurveyId =  '{0}'" +
                                "   GO " +
                                "   DELETE FROM [Survey].GeneralInformations" +
-                               "         WHERE Id  = '{0}' " +
-                               "   GO"
+                               "         WHERE Id  = '{0}' " 
                                , surveyId);
 
             SqlConnection _connection = GetConnection(_connectionString);
@@ -155,7 +154,7 @@ namespace SurveyAPI.Repositories
                         VALUES
                            ( '{0}'
                            , '{1}'
-                           , '{2}')
+                           , '{2}');
                             ", q.QuestionText, "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") );
                 
             }
@@ -171,7 +170,7 @@ namespace SurveyAPI.Repositories
                                        , '{1}'
                                        , '{2}'
                                        , '{3}'
-                                       , '{4}')
+                                       , '{4}');
                                 
                                 SET @SurveyId = SCOPE_IDENTITY();
                               ", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
@@ -296,7 +295,7 @@ namespace SurveyAPI.Repositories
 	                                    '{2}',        
 	                                    '{3}',        
 	                                    '{4}'         
-	                                )
+	                                );
                                     
                                     SET @QuestionId = SCOPE_IDENTITY();", qAndA.QuestionText,
                                     "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
@@ -319,7 +318,7 @@ namespace SurveyAPI.Repositories
 	                                    '{2}',        
 	                                    '{3}',        
 	                                    '{4}'        
-	                                )
+	                                );
                                     " , qAndA.SurveyId,
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
@@ -340,7 +339,7 @@ namespace SurveyAPI.Repositories
 	                                    '{2}',        
 	                                    '{3}',        
 	                                    '{4}'         
-	                                )
+	                                );
                                     
                                     SET @AnswerId = SCOPE_IDENTITY();", item,
                                     "Dejan Skiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
@@ -362,7 +361,7 @@ namespace SurveyAPI.Repositories
 	                                    '{1}',        
 	                                    '{2}',        
 	                                    '{3}'         
-	                                )
+	                                );
                                     
                                     SET @AnswerId = SCOPE_IDENTITY();",
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
@@ -399,7 +398,7 @@ namespace SurveyAPI.Repositories
 	                                    '{2}',        
 	                                    '{3}',        
 	                                    '{4}'         
-	                                )
+	                                );
                                     
                                     SET @AnswerId = SCOPE_IDENTITY();", iteam.QuestionAnswer,
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
@@ -421,7 +420,7 @@ namespace SurveyAPI.Repositories
 	                                    '{2}',        
 	                                    '{3}',        
 	                                    '{4}'         
-	                                )
+	                                );
                                     ", iteam.QuestionId,
                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                   "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
@@ -461,7 +460,7 @@ namespace SurveyAPI.Repositories
                                         ,'{5}'
                                         ,'{6}'
                                         ,'{7}'
-                                        ,'{8}')", 
+                                        ,'{8}');", 
                                     participant.SurveyId, participant.FirstName, participant.LastName, 
                                     participant.Email, participant.Password,
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
@@ -495,7 +494,7 @@ namespace SurveyAPI.Repositories
                                        ,'{3}'
                                        ,'{4}'
                                        ,'{5}'
-                                       ,'{6}')
+                                       ,'{6}');
                                 
                                 SET @SurveyId = SCOPE_IDENTITY();", survey.Name, survey.StartDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), survey.EndDate.ToString("yyyy-MM-dd HH:mm:ss.fff"), 
                                 "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
@@ -567,7 +566,7 @@ namespace SurveyAPI.Repositories
                                        ,'{4}'
                                        ,'{5}'
                                        ,'{6}'
-                                       ,'{7}')
+                                       ,'{7}');
                                 ", survey.ParticipantID, survey.SurveyID, iteam.QuestionId, iteam.QuestionAnswersId,
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
                                    "DejanSkiljic", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));

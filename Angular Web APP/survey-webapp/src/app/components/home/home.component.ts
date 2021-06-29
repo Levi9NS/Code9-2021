@@ -14,10 +14,10 @@ export class HomeComponent implements OnInit {
   generalInformations = Array<GeneralInformations>();
   dataLoaded = false;
   
-  constructor(private service: SurveyService, private router: Router, private datepipe: DatePipe) { }
+  constructor(private surveyService: SurveyService, private router: Router, private datepipe: DatePipe) { }
 
   ngOnInit() {
-    this.service.getAllSurveys().subscribe(
+    this.surveyService.getAllSurveys().subscribe(
       result => {
         this.generalInformations = result as Array<GeneralInformations>;
         this.dataLoaded = true;
@@ -42,11 +42,11 @@ export class HomeComponent implements OnInit {
   }
 
   doSurvey(id:number){
-    this.router.navigateByUrl('/participant/add', {state:{ surveyId: id}});
+    this.router.navigateByUrl('/Participant/Add', {state:{ surveyId: id}});
   }
   
   addQuestions(id:number){
-    this.router.navigateByUrl('/questionAndAnswers/add', {state:{ surveyId: id}});
+    this.router.navigateByUrl('/QuestionAndAnswers/Add', {state:{ surveyId: id}});
   }
   
   
@@ -55,6 +55,6 @@ export class HomeComponent implements OnInit {
   }
 
   addNewSurvey(){
-    this.router.navigateByUrl('/newSurvey/add');
+    this.router.navigateByUrl('/NewSurvey/Add');
   }
 }
