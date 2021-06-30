@@ -1,0 +1,12 @@
+SELECT
+       CONCAT(ce.FirstName, ' ',ce.LastName) AS 'Klijent',
+       at.Type as Tip ,ac.Number AS 'Broj racuna',
+       SUM(t.Value) AS 'Stanje na racunu'
+FROM BankDB.Accounts ac
+JOIN BankDB.Customers ce
+       ON ac.CustomerId = ce.Id
+JOIN BankDB.Transactions t
+       ON ac.Id = t.AccountId
+JOIN BankDB.AccountTypes at 
+       ON at.id = ac.AccountTypeId
+GROUP BY ce.FirstName, ce.LastName, at.Type, ac.Number

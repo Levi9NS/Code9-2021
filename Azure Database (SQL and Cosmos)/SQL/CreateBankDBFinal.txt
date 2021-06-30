@@ -1,0 +1,121 @@
+--DROP TABLE [BankDB].[PlaceOfLiving]
+--DROP TABLE [BankDB].[Customers]
+--DROP TABLE [BankDB].[AccountTypes]
+--DROP TABLE [BankDB].[Accounts]
+--DROP TABLE [BankDB].[Transactions]
+
+--DROP SCHEMA BankDB
+
+IF NOT EXISTS (SELECT 1			  
+			   FROM 
+				INFORMATION_SCHEMA.SCHEMATA
+			  WHERE 
+				SCHEMA_NAME = 'BankDB')
+BEGIN
+	EXEC ('CREATE SCHEMA BankDB')
+END	
+
+IF NOT EXISTS(SELECT 1
+			  FROM 
+				INFORMATION_SCHEMA.TABLES
+			  WHERE 
+				TABLE_SCHEMA = 'BankDB'
+				AND TABLE_NAME = 'PlaceOfLiving')
+BEGIN 
+	CREATE TABLE [BankDB].[PlaceOfLiving](
+		[Id] int IDENTITY(1,1) NOT NULL,
+		[City] varchar(20) NOT NULL,
+		[PostalCode] varchar(10) NOT NULL,
+		[Address] varchar(25) NOT NULL,
+		[HouseNumber] varchar(9) NOT NULL,
+	 CONSTRAINT [PK_PlaceOfLiving] PRIMARY KEY CLUSTERED ([Id] ASC)
+	 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]) 
+	 ON [PRIMARY]
+END	
+
+
+IF NOT EXISTS(SELECT 1
+			  FROM 
+				INFORMATION_SCHEMA.TABLES
+			  WHERE 
+				TABLE_SCHEMA = 'BankDB'
+				AND TABLE_NAME = 'Customers')
+BEGIN 
+	CREATE TABLE [BankDB].[Customers](
+		[Id] int IDENTITY(1,1) NOT NULL,
+		[PlaceOfLivingId]  int NOT NULL,
+		[JMBG] varchar(13) NOT NULL,
+		[FirstName] varchar(20) NOT NULL,
+		[LastName] varchar(20) NOT NULL,
+		
+	 CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED ([Id] ASC)
+	 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]) 
+	 ON [PRIMARY]
+	 ALTER TABLE [BankDB].[Customers]  WITH CHECK ADD  CONSTRAINT [FK_Customer_PlaceOfLivingId] FOREIGN KEY([PlaceOfLivingId])
+	 REFERENCES [BankDB].[PlaceOfLiving] ([Id])
+END	
+
+
+
+IF NOT EXISTS(SELECT 1
+			  FROM 
+				INFORMATION_SCHEMA.TABLES
+			  WHERE 
+				TABLE_SCHEMA = 'BankDB'
+				AND TABLE_NAME = 'AccountTypes')
+BEGIN 
+	CREATE TABLE [BankDB].[AccountTypes](
+		[Id] int IDENTITY(1,1) NOT NULL,
+		[Type] varchar(15) NOT NULL,
+		[CreatedBy] varchar(50) NOT NULL,
+		[CreateDate] datetime NOT NULL,
+	 CONSTRAINT [PK_AccountType] PRIMARY KEY CLUSTERED ([Id] ASC)
+	 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY])
+	 ON [PRIMARY]
+END	
+
+IF NOT EXISTS(SELECT 1
+			  FROM 
+				INFORMATION_SCHEMA.TABLES
+			  WHERE 
+				TABLE_SCHEMA = 'BankDB'
+				AND TABLE_NAME = 'Accounts')
+BEGIN 
+	CREATE TABLE [BankDB].[Accounts](
+		[Id] int IDENTITY(1,1) NOT NULL,
+		[Number] varchar(16) NOT NULL,
+		[CustomerId] int NOT NULL,
+		[AccountTypeId] int NOT NULL,
+		[CreatedBy] varchar(50) NOT NULL,
+		[CreateDate] datetime NOT NULL,
+	 CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED ([Id] ASC)
+	 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY])
+	 ON [PRIMARY]
+
+	ALTER TABLE [BankDB].[Accounts] ADD CONSTRAINT [UN_Account_Number] UNIQUE ([Number])
+	ALTER TABLE [BankDB].[Accounts]  WITH CHECK ADD  CONSTRAINT [FK_Account_CustomerId] FOREIGN KEY([CustomerId])
+	REFERENCES [BankDB].[Customers] ([Id])
+	ALTER TABLE [BankDB].[Accounts]  WITH CHECK ADD  CONSTRAINT [FK_Account_AccountTypeId] FOREIGN KEY([AccountTypeId])
+	REFERENCES [BankDB].[AccountTypes] ([Id])
+END	
+
+IF NOT EXISTS(SELECT 1
+			  FROM 
+				INFORMATION_SCHEMA.TABLES
+			  WHERE 
+				TABLE_SCHEMA = 'BankDB'
+				AND TABLE_NAME = 'Transactions')
+BEGIN 
+	CREATE TABLE [BankDB].[Transactions](
+		[Id] int IDENTITY(1,1) NOT NULL,
+		[AccountId] int NOT NULL,
+		[Value] int NOT NULL,
+		[CreatedBy] varchar(50) NOT NULL,
+		[CreateDate] datetime NOT NULL,
+	 CONSTRAINT [PK_Transactions] PRIMARY KEY CLUSTERED ([Id] ASC)
+	 WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY])
+	 ON [PRIMARY]
+
+	ALTER TABLE [BankDB].[Transactions]  WITH CHECK ADD  CONSTRAINT [FK_Transactions_AccountId] FOREIGN KEY([AccountId])
+	REFERENCES [BankDB].[Accounts] ([Id])
+END	
