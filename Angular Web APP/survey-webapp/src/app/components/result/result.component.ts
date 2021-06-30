@@ -39,14 +39,7 @@ export class ResultComponent implements OnInit {
         console.error("Error Occured", error);
       }
     );
-
-    if(this.surveyResults.name != null && this.surveyResults.questions != []){
-      this.dataloaded = true;
-    }
-    else{
-      this.dataloaded = false;
-      this.errorMSG = "Survey Has no results yet. Waiting for participants."
-    }
+    this.dataloaded = true;
   }
 
   goBack(){
