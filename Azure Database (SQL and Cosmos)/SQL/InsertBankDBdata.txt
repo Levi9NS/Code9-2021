@@ -1,0 +1,78 @@
+BEGIN
+	SET IDENTITY_INSERT [BankDB].[AccountTypes] ON
+	INSERT INTO BankDB.[AccountTypes] ( Id,
+		Type,
+		CreatedBy,
+		CreateDate
+	)
+	VALUES
+	(   
+	1,
+		'Ziro racun',
+		'Nikola',
+		''
+	)
+	INSERT INTO BankDB.[AccountTypes] ( Id,
+		Type,
+		CreatedBy,
+		CreateDate
+	)
+	VALUES
+	(   
+	2,
+		'Depozit',
+		'Nikola',
+		''
+	)
+	INSERT INTO BankDB.[AccountTypes] ( Id,
+		Type,
+		CreatedBy,
+		CreateDate
+	)
+	VALUES
+	(   
+	3,
+		'Pozajmica',
+		'Nikola',
+		''
+	)
+	INSERT INTO BankDB.[AccountTypes] ( Id,
+		Type,
+		CreatedBy,
+		CreateDate
+	)
+	VALUES
+	(   
+	4,
+		'Kredit',
+		'Nikola',
+		''
+	)
+	SET IDENTITY_INSERT [BankDB].[AccountTypes] OFF
+	
+	
+	BEGIN 
+		SET IDENTITY_INSERT [BankDB].[PlaceOfLiving] ON
+		INSERT INTO [BankDB].[PlaceOfLiving] (Id, City, PostalCode, Address, HouseNumber) VALUES (1, 'Novi Sad', '6666', 'Felegi Tivadora', '3')
+		SET IDENTITY_INSERT [BankDB].[PlaceOfLiving] OFF
+	END
+
+	BEGIN 
+		SET IDENTITY_INSERT [BankDB].[Customers] ON	INSERT INTO [BankDB].[Customers] (Id, PlaceOfLivingId, JMBG, FirstName, LastName) 	VALUES (1, 1, '999999', 'Nikola', 'Bogdanovic')
+		SET IDENTITY_INSERT [BankDB].[Customers] ON	INSERT INTO [BankDB].[Customers] (Id, PlaceOfLivingId, JMBG, FirstName, LastName) 	VALUES (2, 1, '7777777', 'Kosta', 'Bogdanovic')
+		SET IDENTITY_INSERT [BankDB].[Customers] OFF
+	END
+	BEGIN 
+		SET IDENTITY_INSERT [BankDB].[Accounts] ON	INSERT INTO [BankDB].[Accounts] (Id, Number, CustomerId, AccountTypeId, CreatedBy, CreateDate) VALUES (1, 2232, 1, 1,'Nikola',GETDATE())
+		INSERT INTO [BankDB].[Accounts] (Id, Number, CustomerId, AccountTypeId, CreatedBy, CreateDate) VALUES (2, 7456, 1, 3,'Nikola',GETDATE())
+	SET IDENTITY_INSERT [BankDB].[Accounts] OFF
+	END
+	BEGIN 
+		SET IDENTITY_INSERT [BankDB].[Transactions] ON	INSERT INTO [BankDB].[Transactions] (Id, AccountId, Value, CreatedBy, CreateDate) VALUES (1,1, 75000,'Nikola', GETDATE())
+		SET IDENTITY_INSERT [BankDB].[Transactions] ON	INSERT INTO [BankDB].[Transactions] (Id, AccountId, Value, CreatedBy, CreateDate) VALUES (2,2, 490000,'Nikola', GETDATE())
+
+	SET IDENTITY_INSERT [BankDB].[Transactions] OFF
+	END
+
+
+END
