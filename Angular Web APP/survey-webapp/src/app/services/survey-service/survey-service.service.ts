@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { QuestionAndAnswers, SurveyResponse } from 'src/app/models/survey-response';
+import { QuestionAndAnswers, Question, SurveyResponse } from 'src/app/models/survey-response';
 import { Participant } from 'src/app/models/participant-model';
 import { GeneralInformations } from 'src/app/models/general-informations';
 import { SurveyResults } from 'src/app/models/survey-result';
@@ -24,6 +24,10 @@ export class SurveyService {
     return this.httpClient.get<OfferedAnswers>(`${environment.apiUrl}/api/Survey/${surveyId}/OfferedAnswers`);
   }
 
+  getSurveyQuestions(surveyId):Observable<Array<Question>>{
+    return this.httpClient.get<Array<Question>>(`${environment.apiUrl}/api/Survey/${surveyId}/GetSurveyQuestions`);
+  }
+
   getSurveyResults(surveyId) : Observable<SurveyResults>{
     return this.httpClient.get<SurveyResults>(`${environment.apiUrl}/api/Survey/${surveyId}/Answers`);
   }
@@ -39,7 +43,6 @@ export class SurveyService {
   getParticipant(){
     return this.httpClient.get<Participant>(`${environment.apiUrl}/api/Survey/Survey/GetLastParticipantAdded`);
   }
-
 
   addParticipant(participant: any) {
     

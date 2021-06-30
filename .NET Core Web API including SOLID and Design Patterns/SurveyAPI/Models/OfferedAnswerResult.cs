@@ -9,6 +9,7 @@ namespace SurveyAPI.Models
         public class OfferedAnswer
         {
             public string QuestionAnswer { get; set; }
+            public int AnswerId { get; set; }
             public int QuestionId { get; internal set; }
         }
     }

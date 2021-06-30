@@ -100,10 +100,10 @@ export class AddSurveyComponent implements OnInit {
       this.answersHelper = [];
     } 
     this.survey.Questions = this.questionsHelper;
-    console.log(this.survey);
     this.service.addSurvey(this.survey).subscribe(
       result => {
         console.log(this.survey);
+        console.log(result);
       },
       error=>{
         console.error('error', error);

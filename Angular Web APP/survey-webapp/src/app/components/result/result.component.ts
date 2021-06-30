@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Question } from 'src/app/models/survey-response';
 import { SurveyResults } from 'src/app/models/survey-result';
 import { SurveyService } from 'src/app/services/survey-service/survey-service.service';
 
@@ -10,12 +11,25 @@ import { SurveyService } from 'src/app/services/survey-service/survey-service.se
 })
 export class ResultComponent implements OnInit {
   dataloaded = false;
+  errorMSG: string;
   surveyId: number;
   surveyResults= new SurveyResults();
+  questions: Question[] = [];
   constructor(private service: SurveyService, private router: Router) { }
 
   ngOnInit() {
     this.surveyId = history.state.surveyId;
+
+    this.service.getSurveyQuestions(this.surveyId).subscribe(
+      result => {
+        this.questions = result;
+        console.log(this.surveyResults);
+      },
+      error => {
+        console.error("Error Occured", error);
+      }
+    )
+
     this.service.getSurveyResults(this.surveyId).subscribe(
       result => {
         this.surveyResults = result;
@@ -25,7 +39,14 @@ export class ResultComponent implements OnInit {
         console.error("Error Occured", error);
       }
     );
-    this.dataloaded = true;
+
+    if(this.surveyResults.name != null && this.surveyResults.questions != []){
+      this.dataloaded = true;
+    }
+    else{
+      this.dataloaded = false;
+      this.errorMSG = "Survey Has no results yet. Waiting for participants."
+    }
   }
 
   goBack(){

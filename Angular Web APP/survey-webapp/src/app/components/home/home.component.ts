@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
     let current_date = this.datepipe.transform(date, 'yyyy-MM-dd');
     let start_date = this.datepipe.transform(this.generalInformations[i].startDate, 'yyyy-MM-dd');
 
-    if(current_date > start_date){
+    if(current_date >= start_date){
       return true;
     }
     else{

@@ -57,10 +57,9 @@ export class ParticipantDataComponent implements OnInit {
     this.participant = data as Participant;
     this.participant.surveyId = this.surveyId;
     this.service.addParticipant(this.participant).subscribe(
-      //result => console.log(this.participant),
-      error => console.error('error', error)
+      result => {console.log(this.participant)},
+      error => {console.error('error', error)}
     );
-    console.log(this.participant);
     this.EmptyLocalStorage();
     this.router.navigateByUrl('/'+this.surveyId, {state:{id: this.surveyId}});
   }

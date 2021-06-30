@@ -3,12 +3,12 @@ import { OfferedAnswersModel } from "./answers-response";
 export class SurveyResponse {
   public id: string;
   public name: string;
-  public questions: Questions[];
+  public questions: Question[];
   public startDate: string;
   public endDate: string;
 }
 
-export class Questions {
+export class Question {
   public questionText: string;
   public id: string;
 }
