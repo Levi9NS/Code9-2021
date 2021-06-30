@@ -1,0 +1,19 @@
+<div *ngFor="let survey of allSurveys" class="card w-100 m-3 bg-light">
+    <div class="row">
+        <div class="col-8 m-auto text-center">
+            <span style="font-size: 28px; font-weight: bold;">{{survey.description}}</span>
+        </div>
+        <div class="col-4">
+            <div class="col-12">
+                <a class="btn btn-primary my-2 w-100" routerLink="/{{survey.id}}">Fill in survey</a>
+            </div>
+            <div class="col-12">
+                <a class="btn btn-success my-2 w-100" routerLink="/results/{{survey.id}}">See survey results</a>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-danger my-2 w-100" (click)="closeSurvey(survey.id)">Close survey</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!dataLoaded" class="loader"></div>

@@ -51,6 +51,20 @@ app-root, html {
     flex: 10;
 }
 
+.error-container {
+  border: 1px solid darkgray;
+  border-radius: 20px;
+  background-color: lightgray;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+}
+
+.error-msg {
+  font-size: 16px;
+  font-weight: bold;
+  color: red;
+}
+
 .loader {
     margin: 100px auto;
     font-size: 25px;
