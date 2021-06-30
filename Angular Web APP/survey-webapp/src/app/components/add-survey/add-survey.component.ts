@@ -1,7 +1,9 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import {QuestionWithAnswersOnly, Survey } from 'src/app/models/survey';
+import { QuestionAndAnswers } from 'src/app/models/survey-response';
 import { SurveyService } from 'src/app/services/survey-service/survey-service.service';
 import { DateValidator } from './date-validator';
 
@@ -15,7 +17,7 @@ export class AddSurveyComponent implements OnInit {
 
   surveyFormGroup: FormGroup;
   survey = new Survey();
-  questionsHelper = new QuestionWithAnswersOnly();
+  questionsHelper : QuestionWithAnswersOnly[] = [];
   answersHelper: string[] = [];
   public submited = false;
 
@@ -26,9 +28,17 @@ export class AddSurveyComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(2)]],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      question: ['', Validators.required],
-      answers : this.formBuilder.array([])     
+      questions: this.formBuilder.array([
+        this.AnswersGroup()
+      ])     
     },{validator: DateValidator})
+  }
+
+  private AnswersGroup(): FormGroup {
+    return this.formBuilder.group({
+      question: [''],
+      answers: this.formBuilder.array([])
+    });
   }
 
   get f() { return this.surveyFormGroup.controls; }
@@ -39,13 +49,29 @@ export class AddSurveyComponent implements OnInit {
   get startDate() {
     return this.surveyFormGroup.get('startDate');
   }
-
-  get answers(){
-    return this.surveyFormGroup.get('answers') as FormArray;
+  
+  get questions(){
+    return this.surveyFormGroup.get('questions') as FormArray;
   }
 
-  addAnswer(){
-    this.answers.push(this.formBuilder.control(''));
+  GetAnswersGroup(i){
+    return this.questions.controls[i] as FormGroup;
+  }
+
+  addAnswers(i){
+    (<FormArray>this.GetAnswersGroup(i).controls.answers).push(this.formBuilder.control(''));
+  }
+
+  addQuestions(){
+    this.questions.push(this.AnswersGroup());
+  }
+
+  removeQuestion(j){
+    this.questions.removeAt(j);
+  }
+
+  removeAnswer(i,j){
+    (<FormArray>this.GetAnswersGroup(j).controls.answers).removeAt(i);
   }
 
   OnCancel(){
@@ -58,23 +84,32 @@ export class AddSurveyComponent implements OnInit {
     this.survey.StartDate = this.surveyFormGroup.controls.startDate.value;
     this.survey.EndDate = this.surveyFormGroup.controls.endDate.value;
 
-    this.answersHelper = this.surveyFormGroup.controls.answers.value as Array<string>;
-    this.questionsHelper.QuestionText = this.surveyFormGroup.controls.question.value;
-    this.questionsHelper.Answers = this.answersHelper;
+    let questionsArray = this.surveyFormGroup.controls['questions'].value;
 
-    this.survey.Questions.push(this.questionsHelper);
+    for(let i = 0; i < questionsArray.length; i++){
+      let questionText = questionsArray[i].question as string;
+      let answersArray = questionsArray[i].answers;
+      for(let j =0; j<answersArray.length; j++){
+        this.answersHelper.push(answersArray[j]);
+      }
+      this.questionsHelper.push({
+        QuestionText: questionText,
+        Answers : this.answersHelper,
+      })
+
+      this.answersHelper = [];
+    } 
+    this.survey.Questions = this.questionsHelper;
     console.log(this.survey);
-    this.submited = true;
     this.service.addSurvey(this.survey).subscribe(
       result => {
-        console.log(result);
+        console.log(this.survey);
       },
-      error =>{
+      error=>{
         console.error('error', error);
       }
-    )
-    
-    this.router.navigateByUrl('');
+    );
 
+    this.OnCancel();
   }
 }

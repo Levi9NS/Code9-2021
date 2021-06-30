@@ -25,7 +25,9 @@
               <button (click)="doSurvey(gI.id)" class="btn-secondary">Do</button> 
             </div>
             <button (click)="addQuestions(gI.id)" class="btn-secondary">Edit</button>
-            <button (click)="getSurveyResults(gI.id)" class="btn-info" >Results</button>
+            <div *ngIf="showResult(i)">
+              <button (click)="getSurveyResults(gI.id)" class="btn-info" >Results</button>
+            </div>
           </div>
         </td>
       </tr>

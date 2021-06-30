@@ -57,4 +57,18 @@ export class HomeComponent implements OnInit {
   addNewSurvey(){
     this.router.navigateByUrl('/NewSurvey/Add');
   }
+
+  showResult(i){
+    let date = new Date();
+    let current_date = this.datepipe.transform(date, 'yyyy-MM-dd');
+    let start_date = this.datepipe.transform(this.generalInformations[i].startDate, 'yyyy-MM-dd');
+
+    if(current_date > start_date){
+      return true;
+    }
+    else{
+      return false;
+    }
+
+  }
 }

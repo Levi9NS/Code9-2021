@@ -12,13 +12,17 @@
       </div>
     </div>
     <br />
-    <label>Answers</label>
-
+    <label>Answers &nbsp; &nbsp;</label>
     <button type="button" class="btn btn-outline-dark" (click)="addAnswer()">+</button>
-    <br />
+    <hr />
     <div class="form-check mb-3" formArrayName="answers" *ngFor="let answer of answers.controls; let i=index">
       <div>
-        <label>Answer {{i+1}}</label>
+        <br>
+        <div>
+          <label>Answer {{i+1}} &nbsp; &nbsp;</label>
+          <button type="button" class="btn btn-outline-dark" (click)="removeAnswer(i)">Remove</button>
+        </div>
+        <br>
         <input type="text" class="form-control" [formControlName]="i"
         [ngClass]="{ 'is-invalid': submited && getValidity(i)}">
         <div *ngIf="!getTouch(i)">

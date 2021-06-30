@@ -34,19 +34,30 @@
       </div>
     </div>
     <br>
-    <div class="form-group">
-      <label for="question">Question</label>
-      <input type="text" formControlName="question" name="question" maxlength="30" id="question">
-    </div>
-    <br />
-    <label>Answers</label>
-
-    <button type="button" class="btn btn-outline-dark" (click)="addAnswer()">+</button>
-    <br />
-    <div class="form-check mb-3" formArrayName="answers" *ngFor="let answer of answers.controls; let i=index">
-      <div>
-        <label>Answer {{i+1}}</label>
-        <input type="text" class="form-control" [formControlName]="i" [ngClass]="{ 'is-invalid': submitted}">
+    <label for="question">Questions &nbsp; &nbsp;</label>
+    <button type="button" class="btn btn-outline-dark" (click)="addQuestions()">+</button>
+    <hr>
+    <div *ngFor="let group of questions.controls; let j=index " formArrayName="questions">
+      <div [formGroupName]="j">
+        <div class="form-group">
+          <label for="question">Question {{j+1}} &nbsp; &nbsp;</label>
+          <button type="button" class="btn btn-outline-dark" (click)="removeQuestion(j)">Remove</button>
+          <button type="button" class="btn btn-outline-dark" (click)="addAnswers(j)">Add Answer</button> 
+        </div>
+        <br>
+        <input type="text" formControlName="question" [id]="j">
+        <br />
+        <br />
+        <label>Answers &nbsp; &nbsp;</label>
+        <br />
+        <div class="form-check mb-3" formArrayName="answers" *ngFor="let answer of group.controls.answers.controls; let i=index">
+          <div>
+            <label>Answer {{i+1}}  &nbsp; &nbsp;</label>
+            <button type="button" class="btn btn-outline-dark" (click)="removeAnswer(i,j)">Remove</button>
+          </div>
+          <input type="text" class="form-control" [formControlName]="i" [ngClass]="{ 'is-invalid': submitted}">
+        </div>
+        <hr>
       </div>
     </div>
     <br />
