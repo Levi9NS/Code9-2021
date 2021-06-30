@@ -1,11 +1,3 @@
-<div class="card " style="width: 40rem;" > 
-  <h5>Results for {{results.name}}</h5>
-  <div class="card-body">
-      <div *ngFor="let result of results.questions">
-            <div  class="card" style="width: 30rem;">
-                <p>{{result.text}}</p>
-                <p>{{result.response}}  <ngb-progressbar type="success" [value]="result.count">{{result.count}}</ngb-progressbar></p>
-            </div>
-      </div>
-  </div>
-</div>
+<div  id="survey-element"></div>
+<div *ngIf="!dataLoaded" class="loader"></div>
+

@@ -7,7 +7,7 @@ import { OfferedAnswers } from '../../models/answers-response';
 import { Survey } from 'src/app/models/survey';
 import { Participant } from 'src/app/models/Participant';
 import { SurveyResult } from 'src/app/models/SurveyResult';
-import { Result } from 'src/app/models/Results';
+import { PageResultModel, Result } from 'src/app/models/Results';
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +52,7 @@ export class SurveyService {
     return this.httpClient.get<any>(`${environment.apiUrl}/api/Survey/GetSurveys`);
   }
 
-  getSurveyResults(surveyId): Observable<Result[]> {
-    return this.httpClient.get<Result[]>(`${environment.apiUrl}/api/Survey/${surveyId}/Answers`);
+  getSurveyResults(surveyId): Observable<PageResultModel> {
+    return this.httpClient.get<PageResultModel>(`${environment.apiUrl}/api/Survey/${surveyId}/Answers`);
   }
 }
