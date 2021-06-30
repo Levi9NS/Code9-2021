@@ -8,7 +8,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { CreateSurveyComponent } from './components/create-survey/create-survey.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AddAnswersComponent } from './components/create-survey/add-answers/add-answers.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ParticipantComponent } from './components/participant/participant.component';
 import { StartPageComponent } from './start-page/start-page.component';
@@ -20,7 +19,6 @@ import { ResultsComponent } from './results/results.component';
     SurveyComponent,
     HeaderComponent,
     CreateSurveyComponent,
-    AddAnswersComponent,
     ParticipantComponent,
     StartPageComponent,
     ResultsComponent
@@ -37,7 +35,6 @@ import { ResultsComponent } from './results/results.component';
 
   providers: [],
 
-  entryComponents: [AddAnswersComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

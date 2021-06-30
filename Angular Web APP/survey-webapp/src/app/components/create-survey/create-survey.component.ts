@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { OfferedAnswers } from 'src/app/models/answers-response';
 import { OfferedAnswer, Question, Survey } from 'src/app/models/survey';
 import { SurveyResponse } from 'src/app/models/survey-response';
 import { SurveyService } from 'src/app/services/survey-service/survey-service.service';
-import { AddAnswersComponent } from './add-answers/add-answers.component';
+import { Model, SurveyNG } from 'survey-angular';
 
 @Component({
   selector: 'app-create-survey',
@@ -13,93 +14,147 @@ import { AddAnswersComponent } from './add-answers/add-answers.component';
   styleUrls: ['./create-survey.component.css']
 })
 export class CreateSurveyComponent implements OnInit {
-  question: string='';
-  addquestion:Question;
-  survey : Survey;
-  newFormGroup: FormGroup;
-  submitted = false;
-  constructor(private formBuilder: FormBuilder,public dialog: MatDialog,private surveyService : SurveyService,private router: Router) { }
 
-  ngOnInit() {
-    this.createForm();
-    this.survey.questions=[];
-    
-  }
-
-  createForm(){
-    this.survey=new Survey();
-    this.newFormGroup=this.formBuilder.group({
-      name: [this.survey.name, Validators.required],
-
-      startDate:[this.survey.startDate, Validators.required],
-
-      endDate: [this.survey.endDate, Validators.required],
-    });
-  }
-
-  AddSurvey()
-  {
-
-    this.survey.name=this.newFormGroup.controls.name.value;
-    this.survey.startDate=this.newFormGroup.controls.startDate.value;
-    this.survey.endDate=this.newFormGroup.controls.endDate.value;
-  }
+private surveyRootElementId = 'create-survey';
+dataLoaded = false;
+createSurvey: Survey;
 
 
-  OnSubmit(){
-    this.submitted = true;
+constructor(private readonly surveyService: SurveyService,private router: Router) { }
 
-    
-    if (this.newFormGroup.invalid) {
-      return;
-  }
-    this.AddSurvey();
-    console.log(this.survey);
-    this.surveyService.AddSurvey(this.survey).subscribe(
-      result =>
-      {
-           console.log(result);
-      });
-      this.router.navigate(['/']);
-
-  }
-
-  OnCancel(){
-    this.router.navigate(['/']);
-  }
-
-  OnAdd() {
-    if(this.question != '')
-    {
-      this.addquestion=new Question();
-      this.addquestion.offeredAnswers=[];
-      this.addquestion.questionText=this.question;
-      this.survey.questions.push(this.addquestion);
-      this.question='';
-    }
-  }
-
-  get f() { return this.newFormGroup.controls; }
-
-  OnAddAnswer(question : Question) {
-    
-  console.log(question.offeredAnswers);
-   
-    const dialogRef = this.dialog.open(AddAnswersComponent, {
-      width: '800px',
-      data: {question}
-    });
-    
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result != "Cancel")
-      {
-        result.forEach(element => {
-          question.offeredAnswers.push(element);
-        });
-      }
-      });
-  }
-
+ngOnInit() {
   
+      const surveyModel = this.convertAPIDataToSurveyModel();
+      const survey = new Model(surveyModel);
+      survey.onComplete.add(this.sendDataToServer);
+      SurveyNG.render(this.surveyRootElementId, {model: survey});
+      this.dataLoaded = true;
+
+}
+
+convertAPIDataToSurveyModel(): SurveyResponse {
+
+  var json = {
+    "progressBarType": "buttons",
+    "showProgressBar": "top",
+    "title": "Create survey",
+    "pages": [{
+      "navigationTitle": "Basic Informations",
+      "elements": [{
+        "type": "text",
+        "name": "titlesurvey",
+        "isRequired": true
+      },
+      {
+        "type": "text",
+        "inputType": "date",
+        "isRequired": true,
+        "name": "startDate",
+        "title": "Start date:"
+      },
+      {
+        "type": "text",
+        "inputType": "date",
+        "isRequired": true,
+        "name": "endDate",
+        "title": "End date:"
+      }]
+    },
+    {
+      "navigationTitle": "Questions",
+      "elements": [
+        {
+            "type": "matrixdynamic",
+            "minRowCount": 1,
+            "rowCount": 1,
+            "name": "questions",
+            "valueName": "questions",
+            "isRequired": true,
+            "title": "Please enter all your questions",
+            "addRowText": "Add another question",
+            "columns": [
+                {
+                    "name": "questionText",
+                    "isRequired": true,
+                    "title": "Question",
+                    "cellType": "text"
+                }
+            ]
+        }
+    ]},
+    {
+      "navigationTitle": "Anwers",
+      "title": "Enter answers",
+      "elements": [
+          {
+              "type": "paneldynamic",
+              "renderMode": "list",
+              "allowAddPanel": false,
+              "allowRemovePanel": false,
+              "name": "answers",
+              "title": "Answers",
+              "valueName": "questions",
+              "templateTitle": "Employer name: {panel.questionText}",
+              "templateElements": [
+                  {
+                    "type": "panel",
+                   
+                    "elements": [
+                      {
+                          "type": "matrixdynamic",
+                          "minRowCount": 1,
+                          "rowCount": 1,
+                          "name": "offeredanswers",
+                          "isRequired": true,
+                          "title": "Please enter all your anwers",
+                          "addRowText": "Add another answer",
+                          "columns": [
+                              {
+                                  "name": "text",
+                                  "isRequired": true,
+                                  "title": "Answers",
+                                  "cellType": "text"
+                              }
+                          ]
+                      }
+                  ]
+
+
+
+
+
+
+                  }]
+                }]
+
+
+    }]
+   
+    
+    
+
+    
+   } as unknown as SurveyResponse
+
+  return json;
+}
+
+sendDataToServer = (surveyResult) => {
+  this.createSurvey=new Survey();
+  this.createSurvey.name=surveyResult.data["titlesurvey"];
+  this.createSurvey.startDate=surveyResult.data["startDate"];
+  this.createSurvey.endDate=surveyResult.data["endDate"];
+  this.createSurvey.questions=[];
+  this.createSurvey.questions=surveyResult.data["questions"];
+  console.log(this.createSurvey);
+  console.log(surveyResult.data);
+  this.surveyService.AddSurvey(this.createSurvey).subscribe(
+          result =>
+          {
+               console.log(result);
+          });
+          this.router.navigate(['/']);
+ 
+  
+};
 }
