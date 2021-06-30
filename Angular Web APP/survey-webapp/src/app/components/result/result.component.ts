@@ -10,8 +10,8 @@ import { SurveyService } from 'src/app/services/survey-service/survey-service.se
   styleUrls: ['./result.component.css']
 })
 export class ResultComponent implements OnInit {
-  dataloaded = false;
   errorMSG: string;
+  dataloaded: boolean = true;
   surveyId: number;
   surveyResults= new SurveyResults();
   questions: Question[] = [];
@@ -23,7 +23,7 @@ export class ResultComponent implements OnInit {
     this.service.getSurveyQuestions(this.surveyId).subscribe(
       result => {
         this.questions = result;
-        console.log(this.surveyResults);
+        console.log('qs', this.questions);
       },
       error => {
         console.error("Error Occured", error);
@@ -33,15 +33,28 @@ export class ResultComponent implements OnInit {
     this.service.getSurveyResults(this.surveyId).subscribe(
       result => {
         this.surveyResults = result;
-        console.log(this.surveyResults);
+        console.log('res',this.surveyResults);
       },
       error => {
         console.error("Error Occured", error);
+      },
+      () =>{
+        console.log('res',this.surveyResults);
+        if(this.surveyResults.name === null)
+        {
+          this.dataloaded = false;
+        }
       }
-    );
-    this.dataloaded = true;
+    )
   }
-
+ 
+  IsValid(i){
+    if(this.surveyResults.questions[i] === undefined ||this.surveyResults.questions[i] === null ){
+      console.log('undefined: ', this.surveyResults.questions[i] === undefined);
+      console.log('null: ', this.surveyResults.questions[i] === null);
+      return true;
+    }
+  }
   goBack(){
     this.router.navigateByUrl('');
   }

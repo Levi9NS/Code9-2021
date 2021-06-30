@@ -8,3 +8,9 @@ export class ParticipantAnswers{
     QuestionId: number;
     QuestionAnswersId: number;
 }
+
+export class ResultTemp{
+    questionText: string;
+    AnswerText: string;
+    count: number;
+}
