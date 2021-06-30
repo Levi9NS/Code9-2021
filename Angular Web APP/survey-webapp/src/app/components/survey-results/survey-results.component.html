@@ -1,14 +1,29 @@
 <div class="card w-100 m-3 p-4">
-  <h1 class="mb-2">Survey results:</h1>
-  <div class="card bg-light" *ngFor="let result of surveyResults">
-    <div class="row">
-      <div class="col-12">{{result.questionText}}</div>
-      <div class="col-12" *ngFor="let answers of result.offeredAnswers | keyvalue">
-        <div class="col-8">
+  <h1 class="mb-3">Survey results:</h1>
+  <div class="card bg-light mb-4" *ngFor="let result of surveyResults">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-12 font-weight-bold h5">Question text</div>
+      </div>
+      <div class="row">
+        <div class="col-12">{{result.questionText}}</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row mb-1">
+        <div class="col-6 font-weight-bold">
+          Offered answers:
+        </div>
+        <div class="col-6 font-weight-bold">
+          Count score:
+        </div>
+      </div>
+      <div class="row" *ngFor="let answers of result.offeredAnswers | keyvalue">
+        <div class="col-6">
           {{answers.key}}
         </div>
-        <div class="col-4">
-          {{answers.value}}
+        <div class="col-6">
+          Votes: <span class="font-weight-bold">( {{answers.value}} )</span>
         </div>
       </div>
     </div>

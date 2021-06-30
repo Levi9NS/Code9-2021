@@ -163,6 +163,7 @@ namespace SurveyAPI.Repositories
             _connection.Open();
             SqlCommand _sqlcommand = new SqlCommand(command, _connection);
             _sqlcommand.ExecuteNonQuery();
+            _connection.Close();
             return survey;
 
 
@@ -185,6 +186,7 @@ namespace SurveyAPI.Repositories
             _connection.Open();
             SqlCommand _sqlcommand = new SqlCommand(command, _connection);
             _sqlcommand.ExecuteNonQuery();
+            _connection.Close();
             return offeredAnswer;
         }
 
@@ -288,8 +290,9 @@ namespace SurveyAPI.Repositories
             _connection1.Open();
             SqlCommand _sqlcommand1 = new SqlCommand(command, _connection1);
             _sqlcommand1.ExecuteNonQuery();
-          
-            
+            _connection1.Close();
+
+
             return question;
 
         }
@@ -375,6 +378,7 @@ namespace SurveyAPI.Repositories
             _connection.Open();
             SqlCommand _sqlcommand = new SqlCommand(command, _connection);
             _sqlcommand.ExecuteNonQuery();
+            _connection.Close();
             return survey;
         }
         public List<OfferedAnswer> GetOfferedAnswers()
@@ -496,6 +500,7 @@ namespace SurveyAPI.Repositories
             }
 
             participant.Id = id;
+            _connection.Close();
             return participant;
         }
 
@@ -527,6 +532,7 @@ namespace SurveyAPI.Repositories
                 _connection.Open();
                 SqlCommand _sqlcommand = new SqlCommand(command, _connection);
                 _sqlcommand.ExecuteNonQuery();
+                _connection.Close();
                 return answer;
             }
             catch
@@ -588,7 +594,7 @@ namespace SurveyAPI.Repositories
                 }
                 resultList.Add(srDto);
             }
-
+            _connection.Close();
             return resultList;
         }
 
@@ -613,7 +619,7 @@ namespace SurveyAPI.Repositories
                     offeredAnswers.Add((int)qofid);
                 }
             }
-
+            _connection.Close();
             return offeredAnswers;
         }
 
@@ -636,6 +642,7 @@ namespace SurveyAPI.Repositories
                     countSpecificAnswers = new KeyValuePair<int, int>((int)offeredAnswerId, (int)_reader[0]);
                 }
             }
+            _connection.Close();
             return countSpecificAnswers;
         }
 
@@ -658,6 +665,7 @@ namespace SurveyAPI.Repositories
                     qtext = _reader[0].ToString();
                 }
             }
+            _connection.Close();
             return qtext;
         }
 
@@ -678,6 +686,7 @@ namespace SurveyAPI.Repositories
                     txt = _reader[0].ToString();
                 }
             }
+            _connection.Close();
             return txt;
         }
 

@@ -6,6 +6,7 @@ import { QuestionModel, SurveyModel } from '../../models/survey-model';
 import { SurveyResponse } from '../../models/survey-response';
 import { SurveyService } from '../../services/survey-service/survey-service.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-survey',
   templateUrl: './survey.component.html',
@@ -21,11 +22,27 @@ export class SurveyComponent implements OnInit {
   offeredAnswers: any;
   surveyId: any;
   allOfferedAnswers: any;
+  participantFormError = false;
 
-  constructor(private readonly surveyService: SurveyService, private route: ActivatedRoute) { }
+  constructor(private readonly surveyService: SurveyService, private route: ActivatedRoute, private spinner: NgxSpinnerService) { }
 
   async ngOnInit() {
+    this.spinner.show();
     this.initForm();
+    await this.initSurvey();
+    this.spinner.hide();
+  }
+
+  initForm() {
+    this.addParticipantForm = new FormGroup({
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+    });
+  }
+
+  async initSurvey() {
     this.surveyId = this.route.snapshot.params[this.queryParamSurveyId];
     this.allOfferedAnswers = await this.surveyService.getOfferedAnswers();
 
@@ -42,15 +59,6 @@ export class SurveyComponent implements OnInit {
             this.dataLoaded = true;
           });
       });
-  }
-
-  initForm() {
-    this.addParticipantForm = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
-    });
   }
 
   convertAPIDataToSurveyModel(survey: SurveyResponse, answers: OfferedAnswers): SurveyModel {
@@ -79,34 +87,41 @@ export class SurveyComponent implements OnInit {
   }
 
   sendDataToServer = async (surveyResult) => {
-    const dataRequest = {
-      participant: {
-        firstName: this.addParticipantForm.controls['firstName'].value,
-        lastName: this.addParticipantForm.controls['lastName'].value,
-        email: this.addParticipantForm.controls['email'].value,
-        password: this.addParticipantForm.controls['password'].value,
-        surveyId: parseInt(this.surveyId),
-      },
-      answers: []
-    }
-    this.survey.questions.forEach(q => {
-      for (var answer in surveyResult.data) {
-        if (q.questionText == answer) {
-          const questionAnsweredIds = surveyResult.data[answer].map(x => {
-            const offeredAnswer = this.allOfferedAnswers.find(element => element.questionAnswer === x);
-            return offeredAnswer.questionId;
-          })
-          dataRequest.answers.push({
-            surveyId: parseInt(this.surveyId),
-            questionId: parseInt(q.id),
-            questionAnsweredIds: questionAnsweredIds
-          })
-        }
+    if (this.addParticipantForm.valid) {
+      this.spinner.show();
+      this.participantFormError = false;
+      const dataRequest = {
+        participant: {
+          firstName: this.addParticipantForm.controls['firstName'].value,
+          lastName: this.addParticipantForm.controls['lastName'].value,
+          email: this.addParticipantForm.controls['email'].value,
+          password: this.addParticipantForm.controls['password'].value,
+          surveyId: parseInt(this.surveyId),
+        },
+        answers: []
       }
-    });
+      this.survey.questions.forEach(q => {
+        for (let answer in surveyResult.data) {
+          if (q.questionText == answer) {
+            const questionAnsweredIds = surveyResult.data[answer].map(x => {
+              const offeredAnswer = this.allOfferedAnswers.find(element => element.questionAnswer === x);
+              return offeredAnswer.questionId;
+            })
+            dataRequest.answers.push({
+              surveyId: parseInt(this.surveyId),
+              questionId: parseInt(q.id),
+              questionAnsweredIds: questionAnsweredIds
+            })
+          }
+        }
+      });
 
-    console.log(dataRequest);
-    await this.surveyService.addParticipantAnswers(dataRequest);
+      await this.surveyService.addParticipantAnswers(dataRequest);
+      this.spinner.hide();
+    } else {
+      await this.initSurvey();
+      this.participantFormError = true;
+    }
   }
 
 }

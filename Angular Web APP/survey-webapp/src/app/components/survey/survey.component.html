@@ -1,5 +1,8 @@
+<div *ngIf="participantFormError" class="alert alert-danger m-3 w-100" role="alert">
+    Participant form is not valid!
+</div>
 <div class="card w-100 m-3 p-4 bg-light">
-    <h1 class="mb-2">Participant info</h1>
+    <h3 class="mb-2">Participant info</h3>
     <form [formGroup]="addParticipantForm">
         <div class="form-group">
             <label>First name:</label>

@@ -1,28 +1,34 @@
+<div *ngIf="showAddQuestionError" class="alert alert-danger m-3 w-100" role="alert">
+  Add Question Form is not valid!
+</div>
 <div class="card w-100 m-3 p-4 bg-light">
-  <h1 class="mb-2">Add Question</h1>
+  <h2 class="mb-2">Add Question</h2>
   <form [formGroup]="addQuestionForm" (ngSubmit)="onSubmit(addQuestionForm)">
     <div class="form-group">
       <label>Question text:</label>
-      <input type="text" class="form-control" formControlName="questionText" placeholder="Question" />
+      <input type="text" class="form-control" formControlName="questionText" placeholder="Question text" />
     </div>
     <div class="form-group">
-      <label>Add offered answers:</label>
+      <label>Select offered answers:</label>
       <select multiple class="form-control" formControlName="offeredAnswers">
         <option *ngFor="let o of allOfferedAnswers" [ngValue]="o.questionId">
           {{ o.questionAnswer }}
         </option>
       </select>
     </div>
-    <button type="submit" class="btn btn-primary">Add question</button>
+    <button type="submit" class="btn btn-success btn-lg w-100">Add question</button>
   </form>
 </div>
+<div *ngIf="showAddOfferedAnswerError" class="alert alert-danger m-3 w-100" role="alert">
+  Add OfferedAnswer Form is not valid!
+</div>
 <div class="card w-100 m-3 p-4 bg-light">
-  <h1 class="mb-2">Add Offered Answer</h1>
+  <h2 class="mb-2">Add Offered Answer</h2>
   <form [formGroup]="addOfferedAnswerForm" (ngSubmit)="onSubmit(addOfferedAnswerForm)">
     <div class="form-group">
       <label>Offered Answer Text:</label>
-      <input type="text" class="form-control" formControlName="offeredAnswerText" placeholder="Offered answer" />
+      <input type="text" class="form-control" formControlName="offeredAnswerText" placeholder="Offered answer text" />
     </div>
-    <button type="submit" class="btn btn-primary">Add Offered Answer</button>
+    <button type="submit" class="btn btn-success btn-lg w-100">Add Offered Answer</button>
   </form>
 </div>

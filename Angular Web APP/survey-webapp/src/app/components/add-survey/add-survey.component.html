@@ -1,5 +1,8 @@
+<div *ngIf="showAddSurveyError" class="alert alert-danger m-3 w-100" role="alert">
+  Add Survey Form is not valid!
+</div>
 <div class="card w-100 m-3 p-4 bg-light">
-  <h1 class="mb-2">Add Survey</h1>
+  <h2 class="mb-2">Add Survey</h2>
   <form [formGroup]="addSurveyForm" (ngSubmit)="onSubmit(addSurveyForm)">
     <div class="form-group">
       <label>Survey description:</label>
@@ -9,11 +12,14 @@
       <label>End date:</label>
       <input type="date" class="form-control" formControlName="endDate" placeholder="Survey end-date" />
     </div>
-    <button type="submit" class="btn btn-primary">Add survey</button>
+    <button type="submit" class="btn btn-success btn-lg w-100">Add survey</button>
   </form>
 </div>
+<div *ngIf="showAddQuestionToSurveyError" class="alert alert-danger m-3 w-100" role="alert">
+  Add Question to Survey Form is not valid!
+</div>
 <div class="card w-100 m-3 p-4 bg-light">
-  <h1 class="mb-2">Add Question to Survey</h1>
+  <h2 class="mb-2">Add Question to Survey</h2>
   <form [formGroup]="addQuestionForm" (ngSubmit)="onSubmit(addQuestionForm)">
     <div class="form-group">
       <label>Select survey:</label>
@@ -31,6 +37,6 @@
         </option>
       </select>
     </div>
-    <button type="submit" class="btn btn-primary">Add question to survey</button>
+    <button type="submit" class="btn btn-success btn-lg w-100">Add question to survey</button>
   </form>
 </div>
